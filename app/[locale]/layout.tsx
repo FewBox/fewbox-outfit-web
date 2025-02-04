@@ -1,5 +1,5 @@
-import { Roboto } from 'next/font/google';
-//import localFont from "next/font/local";
+//import { Roboto } from 'next/font/google';
+import localFont from "next/font/local";
 import "../../style/_root.scss";
 import "@fewbox/den-web/index.css";
 import './layout.scss';
@@ -13,17 +13,54 @@ import Header from './components/Header';
 import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
 
-const roboto = Roboto({
+/*const roboto = Roboto({
   weight: '400',
   subsets: ['latin'],
-})
+})*/
 
-/*const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const outfit = localFont({
+  src: [
+    {
+      path: "../../fonts/Outfit-Thin.woff",
+      weight: "100",
+    },
+    {
+      path: "../../fonts/Outfit-ExtraLight.woff",
+      weight: "200",
+    },
+    {
+      path: "../../fonts/Outfit-Light.woff",
+      weight: "300",
+    },
+    {
+      path: "../../fonts/Outfit-Regular.woff",
+      weight: "400",
+    },
+    {
+      path: "../../fonts/Outfit-Medium.woff",
+      weight: "500",
+    },
+    {
+      path: "../../fonts/Outfit-SemiBold.woff",
+      weight: "600",
+    },
+    {
+      path: "../../fonts/Outfit-Bold.woff",
+      weight: "700",
+    },
+    {
+      path: "../../fonts/Outfit-ExtraBold.woff",
+      weight: "800",
+    },
+    {
+      path: "../../fonts/Outfit-Black.woff",
+      weight: "900",
+    }
+  ],
+  variable: "--font-outfit-thin",
 });
-const geistMono = localFont({
+
+/*const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
@@ -50,7 +87,7 @@ export default async function RootLayout({
   }
   return (
     <html lang={locale}>
-      <body className={roboto.className}>
+      <body className={outfit.className}>
         <NextIntlClientProvider messages={messages}>
           <GoogleAnalytics gaId="G-FF2PJ9650T" />
           <Header locale={locale} />

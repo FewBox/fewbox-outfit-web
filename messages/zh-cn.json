@@ -1,19 +1,26 @@
 {
     "MasterPage": {
         "brand": "穿搭镜",
+        "slogan": "潮流穿搭，一镜尽显。",
         "signin": "登录",
         "username": "用户名",
         "password": "密码",
-        "copyright": "©2024 FewBox版权所有"
+        "copyright": "©2024 FewBox版权所有",
+        "demo": "演示"
     },
     "NotFoundPage": {
-        "title": "FewBox - 未找到",
+        "title": "Outfit Mirror - 未找到",
         "description": "未找到页面！"
     },
     "HomePage": {
-        "title": "FewBox - 首页",
-        "description": "成为全能型人才，设计，开发，运维和人工智能。",
-        "keywords": "设计, 开发, 运维, 人工智能",
-        "slogan": "潮流穿搭，一镜尽显"
+        "title": "Outfit Mirror - AI在线试穿",
+        "description": "看到模特实时穿着衣服的样子。",
+        "keywords": "套装, 试穿, ComfyUI, AI"
+    },
+    "DemoPage": {
+        "title": "Outfit Mirror - 在线试穿演示",
+        "description": "看到模特穿着衣服的样子。",
+        "keywords": "套装, 试穿, 演示",
+        "showcase": "展示台"
     }
 }

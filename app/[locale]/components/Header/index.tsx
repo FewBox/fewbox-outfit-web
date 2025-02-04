@@ -19,14 +19,17 @@ export default function Header(props: IHeaderProps) {
             <Den.Components.XCenter>
                 <Den.Components.XBetween width='80vw' maxWidth='800px'>
                     <Link href="/">
-                        <Den.Components.X gap='1em'>
-                            <Den.Components.VSvg size={Den.Components.SizeType.Large} frontColor='logo'><LogoSvg /></Den.Components.VSvg>
+                        <Den.Components.X gap='0.6em'>
+                            <Den.Components.VSvg size={Den.Components.SizeType.ExtraLarge} frontColor='logo'><LogoSvg /></Den.Components.VSvg>
                             <Den.Components.Display category={Den.Components.DisplayCategory.Hidden} type={Den.Components.DisplayType.Down} breakpoint={Den.Components.BreakpointType.Medium}>
-                                <Den.Components.VLabel letterSpacing='3px' size={Den.Components.SizeType.Large} frontColor={Den.Components.ColorType.Dark} weight={Den.Components.FontWeightType.Thin} caption={t('brand')} />
+                                <Den.Components.VLabel letterSpacing='1px' size={Den.Components.SizeType.Large} frontColor={Den.Components.ColorType.Dark} weight={Den.Components.FontWeightType.Light} caption={t('brand')} />
                             </Den.Components.Display>
                         </Den.Components.X>
                     </Link>
                     <Den.Components.X gap='1.6em'>
+                        <Link href='/demo'>
+                            <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} frontColor={Den.Components.ColorType.Black} caption={t('demo')} />
+                        </Link>
                         <Language locale={props.locale} pathname='/' />
                         {/*<Signin />*/}
                     </Den.Components.X>

@@ -1,19 +1,26 @@
 {
     "MasterPage": {
         "brand": "Outfit Mirror",
+        "slogan": "Trendy Outfit, Revealed in One Mirror.",
         "signin": "Signin",
         "username": "Username",
         "password": "Password",
-        "copyright": "©2024 FewBox rights reserved."
+        "copyright": "©2024 FewBox rights reserved.",
+        "demo": "Demo"
     },
     "NotFoundPage": {
-        "title": "FewBox - Not Found",
+        "title": "Outfit Mirror - Not Found",
         "description": "The page is missing!"
     },
     "HomePage": {
-        "title": "FewBox - Home",
-        "description": "Be Jack of All Trades, Design, Development, DevOps & AI",
-        "keywords": "design, development, devops, ai",
-        "slogan": "Trendy Outfit, Revealed in One Mirror."
+        "title": "Outfit Mirror - Live Try-On with AI",
+        "description": "To see how clothes look on model in realtime.",
+        "keywords": "outfit, try-on, comfyui, ai"
+    },
+    "DemoPage": {
+        "title": "Outfit Mirror - Live Try-On Demo",
+        "description": "To see how clothes look on model.",
+        "keywords": "outfit, try-on, demo",
+        "showcase": "Showcase"
     }
 }
