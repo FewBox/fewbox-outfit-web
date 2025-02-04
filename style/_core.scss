@@ -1,0 +1,297 @@
+@use './variables' as v;
+
+$border-positions: "all", "top", "right", "bottom", "left", "except-top", "except-right", "except-bottom", "except-left",
+    "right-top", "right-bottom", "left-top", "left-bottom", "top-bottom", "left-right";
+
+/* border position */
+@each $color, $value in v.$colors {
+    @each $border-position in $border-positions {
+        .#{$color}-border-#{$border-position} {
+            @if ($border-position == "all") {
+                border-color: var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "top") {
+                border-color: var(#{v.$var-prefix}color-#{$color}) transparent transparent transparent;
+            }
+            @if ($border-position == "right") {
+                border-color: transparent var(#{v.$var-prefix}color-#{$color}) transparent transparent;
+            }
+            @if ($border-position == "bottom") {
+                border-color: transparent transparent var(#{v.$var-prefix}color-#{$color}) transparent;
+            }
+            @if ($border-position == "left") {
+                border-color: transparent transparent transparent var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "except-top") {
+                border-color: transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "except-right") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "except-bottom") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "except-left") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent;
+            }
+            @if ($border-position == "right-top") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    transparent;
+            }
+            @if ($border-position == "right-bottom") {
+                border-color: transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent;
+            }
+            @if ($border-position == "left-top") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "left-bottom") {
+                border-color: transparent
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "top-bottom") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent;
+            }
+            @if ($border-position == "left-right") {
+                border-color: transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+        }
+    }
+}
+/* pseudo - after */
+@each $color, $value in v.$colors {
+    @each $border-position in $border-positions {
+        .#{$color}-after-border-#{$border-position}::after {
+            @if ($border-position == "all") {
+                border-color: var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "top") {
+                border-color: var(#{v.$var-prefix}color-#{$color}) transparent transparent transparent;
+            }
+            @if ($border-position == "right") {
+                border-color: transparent var(#{v.$var-prefix}color-#{$color}) transparent transparent;
+            }
+            @if ($border-position == "bottom") {
+                border-color: transparent transparent var(#{v.$var-prefix}color-#{$color}) transparent;
+            }
+            @if ($border-position == "left") {
+                border-color: transparent transparent transparent var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "except-top") {
+                border-color: transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "except-right") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "except-bottom") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "except-left") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent;
+            }
+            @if ($border-position == "right-top") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    transparent;
+            }
+            @if ($border-position == "right-bottom") {
+                border-color: transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent;
+            }
+            @if ($border-position == "left-top") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "left-bottom") {
+                border-color: transparent
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "top-bottom") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent;
+            }
+            @if ($border-position == "left-right") {
+                border-color: transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+        }
+    }
+}
+
+/* pseudo - before */
+@each $color, $value in v.$colors {
+    @each $border-position in $border-positions {
+        .#{$color}-before-border-#{$border-position}::before {
+            @if ($border-position == "all") {
+                border-color: var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "top") {
+                border-color: var(#{v.$var-prefix}color-#{$color}) transparent transparent transparent;
+            }
+            @if ($border-position == "right") {
+                border-color: transparent var(#{v.$var-prefix}color-#{$color}) transparent transparent;
+            }
+            @if ($border-position == "bottom") {
+                border-color: transparent transparent var(#{v.$var-prefix}color-#{$color}) transparent;
+            }
+            @if ($border-position == "left") {
+                border-color: transparent transparent transparent var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "except-top") {
+                border-color: transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "except-right") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "except-bottom") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "except-left") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent;
+            }
+            @if ($border-position == "right-top") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    transparent;
+            }
+            @if ($border-position == "right-bottom") {
+                border-color: transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent;
+            }
+            @if ($border-position == "left-top") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "left-bottom") {
+                border-color: transparent
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+            @if ($border-position == "top-bottom") {
+                border-color: var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent;
+            }
+            @if ($border-position == "left-right") {
+                border-color: transparent
+                    var(#{v.$var-prefix}color-#{$color})
+                    transparent
+                    var(#{v.$var-prefix}color-#{$color});
+            }
+        }
+    }
+}
+/* background */
+@each $color, $value in v.$colors {
+    .#{$color}-background {
+        background-color: var(#{v.$var-prefix}color-#{$color});
+        @if ($color == "primary") {
+            color: var(#{v.$var-prefix}color-white);
+        }
+        &::-webkit-slider-thumb {
+            background-color: var(#{v.$var-prefix}color-#{$color});
+        }
+    }
+}
+/* front */
+@each $color, $value in v.$colors {
+    .#{$color}-front {
+        color: var(#{v.$var-prefix}color-#{$color});
+    }
+}
+/* border */
+@each $color, $value in v.$colors {
+    .#{$color}-border {
+        border-color: var(#{v.$var-prefix}color-#{$color}) !important;
+        &::-webkit-slider-thumb {
+            border-color: var(#{v.$var-prefix}color-#{$color}) !important;
+        }
+    }
+}
+/* size */
+@each $font-size, $value in v.$font-sizes {
+    .font-size-#{$font-size} {
+        font-size: var(#{v.$var-prefix}font-size-#{$font-size});
+    }
+}
+/* auto size */
+@each $font-size, $value in v.$auto-font-sizes {
+    .auto-font-size-#{$font-size} {
+        font-size: var(#{v.$var-prefix}auto-font-size-#{$font-size});
+    }
+}
+/* weight */
+@each $font-weight, $value in v.$font-weights {
+    .font-weight-#{$font-weight} {
+        font-weight: var(#{v.$var-prefix}font-weight-#{$font-weight});
+    }
+}

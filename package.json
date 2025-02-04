@@ -1,0 +1,35 @@
+{
+  "name": "fewbox-template-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fewbox/den-web": "0.0.82",
+    "@next/third-parties": "^15.0.3",
+    "@paypal/react-paypal-js": "^8.7.0",
+    "core-decorators": "^0.20.0",
+    "jwt-decode": "^4.0.0",
+    "next": "15.0.1",
+    "next-intl": "^3.25.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-ga4": "^2.1.0",
+    "react-intl": "^6.8.1"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "15.0.1",
+    "sass": "^1.82.0",
+    "typescript": "^5"
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+}

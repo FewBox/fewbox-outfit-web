@@ -1,0 +1,6 @@
+@forward './root-properties';
+@forward "./core";
+
+:root {
+    @extend %root-properties;
+}

@@ -1,0 +1,202 @@
+/*------------------*/
+/*     VARIABLES    */
+/*------------------*/
+$var-prefix: --den-;
+
+/*------------------*/
+/*   THEME COLOUR   */
+/*------------------*/
+//font
+$font-color: #000000;
+//body
+$body-color: #f9efe3;
+//component
+$white-color: #ffffff;
+$black-color: #000000;
+$light-color: #f0f0f0;
+$dark-color: #283252;
+$primary-color: #e7b516;
+$secondary-color: #fffbf6;
+$tertiary-color: #f9c46b;
+$info-color: #159ad8;
+$success-color: #0fe66f;
+$warning-color: #e7f152;
+$error-color: #d6243c;
+$placeholder-color: #e1e1e1;
+$border-color: #e6e6e6;
+$transparent-color: transparent;
+$logo-color: #efaf07;
+$onetime-color: #929292;
+$subscription-border-color: #ffd672;
+$subscription-background-color: #111114;
+$colors: (
+    "font": $font-color,
+    "body": $body-color,
+    "white": $white-color,
+    "black": $black-color,
+    "light": $light-color,
+    "light75": rgba($light-color, 0.75),
+    "light50": rgba($light-color, 0.5),
+    "light25": rgba($light-color, 0.25),
+    "dark": $dark-color,
+    "dark75": rgba($dark-color, 0.75),
+    "dark50": rgba($dark-color, 0.5),
+    "dark25": rgba($dark-color, 0.25),
+    "primary": $primary-color,
+    "primary75": rgba($primary-color, 0.75),
+    "primary50": rgba($primary-color, 0.5),
+    "primary25": rgba($primary-color, 0.25),
+    "secondary": $secondary-color,
+    "secondary75": rgba($secondary-color, 0.75),
+    "secondary50": rgba($secondary-color, 0.5),
+    "secondary25": rgba($secondary-color, 0.25),
+    "tertiary": $tertiary-color,
+    "tertiary75": rgba($tertiary-color, 0.75),
+    "tertiary50": rgba($tertiary-color, 0.5),
+    "tertiary25": rgba($tertiary-color, 0.25),
+    "info": $info-color,
+    "info75": rgba($info-color, 0.75),
+    "info50": rgba($info-color, 0.5),
+    "info25": rgba($info-color, 0.25),
+    "success": $success-color,
+    "success75": rgba($success-color, 0.75),
+    "success50": rgba($success-color, 0.5),
+    "success25": rgba($success-color, 0.25),
+    "warning": $warning-color,
+    "warning75": rgba($warning-color, 0.75),
+    "warning50": rgba($warning-color, 0.5),
+    "warning25": rgba($warning-color, 0.25),
+    "error": $error-color,
+    "error75": rgba($error-color, 0.75),
+    "error50": rgba($error-color, 0.5),
+    "error25": rgba($error-color, 0.25),
+    "placeholder": $placeholder-color,
+    "placeholder75": rgba($placeholder-color, 0.75),
+    "placeholder50": rgba($placeholder-color, 0.5),
+    "placeholder25": rgba($placeholder-color, 0.25),
+    "border": $border-color,
+    "border75": rgba($border-color, 0.75),
+    "border50": rgba($border-color, 0.5),
+    "border25": rgba($border-color, 0.25),
+    "transparent": $transparent-color,
+    "logo": $logo-color,
+    "logo75": rgba($logo-color, 0.75),
+    "logo50": rgba($logo-color, 0.5),
+    "logo25": rgba($logo-color, 0.25),
+    "onetime": $onetime-color,
+    'subscription-border': $subscription-border-color,
+    'subscription-background': $subscription-background-color
+);
+//debug
+$debug-color-position: #d132b9;
+$debug-color-flex: #3266d0;
+$debug-color-flex-item: #3266d0;
+
+/*------------------*/
+/*     BOX MODEL    */
+/*------------------*/
+$padding: 0;
+$margin: 0;
+//left right top bottom offset
+$self-offset: 1em;
+//border
+$border-radius-sizes: (
+    "fixed": 0.8rem,
+    "max": 50%,
+);
+$box-sizing: border-box;
+
+/*------------------*/
+/*   HTML ELEMENT   */
+/*------------------*/
+//scrollbar
+$scrollbar-size: 8px;
+$scrollbar-track-color: $placeholder-color;
+$scrollbar-thumb-color: $primary-color;
+$scrollbar-thumb-hover-color: $primary-color;
+$scrollbar-thumb-active-color: $primary-color;
+$scrollbar-radius: 8px;
+
+/*------------------*/
+/*       FONT       */
+/*------------------*/
+$line-height: 1.4;
+$letter-spacing: 0.01em;
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+$font-size: 1em; // 16px * 0.875 = 14px;
+//$font-size: calc(0.5em + 1vw);
+$normal: 1rem;
+$extra-small: $normal * 0.5;
+$small: $normal * 0.8;
+$large: $normal * 1.4;
+$extra-large: $normal * 2.4;
+$super-large: $normal * 2.6;
+$custom: $normal * 2.8;
+$font-sizes: (
+    "normal": $normal,
+    "extra-small": $extra-small,
+    "small": $small,
+    "large": $large,
+    "extra-large": $extra-large,
+    "super": $super-large,
+    "custom": $custom,
+);
+$auto-normal: 1em;
+$auto-extra-small: $auto-normal * 0.5;
+$auto-small: $auto-normal * 0.8;
+$auto-large: $auto-normal * 1.4;
+$auto-extra-large: $auto-normal * 2.4;
+$auto-custom: $auto-normal * 2.8;
+$auto-font-sizes: (
+    "normal": $auto-normal,
+    "extra-small": $auto-extra-small,
+    "small": $auto-small,
+    "large": $auto-large,
+    "extra-large": $auto-extra-large,
+    "custom": $auto-custom,
+);
+$font-weights: (
+    "thin": 100,
+    "extra-light": 200,
+    "light": 300,
+    "regular": 400,
+    "medium": 500,
+    "semi-bold": 600,
+    "bold": 700,
+    "extra-bold": 800,
+    "black": 900,
+);
+
+/*------------------*/
+/* VISUAL COMPONENT */
+/*------------------*/
+$v-ellipse-size: 1em;
+$v-rectangle-size: 1em;
+$v-image-size: 3em;
+$v-window-size: 16em;
+$v-svg-size: 2.2em;
+
+/*------------------*/
+/*    RESPONSIVE    */
+/*------------------*/
+$response-breakpoints: (
+    "extra-small": 0,
+    "small": 576px,
+    "medium": 768px,
+    "large": 992px,
+    "extra-large": 1200px,
+    "extra-extra-large": 1400px,
+);
+$zone-padding-x: 1.5rem;
+$zone-max-widths: (
+    "extra-small": 0,
+    "small": 540px,
+    "medium": 720px,
+    "large": 960px,
+    "extra-large": 1140px,
+    "extra-extra-large": 1320px,
+    ) !default;
+$input-padding: 0.6em 1em;
+$dropdown-hover-background-color: $primary-color;
+$dropdown-hover-color: $white-color;

@@ -1,0 +1,56 @@
+@use './variables' as v;
+
+%root-properties {
+
+    /* variable */
+    @each $color, $value in v.$colors {
+        #{v.$var-prefix}color-#{$color}: #{$value};
+    }
+
+    @each $font-size, $value in v.$font-sizes {
+        #{v.$var-prefix}font-size-#{$font-size}: #{$value};
+    }
+
+    @each $font-size, $value in v.$auto-font-sizes {
+        #{v.$var-prefix}auto-font-size-#{$font-size}: #{$value};
+    }
+
+    @each $font-weight, $value in v.$font-weights {
+        #{v.$var-prefix}font-weight-#{$font-weight}: #{$value}
+    }
+
+    @each $border-size, $value in v.$border-radius-sizes {
+        #{v.$var-prefix}border-radius-#{$border-size}: #{$value};
+    }
+    // Build-In
+    #{v.$var-prefix}font-family: #{v.$font-family};
+    #{v.$var-prefix}font-size: #{v.$font-size};
+    #{v.$var-prefix}line-height: #{v.$line-height};
+    #{v.$var-prefix}letter-spacing: #{v.$letter-spacing};
+    #{v.$var-prefix}padding: #{v.$padding};
+    #{v.$var-prefix}margin: #{v.$margin};
+    #{v.$var-prefix}box-sizing: #{v.$box-sizing};
+    #{v.$var-prefix}scrollbar-size: #{v.$scrollbar-size};
+    #{v.$var-prefix}scrollbar-track-color: #{v.$scrollbar-track-color};
+    #{v.$var-prefix}scrollbar-thumb-color: #{v.$scrollbar-thumb-color};
+    #{v.$var-prefix}scrollbar-thumb-hover-color: #{v.$scrollbar-thumb-hover-color};
+    #{v.$var-prefix}scrollbar-radius: #{v.$scrollbar-radius};
+    // Component
+    #{v.$var-prefix}input-padding: #{v.$input-padding};
+    #{v.$var-prefix}input-padding: #{v.$input-padding};
+    #{v.$var-prefix}dropdown-hover-background-color: #{v.$dropdown-hover-background-color};
+    #{v.$var-prefix}dropdown-hover-color: #{v.$dropdown-hover-color};
+
+    #{v.$var-prefix}v-ellipse-size: #{v.$v-ellipse-size};
+    #{v.$var-prefix}v-rectangle-size: #{v.$v-ellipse-size};
+    #{v.$var-prefix}v-image-size: #{v.$v-image-size};
+    #{v.$var-prefix}v-svg-size: #{v.$v-svg-size};
+    #{v.$var-prefix}v-window--size: #{v.$v-window-size};
+    
+
+    *,
+    ::before,
+    ::after {
+        box-sizing: inherit;
+    }
+}
