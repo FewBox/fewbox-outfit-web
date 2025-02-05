@@ -27,8 +27,8 @@ export default function Header(props: IHeaderProps) {
                         </Den.Components.X>
                     </Link>
                     <Den.Components.X gap='1.6em'>
-                        <Link href='/demo'>
-                            <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} frontColor={Den.Components.ColorType.Black} caption={t('demo')} />
+                        <Link href='/showcase'>
+                            <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} frontColor={Den.Components.ColorType.Black} caption={t('showcase')} />
                         </Link>
                         <Language locale={props.locale} pathname='/' />
                         {/*<Signin />*/}

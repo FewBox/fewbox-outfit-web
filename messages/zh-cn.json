@@ -6,7 +6,7 @@
         "username": "用户名",
         "password": "密码",
         "copyright": "©2024 FewBox版权所有",
-        "demo": "演示"
+        "showcase": "展示台"
     },
     "NotFoundPage": {
         "title": "Outfit Mirror - 未找到",
@@ -15,9 +15,11 @@
     "HomePage": {
         "title": "Outfit Mirror - AI在线试穿",
         "description": "看到模特实时穿着衣服的样子。",
-        "keywords": "套装, 试穿, ComfyUI, AI"
+        "keywords": "套装, 试穿, ComfyUI, AI",
+        "garment": "衣物",
+        "measurement": "尺寸"
     },
-    "DemoPage": {
+    "ShowcasePage": {
         "title": "Outfit Mirror - 在线试穿演示",
         "description": "看到模特穿着衣服的样子。",
         "keywords": "套装, 试穿, 演示",

@@ -1,4 +1,9 @@
 {
+    "Error": {
+        "title": "Error",
+        "description": "Internal Error.",
+        "retry": "Retry"
+    },
     "MasterPage": {
         "brand": "Outfit Mirror",
         "slogan": "Trendy Outfit, Revealed in One Mirror.",
@@ -6,7 +11,7 @@
         "username": "Username",
         "password": "Password",
         "copyright": "©2024 FewBox rights reserved.",
-        "demo": "Demo"
+        "showcase": "Showcase"
     },
     "NotFoundPage": {
         "title": "Outfit Mirror - Not Found",
@@ -15,12 +20,14 @@
     "HomePage": {
         "title": "Outfit Mirror - Live Try-On with AI",
         "description": "To see how clothes look on model in realtime.",
-        "keywords": "outfit, try-on, comfyui, ai"
+        "keywords": "outfit, try-on, comfyui, ai",
+        "garment": "Garment",
+        "measurement": "Meas."
     },
-    "DemoPage": {
-        "title": "Outfit Mirror - Live Try-On Demo",
+    "ShowcasePage": {
+        "title": "Outfit Mirror - Live Try-On Showcase",
         "description": "To see how clothes look on model.",
-        "keywords": "outfit, try-on, demo",
+        "keywords": "outfit, try-on, showcase",
         "showcase": "Showcase"
     }
 }

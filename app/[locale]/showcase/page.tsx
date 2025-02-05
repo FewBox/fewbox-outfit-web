@@ -8,7 +8,7 @@ export async function generateMetadata({
     params: Promise<{ locale: string }>
 }>) {
     const { locale } = await params;
-    const t = await getTranslations({ locale, namespace: 'DemoPage' });
+    const t = await getTranslations({ locale, namespace: 'ShowcasePage' });
     return {
         title: t('title'),
         description: t('description'),
@@ -16,8 +16,8 @@ export async function generateMetadata({
     };
 }
 
-export default function Demo() {
-    const t = useTranslations('DemoPage');
+export default function Showcase() {
+    const t = useTranslations('ShowcasePage');
     return <Den.Components.VBoundary margin='3em 0 0 0'>
         {/* PC */}
         <Den.Components.Display category={Den.Components.DisplayCategory.Hidden} type={Den.Components.DisplayType.Down} breakpoint={Den.Components.BreakpointType.Small}>
