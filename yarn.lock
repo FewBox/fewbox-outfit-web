@@ -928,7 +928,7 @@
   resolved "https://registry.npmmirror.com/@eslint/js/-/js-8.57.1.tgz#de633db3ec2ef6a3c89e2f19038063e8a122e2c2"
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
-"@fewbox/den-web@0.0.82":
+"@fewbox/den-web@^0.0.82":
   version "0.0.82"
   resolved "https://npm.pkg.github.com/download/@fewbox/den-web/0.0.82/953aec80841360d7adef060e20cf45de11f6fc7f#953aec80841360d7adef060e20cf45de11f6fc7f"
   integrity sha512-kdSvhOOVdqjdOq0sT+Yj+8VtV2y8Dx9gpna4AWGW6eNb2BfNxjcSYOPWXmneuiqvvc1x67qfsqrI45Xt+YK7Ug==

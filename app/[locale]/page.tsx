@@ -24,7 +24,7 @@ export default function Home() {
   return <Den.Components.VBoundary margin='3em 0 0 0'>
     {/* PC */}
     <Den.Components.Display category={Den.Components.DisplayCategory.Hidden} type={Den.Components.DisplayType.Down} breakpoint={Den.Components.BreakpointType.Small}>
-      <Den.Components.Y cross={Den.Components.YCrossType.Center}>
+      <Den.Components.Y cross={Den.Components.YCrossType.Center} gap='3em'>
         <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} size={Den.Components.SizeType.ExtraLarge} caption={tm('slogan')} />
         <Den.Components.Y>
           <Outfit />

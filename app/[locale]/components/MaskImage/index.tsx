@@ -1,19 +1,22 @@
 'use client';
 import { Den } from '@fewbox/den-web';
 import React, { useRef, useEffect, useState } from 'react';
+import Cursor from '../Cursor';
 
 export interface IMaskImageProps {
     imageUrl: string;
-    maskSize: number;
+    zoom: number;
     isRevert?: boolean;
 }
 
 const MaskImage = (props: IMaskImageProps) => {
+    console.log(props.zoom);
     const canvasRef = useRef(null);
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
     const [scale, setScale] = useState<number>(1);
     const [image, setImage] = useState<HTMLImageElement | null>(null);
-    const canvasSize = 800;
+    const canvasHeight = 800;
+    const maskSize = 40;
     const maskColor = 'rgba(255, 255, 255, 1)';
     const destinationOut = 'destination-out';
     const sourceOver = 'source-over';
@@ -27,8 +30,8 @@ const MaskImage = (props: IMaskImageProps) => {
         img.crossOrigin = 'anonymous';
         img.onload = () => {
             const ratio = img.width / img.height;
-            const drawHeight = canvasSize;
-            const drawWidth = canvasSize * ratio;
+            const drawHeight = canvasHeight;
+            const drawWidth = canvasHeight * ratio;
             canvas.width = drawWidth;
             canvas.height = drawHeight;
             // Draw the initial mask
@@ -51,8 +54,8 @@ const MaskImage = (props: IMaskImageProps) => {
             clear();
         }
         const ratio = img.width / img.height;
-        const drawHeight = canvasSize;
-        const drawWidth = canvasSize * ratio;
+        const drawHeight = canvasHeight;
+        const drawWidth = canvasHeight * ratio;
         ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, drawWidth, drawHeight);
     };
 
@@ -72,7 +75,7 @@ const MaskImage = (props: IMaskImageProps) => {
         const y = e.clientY - rect.top;
         ctx.globalCompositeOperation = destinationOut;
         ctx.beginPath();
-        ctx.arc(x, y, props.maskSize, 0, Math.PI * 2);
+        ctx.arc(x, y, props.zoom * maskSize / 2, Math.PI * 2);
         ctx.fill();
     };
 
@@ -85,7 +88,7 @@ const MaskImage = (props: IMaskImageProps) => {
         const y = e.clientY - rect.top;
         ctx.globalCompositeOperation = destinationOut;
         ctx.beginPath();
-        ctx.arc(x, y, props.maskSize, 0, Math.PI * 2);
+        ctx.arc(x, y, props.zoom * maskSize / 2, 0, Math.PI * 2);
         ctx.fill();
     };
 
@@ -128,20 +131,21 @@ const MaskImage = (props: IMaskImageProps) => {
 
     return <Den.Components.Y gap='1.6em'>
         {/*<Den.Components.VLabel caption='Clear' onClick={() => { clear(); }} />*/}
-        <Den.Components.VBoundary>
-            <canvas
-                ref={canvasRef}
-                onMouseDown={startDrawing}
-                onMouseMove={draw}
-                onMouseUp={stopDrawing}
-                onMouseOut={stopDrawing}
-                //onWheel={zoom}
-                style={{ borderRadius: '1em', border: '1px solid #e1e1e1' }}
-            />
-        </Den.Components.VBoundary>
-        <Den.Components.XCenter gap='0.6em'>
+        <Den.Components.XRight gap='0.6em'>
+            {/*<Den.Components.VSvg><DebugSvg /></Den.Components.VSvg>*/}
+            <Den.Components.VSvg></Den.Components.VSvg>
             <Den.Components.VLabel padding='0.2em 0.6em' borderRadius='2em' cursor='pointer' backgroundColor={Den.Components.ColorType.Primary} frontColor={Den.Components.ColorType.White} size={Den.Components.SizeType.Large} caption={'export'} onClick={() => { saveMaskImage(); }} />
-        </Den.Components.XCenter>
+        </Den.Components.XRight>
+        <canvas
+            ref={canvasRef}
+            onMouseDown={startDrawing}
+            onMouseMove={draw}
+            onMouseUp={stopDrawing}
+            onMouseOut={stopDrawing}
+            //onWheel={zoom}
+            style={{ borderRadius: '1em', border: '1px solid #e1e1e1' }}
+        />
+        <Cursor containerRef={canvasRef} zoom={props.zoom} maskSize={maskSize}  />
     </Den.Components.Y>;
 };
 
