@@ -23,7 +23,6 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
     const [state, setState] = useState<IOutfitStates>({ zoom: 1, measurementType: MeasurementType.Chalk });
     const toolWidth = '12em';
     const toolHeight = '18em';
-    console.log('XX', state.zoom);
     return <Den.Components.X gap='0.6em'>
         <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
             <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('garment')} />
