@@ -15,6 +15,7 @@ const MaskImage = (props: IMaskImageProps) => {
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
     const [scale, setScale] = useState<number>(1);
     const [image, setImage] = useState<HTMLImageElement | null>(null);
+    const [isCursorShow, setCursorStatus] = useState<boolean>(false);
     const canvasHeight = 800;
     const maskSize = 40;
     const maskColor = 'rgba(255, 255, 255, 1)';
@@ -129,6 +130,13 @@ const MaskImage = (props: IMaskImageProps) => {
         }
     };
 
+    const showCursor = () => {
+        setCursorStatus(true);
+    };
+    const hideCursor = () => {
+        setCursorStatus(false);
+    };
+
     return <Den.Components.Y gap='1.6em'>
         {/*<Den.Components.VLabel caption='Clear' onClick={() => { clear(); }} />*/}
         <Den.Components.XRight gap='0.6em'>
@@ -142,10 +150,12 @@ const MaskImage = (props: IMaskImageProps) => {
             onMouseMove={draw}
             onMouseUp={stopDrawing}
             onMouseOut={stopDrawing}
+            onMouseEnter={showCursor}
+            onMouseLeave={hideCursor}
             //onWheel={zoom}
             style={{ borderRadius: '1em', border: '1px solid #e1e1e1' }}
         />
-        <Cursor containerRef={canvasRef} zoom={props.zoom} maskSize={maskSize}  />
+        {!!isCursorShow && <Cursor containerRef={canvasRef} zoom={props.zoom} maskSize={maskSize} />}
     </Den.Components.Y>;
 };
 
