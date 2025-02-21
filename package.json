@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@fewbox/den-web": "^0.0.82",
+    "@fewbox/den-web-append": "^0.0.1",
     "@next/third-parties": "^15.0.3",
     "@paypal/react-paypal-js": "^8.7.0",
+    "@reduxjs/toolkit": "^2.5.1",
+    "@sentry/browser": "^9.1.0",
     "core-decorators": "^0.20.0",
     "jwt-decode": "^4.0.0",
     "next": "15.0.1",
@@ -19,7 +22,12 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-ga4": "^2.1.0",
-    "react-intl": "^6.8.1"
+    "react-intl": "^6.8.1",
+    "react-redux": "^9.2.0",
+    "react-router-redux": "^4.0.8",
+    "redux": "^5.0.1",
+    "redux-observable": "^3.0.0-rc.2",
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",

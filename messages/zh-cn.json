@@ -16,6 +16,7 @@
         "title": "Outfit Mirror - AI在线试穿",
         "description": "看到模特实时穿着衣服的样子。",
         "keywords": "套装, 试穿, ComfyUI, AI",
+        "model": "模特",
         "garment": "衣物",
         "measurement": "尺寸"
     },

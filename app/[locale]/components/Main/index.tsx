@@ -1,4 +1,3 @@
-
 import { Den } from '@fewbox/den-web';
 import { Suspense } from 'react';
 import Loading from '../../loading';

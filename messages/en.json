@@ -21,6 +21,7 @@
         "title": "Outfit Mirror - Live Try-On with AI",
         "description": "To see how clothes look on model in realtime.",
         "keywords": "outfit, try-on, comfyui, ai",
+        "model": "Model",
         "garment": "Garment",
         "measurement": "Meas."
     },

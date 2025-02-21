@@ -6,12 +6,14 @@ import './layout.scss';
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-
 import Main from './components/Main';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
+import { Den } from "@fewbox/den-web-append";
+import StoreProvider from "./components/StoreProvider";
+
 
 /*const roboto = Roboto({
   weight: '400',
@@ -85,16 +87,45 @@ export default async function RootLayout({
   if (!routing.locales.includes(locale as any)) {
     return notFound();
   }
+  let options = {
+    getToken: () => {
+      return 'My Token';
+    },
+    getAppSettings: () => {
+      return {
+        endpoint: {
+          PROTOCOL: 'http',
+          HOST: 'localhost',
+          PORT: 4000,
+          BASEPATH: null
+        }
+      };
+    },
+    getHeaders: () => ({
+      'x-test': 'fewbox'
+    }),
+    getLanguages: (lang) => {
+      return;
+    },
+    showErrorMessage: (message: string) => {
+      alert(message);
+    },
+    handleFetchException: (errors: any) => { },
+    isDebug: true
+  };
   return (
     <html lang={locale}>
       <body className={outfit.className}>
         <NextIntlClientProvider messages={messages}>
           <GoogleAnalytics gaId="G-FF2PJ9650T" />
-          <Header locale={locale} />
-          <Main>
-            {children}
-          </Main>
-          <Footer />
+          <Den.FewBox.Boot options={options} />
+          <StoreProvider>
+            <Header locale={locale} />
+            <Main>
+              {children}
+            </Main>
+            <Footer />
+          </StoreProvider>
         </NextIntlClientProvider>
       </body>
     </html>
