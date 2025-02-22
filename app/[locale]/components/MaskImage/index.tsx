@@ -16,7 +16,7 @@ const MaskImage = (props: IMaskImageProps) => {
     const [scale, setScale] = useState<number>(1);
     const [image, setImage] = useState<HTMLImageElement | null>(null);
     const [isCursorShow, setCursorStatus] = useState<boolean>(false);
-    const canvasHeight = 800;
+    const canvasHeight = 760;
     const maskSize = 40;
     const maskColor = 'rgba(255, 255, 255, 1)';
     const destinationOut = 'destination-out';
@@ -138,12 +138,10 @@ const MaskImage = (props: IMaskImageProps) => {
     };
 
     return <Den.Components.Y gap='1.6em'>
-        {/*<Den.Components.VLabel caption='Clear' onClick={() => { clear(); }} />*/}
+        {/*<Den.Components.VLabel caption='Clear' onClick={() => { clear(); }} />
         <Den.Components.XRight gap='0.6em'>
-            {/*<Den.Components.VSvg><DebugSvg /></Den.Components.VSvg>*/}
-            <Den.Components.VSvg></Den.Components.VSvg>
             <Den.Components.VLabel padding='0.2em 0.6em' borderRadius='2em' cursor='pointer' backgroundColor={Den.Components.ColorType.Primary} frontColor={Den.Components.ColorType.White} size={Den.Components.SizeType.Large} caption={'export'} onClick={() => { saveMaskImage(); }} />
-        </Den.Components.XRight>
+        </Den.Components.XRight>*/}
         <canvas
             ref={canvasRef}
             onMouseDown={startDrawing}

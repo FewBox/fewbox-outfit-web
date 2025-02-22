@@ -8,7 +8,11 @@ import EraserSvg from '@/assets/svgs/eraser.svg';
 import WomenSvg from '@/assets/svgs/women.svg';
 import MenSvg from '@/assets/svgs/men.svg';
 import KidsSvg from '@/assets/svgs/kids.svg';
+import GarmentSvg from '@/assets/svgs/garment.svg';
+import SelfSvg from '@/assets/svgs/self.svg';
+import DonateSvg from '@/assets/svgs/donate.svg';
 import './index.scss';
+import ImageChooser from "../ImageChooser";
 
 const enum MeasurementType {
     Chalk = 'chalk',
@@ -30,33 +34,67 @@ export interface IOutfitStates {
     zoom: number;
     measurementType: MeasurementType;
     modelType: ModelType;
+    isPurchaseShow: boolean;
+    isMirrorShow: boolean;
 }
 
 const Outfit = (props: IOutfitProps): JSX.Element => {
     const t = useTranslations('HomePage');
-    const [state, setState] = useState<IOutfitStates>({ zoom: 1, measurementType: MeasurementType.Chalk, modelType: ModelType.Women });
+    const [state, setState] = useState<IOutfitStates>({ zoom: 1, measurementType: MeasurementType.Chalk, modelType: ModelType.Women, isPurchaseShow: false, isMirrorShow: false });
     const toolWidth = '12em';
     const toolHeight = '18em';
-    return <Den.Components.X gap='0.6em'>
-        <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
-            <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('model')} />
-            <Den.Components.VSvg onClick={() => { setState({...state, modelType: ModelType.Women}); props.changeModelImage('https://img.ltwebstatic.com/images3_pi/2025/01/03/7c/1735896447c6ae06db2def0b14704e23fba94b84b4.webp'); }} frontColor={state.modelType == ModelType.Women ? Den.Components.ColorType.Primary : Den.Components.ColorType.Placeholder}><WomenSvg /></Den.Components.VSvg>
-            <Den.Components.VSvg onClick={() => { setState({...state, modelType: ModelType.Men}); props.changeModelImage('https://img.ltwebstatic.com/images3_pi/2024/03/20/0b/171092569796387212e2fe7c56b3d94ca52aad570f.webp'); }} frontColor={state.modelType == ModelType.Men ? Den.Components.ColorType.Primary : Den.Components.ColorType.Placeholder}><MenSvg /></Den.Components.VSvg>
-            <Den.Components.VSvg onClick={() => { setState({...state, modelType: ModelType.Kids}); props.changeModelImage('https://img.ltwebstatic.com/images3_pi/2024/08/14/78/17236281132c880b2d4c74b3c762b052553af8e8db.webp'); }} frontColor={state.modelType == ModelType.Kids ? Den.Components.ColorType.Primary : Den.Components.ColorType.Placeholder}><KidsSvg /></Den.Components.VSvg>
-        </Den.Components.YTop>
-        <MaskImage imageUrl={props.modelImageUrl} zoom={state.zoom} isRevert={state.measurementType == MeasurementType.Eraser} />
-        <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
-            <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('measurement')} />
-            <Den.Components.Y cross={Den.Components.YCrossType.Center}>
-                <Den.Components.X gap='1em'>
-                    <Den.Components.VSvg frontColor={state.measurementType == MeasurementType.Chalk ? Den.Components.ColorType.Primary : Den.Components.ColorType.Placeholder} onClick={() => { setState({ ...state, measurementType: MeasurementType.Chalk }); }}><ChalkSvg /></Den.Components.VSvg>
-                    <Den.Components.VSvg frontColor={state.measurementType == MeasurementType.Eraser ? Den.Components.ColorType.Primary : Den.Components.ColorType.Placeholder} onClick={() => { setState({ ...state, measurementType: MeasurementType.Eraser }); }}><EraserSvg /></Den.Components.VSvg>
-                </Den.Components.X>
-                <Den.Components.VRange className='tape' isValueShow backgroundColor={Den.Components.ColorType.Transparent} min={1} max={4} onChange={(e) => { setState({ ...state, zoom: e.target.value }) }} value={1}
-                    controlBackgroundColor={Den.Components.ColorType.Placeholder} controlBorderColor={Den.Components.ColorType.Black} valueSize={Den.Components.SizeType.Small} />
-            </Den.Components.Y>
-        </Den.Components.YTop>
-    </Den.Components.X>;
+    return <Den.Components.VForm handleSubmit={() => { alert('xxxx'); }}>
+        <Den.Components.Y gap='3em'>
+            <Den.Components.X gap='0.6em'>
+                <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
+                    <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('model')} />
+                    <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Women }); props.changeModelImage('https://img.ltwebstatic.com/images3_pi/2025/01/03/7c/1735896447c6ae06db2def0b14704e23fba94b84b4.webp'); }} frontColor={state.modelType == ModelType.Women ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><WomenSvg /></Den.Components.VSvg>
+                    <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Men }); props.changeModelImage('https://img.ltwebstatic.com/images3_pi/2024/03/20/0b/171092569796387212e2fe7c56b3d94ca52aad570f.webp'); }} frontColor={state.modelType == ModelType.Men ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><MenSvg /></Den.Components.VSvg>
+                    <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Kids }); props.changeModelImage('https://img.ltwebstatic.com/images3_pi/2024/08/14/78/17236281132c880b2d4c74b3c762b052553af8e8db.webp'); }} frontColor={state.modelType == ModelType.Kids ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><KidsSvg /></Den.Components.VSvg>
+                </Den.Components.YTop>
+                <MaskImage imageUrl={props.modelImageUrl} zoom={state.zoom} isRevert={state.measurementType == MeasurementType.Eraser} />
+                {!!state.isMirrorShow && <ImageChooser close={() => { setState({ ...state, isMirrorShow: false }); }} />}
+                <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
+                    <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('measurement')} />
+                    <Den.Components.Y cross={Den.Components.YCrossType.Center}>
+                        <Den.Components.X gap='1em'>
+                            <Den.Components.VSvg frontColor={state.measurementType == MeasurementType.Chalk ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25} onClick={() => { setState({ ...state, measurementType: MeasurementType.Chalk }); }}><ChalkSvg /></Den.Components.VSvg>
+                            <Den.Components.VSvg frontColor={state.measurementType == MeasurementType.Eraser ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25} onClick={() => { setState({ ...state, measurementType: MeasurementType.Eraser }); }}><EraserSvg /></Den.Components.VSvg>
+                        </Den.Components.X>
+                        <Den.Components.VRange className='tape' isValueShow backgroundColor={Den.Components.ColorType.Transparent} min={1} max={4} onChange={(e) => { setState({ ...state, zoom: e.target.value }) }} value={1}
+                            controlBackgroundColor={Den.Components.ColorType.Placeholder} controlBorderColor={Den.Components.ColorType.Black} valueSize={Den.Components.SizeType.Small} />
+                    </Den.Components.Y>
+                </Den.Components.YTop>
+            </Den.Components.X>
+            <Den.Components.XBetween padding='0 0 3em 0'>
+                <Den.Components.VBoundary></Den.Components.VBoundary>
+                <Den.Components.XCenter onClick={() => { setState({ ...state, isMirrorShow: true }); }} padding='0.6em 3em' gap='0.2em' borderRadius='6em' backgroundColor={Den.Components.ColorType.Primary}>
+                    <Den.Components.VSvg><GarmentSvg /></Den.Components.VSvg>
+                    <Den.Components.VLabel caption={t('garment')} />
+                </Den.Components.XCenter>
+                <Den.Components.VBoundary>
+                    <Den.Components.Dock category={Den.Components.DockCategory.Left} renderOverlay={() => {
+                        if (state.isPurchaseShow) {
+                            return <Den.Components.X style={{ top: 0 }} gap='1em'>
+                                <Den.Components.X className='tooltip' zIndex={9999999} width='16em' padding='1em' gap='0.6em' borderRadius='0.2em' backgroundColor={Den.Components.ColorType.White}>
+                                    <Den.Components.VSvg size={Den.Components.SizeType.Large}><DonateSvg /></Den.Components.VSvg>
+                                    <Den.Components.VLabel frontColor={Den.Components.ColorType.Dark} caption={t('purchase')} />
+                                </Den.Components.X>
+                                <Den.Components.VLabel className='arraw' backgroundColor={Den.Components.ColorType.White} category={Den.Components.LabelCategory.I} caption='' />
+                            </Den.Components.X>;
+                        }
+                        else {
+                            return <></>;
+                        }
+                    }}>
+                        <Den.Components.VHyperlink category={Den.Components.HyperlinkCategory.NewWindow} to='https://www.paypal.com/paypalme/fewbox/2'>
+                            <Den.Components.VSvg frontColor={Den.Components.ColorType.Primary} onClick={() => { }} onMouseEnter={() => { setState({ ...state, isPurchaseShow: true }); }} onMouseLeave={() => { setState({ ...state, isPurchaseShow: false }); }}><SelfSvg /></Den.Components.VSvg>
+                        </Den.Components.VHyperlink>
+                    </Den.Components.Dock>
+                </Den.Components.VBoundary>
+            </Den.Components.XBetween>
+        </Den.Components.Y>
+    </Den.Components.VForm>;
 };
 
 export default Outfit;

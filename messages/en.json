@@ -23,7 +23,10 @@
         "keywords": "outfit, try-on, comfyui, ai",
         "model": "Model",
         "garment": "Garment",
-        "measurement": "Meas."
+        "try-on": "Try-on",
+        "measurement": "Meas.",
+        "purchase": "Donate now to speed up your spotlight moment.",
+        "empty": "Please choose one garment..."
     },
     "ShowcasePage": {
         "title": "Outfit Mirror - Live Try-On Showcase",

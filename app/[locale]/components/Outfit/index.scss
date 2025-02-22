@@ -50,3 +50,17 @@
         width: 1rem;
     }
 }
+
+#dockOverlay {
+    top: 0 !important;
+}
+.arraw {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    right: 0;
+    top: 50%;
+    transform: translate(50%, -50%) rotate(-45deg);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}

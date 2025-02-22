@@ -18,7 +18,10 @@
         "keywords": "套装, 试穿, ComfyUI, AI",
         "model": "模特",
         "garment": "衣物",
-        "measurement": "尺寸"
+        "try-on": "试穿",
+        "measurement": "尺寸",
+        "purchase": "立即捐赠，加速您在聚光灯下的时刻。",
+        "empty": "请选择一套服装..."
     },
     "ShowcasePage": {
         "title": "Outfit Mirror - 在线试穿演示",
