@@ -10,7 +10,6 @@ export interface IMaskImageProps {
 }
 
 const MaskImage = (props: IMaskImageProps) => {
-    console.log(props.zoom);
     const canvasRef = useRef(null);
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
     const [scale, setScale] = useState<number>(1);
@@ -151,7 +150,7 @@ const MaskImage = (props: IMaskImageProps) => {
             onMouseEnter={showCursor}
             onMouseLeave={hideCursor}
             //onWheel={zoom}
-            style={{ borderRadius: '1em', border: '1px solid #e1e1e1' }}
+            style={{ borderRadius: '1em', border: '1px solid #e1e1e1'}}
         />
         {!!isCursorShow && <Cursor containerRef={canvasRef} zoom={props.zoom} maskSize={maskSize} />}
     </Den.Components.Y>;

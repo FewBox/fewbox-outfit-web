@@ -7,6 +7,8 @@ export default (state: Home = homeState, action: Den.Action.IPayloadAction<any>)
     switch (action.type) {
         case ActionTypes.CHANGE_MODEL_IMAGE:
             return { ...state, modelImageUrl: action.payload };
+        case ActionTypes.LOAD_OUTCOME:
+            return { ...state, outcomeImageUrl: action.payload };
         default:
             return state;
     }

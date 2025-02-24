@@ -928,15 +928,15 @@
   resolved "https://registry.npmmirror.com/@eslint/js/-/js-8.57.1.tgz#de633db3ec2ef6a3c89e2f19038063e8a122e2c2"
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
-"@fewbox/den-web-append@^0.0.1":
-  version "0.0.1"
-  resolved "https://npm.pkg.github.com/download/@fewbox/den-web-append/0.0.1/95208629ad1962ad9ddc2f798e5e5b55eb3807ca#95208629ad1962ad9ddc2f798e5e5b55eb3807ca"
-  integrity sha512-fDJEOQNSrwPeO1FuM0ufdO2iGUpX3vrbn5KtLeyA6jW1/yMnLZ7abEjTx4raIjzWHBdLVOHu5+qvCY/h2BDttA==
+"@fewbox/den-web-append@^0.0.2":
+  version "0.0.2"
+  resolved "https://npm.pkg.github.com/download/@fewbox/den-web-append/0.0.2/c59d9add8761a80c5c50fe8111ba3cba0a572de1#c59d9add8761a80c5c50fe8111ba3cba0a572de1"
+  integrity sha512-O/XpZQOoNIz4Clt6PDpc2cQKYzZieVrEb2CvoTqGsgRlW6RZ/YJRrPRhN92a6MHCn5nwcoIU1Q5RRwzZmBNXog==
 
-"@fewbox/den-web@^0.0.82":
-  version "0.0.82"
-  resolved "https://npm.pkg.github.com/download/@fewbox/den-web/0.0.82/953aec80841360d7adef060e20cf45de11f6fc7f#953aec80841360d7adef060e20cf45de11f6fc7f"
-  integrity sha512-kdSvhOOVdqjdOq0sT+Yj+8VtV2y8Dx9gpna4AWGW6eNb2BfNxjcSYOPWXmneuiqvvc1x67qfsqrI45Xt+YK7Ug==
+"@fewbox/den-web@^0.0.84":
+  version "0.0.84"
+  resolved "https://npm.pkg.github.com/download/@fewbox/den-web/0.0.84/adda112b0299dfc0e04e0210eec2cfbf72f78691#adda112b0299dfc0e04e0210eec2cfbf72f78691"
+  integrity sha512-LOHtF4ZJ0rtvv7Ms/ldBXut2K2MH6Xk3nSrJR/VX1tB2f1a0w2FOdaHidBVWRsbQkAxtj9t+fa2lbjVNoVbWvw==
 
 "@formatjs/ecma402-abstract@2.2.4":
   version "2.2.4"

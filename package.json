@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fewbox/den-web": "^0.0.82",
-    "@fewbox/den-web-append": "^0.0.1",
+    "@fewbox/den-web": "^0.0.84",
+    "@fewbox/den-web-append": "^0.0.2",
     "@next/third-parties": "^15.0.3",
     "@paypal/react-paypal-js": "^8.7.0",
     "@reduxjs/toolkit": "^2.5.1",

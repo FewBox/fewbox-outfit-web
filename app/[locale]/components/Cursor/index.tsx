@@ -20,7 +20,6 @@ const Cursor = (props: ICursorProps): JSX.Element => {
         props.containerRef.current.removeEventListener('mousemove', () => { });
         props.containerRef.current.addEventListener('mousemove', (event: any) => {
             customCursor.style.display = 'block';
-            console.log(props.maskSize, props.zoom, (props.maskSize * props.zoom));
             customCursor.style.left = `${event.clientX - ((props.maskSize * props.zoom) / 2)}px`;
             customCursor.style.top = `${event.clientY - ((props.maskSize * props.zoom) / 2)}px`;
         });

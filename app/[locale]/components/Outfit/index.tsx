@@ -13,6 +13,7 @@ import SelfSvg from '@/assets/svgs/self.svg';
 import DonateSvg from '@/assets/svgs/donate.svg';
 import './index.scss';
 import ImageChooser from "../ImageChooser";
+import { Tryon } from "../../reducers/StateTypes";
 
 const enum MeasurementType {
     Chalk = 'chalk',
@@ -28,6 +29,8 @@ export enum ModelType {
 export interface IOutfitProps {
     modelImageUrl: string;
     changeModelImage: (modelImageUrl: string) => void;
+    tryon: (tryon: Tryon) => void;
+    loadOutcome: (outcomeImageUrl: string) => void;
 }
 
 export interface IOutfitStates {
@@ -43,7 +46,13 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
     const [state, setState] = useState<IOutfitStates>({ zoom: 1, measurementType: MeasurementType.Chalk, modelType: ModelType.Women, isPurchaseShow: false, isMirrorShow: false });
     const toolWidth = '12em';
     const toolHeight = '18em';
-    return <Den.Components.VForm handleSubmit={() => { alert('xxxx'); }}>
+    return <Den.Components.VForm handleSubmit={(data) => {
+        console.log(data);
+        const tryon: Tryon = {
+            file: data.garment_file
+        };
+        props.tryon(tryon);
+    }}>
         <Den.Components.Y gap='3em'>
             <Den.Components.X gap='0.6em'>
                 <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
