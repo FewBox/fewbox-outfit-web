@@ -15,8 +15,9 @@ const MaskImage = (props: IMaskImageProps) => {
     const [scale, setScale] = useState<number>(1);
     const [image, setImage] = useState<HTMLImageElement | null>(null);
     const [isCursorShow, setCursorStatus] = useState<boolean>(false);
-    const canvasHeight = 760;
-    const maskSize = 40;
+    // const canvasHeight = 760; // Change to original image.
+    const canvasScaleHeight = 800;
+    const maskSize = 60;
     const maskColor = 'rgba(255, 255, 255, 1)';
     const destinationOut = 'destination-out';
     const sourceOver = 'source-over';
@@ -29,11 +30,14 @@ const MaskImage = (props: IMaskImageProps) => {
         img.src = props.imageUrl;
         img.crossOrigin = 'anonymous';
         img.onload = () => {
-            const ratio = img.width / img.height;
+            /*const ratio = img.width / img.height;
             const drawHeight = canvasHeight;
             const drawWidth = canvasHeight * ratio;
             canvas.width = drawWidth;
-            canvas.height = drawHeight;
+            canvas.height = drawHeight;*/
+            canvas.width = img.width;
+            canvas.height = img.height;
+            setScale(canvasScaleHeight / canvas.height);
             // Draw the initial mask
             ctx.fillStyle = maskColor;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -44,6 +48,7 @@ const MaskImage = (props: IMaskImageProps) => {
 
     const drawImage = (initImg?: HTMLImageElement) => {
         const canvas = canvasRef.current;
+        canvas.style.height = `${canvasScaleHeight}px`;
         const ctx = canvas.getContext('2d');
         let img;
         if (initImg) {
@@ -54,9 +59,10 @@ const MaskImage = (props: IMaskImageProps) => {
             clear();
         }
         const ratio = img.width / img.height;
-        const drawHeight = canvasHeight;
+        /*const drawHeight = canvasHeight;
         const drawWidth = canvasHeight * ratio;
-        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, drawWidth, drawHeight);
+        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, drawWidth, drawHeight);*/
+        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width, img.height);
     };
 
     const startDrawing = (e) => {
@@ -70,44 +76,29 @@ const MaskImage = (props: IMaskImageProps) => {
             return;
         }
         setIsDrawing(true);
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        ctx.globalCompositeOperation = destinationOut;
-        ctx.beginPath();
-        ctx.arc(x, y, props.zoom * maskSize / 2, Math.PI * 2);
-        ctx.fill();
+        drawMask(e);
     };
 
     const draw = (e) => {
         if (!isDrawing) return;
+        drawMask(e);
+    };
+
+    const drawMask = (e) => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        console.log(scale, rect, e.clientX, e.clientY);
+        const x = (e.clientX - rect.left) / scale;
+        const y = (e.clientY - rect.top) / scale;
         ctx.globalCompositeOperation = destinationOut;
         ctx.beginPath();
-        ctx.arc(x, y, props.zoom * maskSize / 2, 0, Math.PI * 2);
+        ctx.arc(x, y, props.zoom * maskSize * scale, 0, Math.PI * 2);
         ctx.fill();
     };
 
     const stopDrawing = () => {
         setIsDrawing(false);
-    };
-
-    const zoom = (event) => {
-        const delta = event.deltaY;
-        if (delta < 0) {
-            setScale(scale * 1.1);
-        } else {
-            setScale(scale / 1.1);
-        }
-
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        ctx.scale(scale, scale);
-        drawImage();
     };
 
     const saveMaskImage = () => {
@@ -121,12 +112,7 @@ const MaskImage = (props: IMaskImageProps) => {
     const clear = () => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
-        if (scale > 1) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-        else {
-            ctx.clearRect(0, 0, canvas.width / scale, canvas.height / scale);
-        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
 
     const showCursor = () => {
@@ -150,9 +136,9 @@ const MaskImage = (props: IMaskImageProps) => {
             onMouseEnter={showCursor}
             onMouseLeave={hideCursor}
             //onWheel={zoom}
-            style={{ borderRadius: '1em', border: '1px solid #e1e1e1'}}
+            style={{ borderRadius: '1em', border: '1px solid #e1e1e1' }}
         />
-        {!!isCursorShow && <Cursor containerRef={canvasRef} zoom={props.zoom} maskSize={maskSize} />}
+        {!!isCursorShow && <Cursor containerRef={canvasRef} zoom={props.zoom} maskSize={maskSize * scale} />}
     </Den.Components.Y>;
 };
 
