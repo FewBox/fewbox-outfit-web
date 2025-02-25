@@ -51,16 +51,9 @@ const HomePage = (props: IHomePage) => {
     getLanguages: () => {
       return;
     },
-    showErrorMessage: (message: string) => {
-      if (message.indexOf('401 Unauthorized') == -1) {
-        console.error(message);
-      }
-    },
-    handleFetchException: (errors: any) => {
-      if (errors[0].message.indexOf('401 Unauthorized') > -1) {
-        //this.props.lock();
-      }
-    },
+    handleIsNotSuccessful: () => { },
+    handleError: () => { },
+    handleNetworkError: () => { },
     isDebug: false
   };
   useEffect(() => {

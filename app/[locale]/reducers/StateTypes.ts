@@ -9,7 +9,6 @@ export interface Home {
 }
 /** Action **/
 export interface Tryon {
-    file: Blob;
 }
 export interface Outcome {
 }

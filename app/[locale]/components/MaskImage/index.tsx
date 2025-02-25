@@ -137,10 +137,10 @@ const MaskImage = (props: IMaskImageProps) => {
     };
 
     return <Den.Components.Y gap='1.6em'>
-        {/*<Den.Components.VLabel caption='Clear' onClick={() => { clear(); }} />
+        {/*<Den.Components.VLabel caption='Clear' onClick={() => { clear(); }} />*/}
         <Den.Components.XRight gap='0.6em'>
             <Den.Components.VLabel padding='0.2em 0.6em' borderRadius='2em' cursor='pointer' backgroundColor={Den.Components.ColorType.Primary} frontColor={Den.Components.ColorType.White} size={Den.Components.SizeType.Large} caption={'export'} onClick={() => { saveMaskImage(); }} />
-        </Den.Components.XRight>*/}
+        </Den.Components.XRight>
         <canvas
             ref={canvasRef}
             onMouseDown={startDrawing}

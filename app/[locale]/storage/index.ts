@@ -1,13 +1,15 @@
-export const getStorage = (key: string): string => {
+import StorageKeys from "./StorageKeys";
+
+export const getStorage = (key: StorageKeys): string => {
     let item = window.localStorage.getItem(key);
     return item ? item : '';
 };
-export const setStorage = (key: string, value: string): void => {
+export const setStorage = (key: StorageKeys, value: string): void => {
     window.localStorage.setItem(key, value);
 };
-export const removeStorage = (key: string): void => {
+export const removeStorage = (key: StorageKeys): void => {
     window.localStorage.removeItem(key);
 }
-export const isStorageExists = (key: string): boolean => {
+export const isStorageExists = (key: StorageKeys): boolean => {
     return getStorage(key).length > 0;
 }

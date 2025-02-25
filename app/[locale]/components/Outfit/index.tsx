@@ -1,5 +1,6 @@
 "use client";
 import { Den } from "@fewbox/den-web";
+import { Den as DenAppend } from "@fewbox/den-web-append";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import MaskImage from "../MaskImage";
@@ -14,6 +15,8 @@ import DonateSvg from '@/assets/svgs/donate.svg';
 import './index.scss';
 import ImageChooser from "../ImageChooser";
 import { Tryon } from "../../reducers/StateTypes";
+import { getStorage } from "../../storage";
+import StorageKeys from "../../storage/StorageKeys";
 
 const enum MeasurementType {
     Chalk = 'chalk',
@@ -41,6 +44,41 @@ export interface IOutfitStates {
     isMirrorShow: boolean;
 }
 
+const getFileExtension = (filename) => {
+    return filename.split('.').pop();
+};
+
+const buildUploadVerbsPromise = (file: File, name?: string): Promise<Response> => {
+    const operationName = 'UploadImage';
+    const query = `mutation UploadImage($input: UploadRequest!) {
+                uploadImage(input: $input) {
+                  isSuccessful
+                  payload {
+                    mimetype
+                    filename
+                    encoding
+                  }
+                }
+              }`;
+    const variables = {
+        input: null
+    };
+    const formData = new FormData();
+    formData.append('operations', JSON.stringify({ operationName, query, variables }));
+    formData.append('map', JSON.stringify({ '0': ['variables.input'] }));
+    if (name) {
+        formData.append('0', file, `${name}.${getFileExtension(file.name)}`);
+    }
+    else {
+        formData.append('0', file);
+    }
+    return DenAppend.Network.verbsPostPromise('graphql', {}, formData);
+};
+
+const buildDownloadVerbsPromise = (fileUrl: string): Promise<Response> => {
+    return DenAppend.Network._verbsGetPromise(fileUrl, {});
+};
+
 const Outfit = (props: IOutfitProps): JSX.Element => {
     const t = useTranslations('HomePage');
     const [state, setState] = useState<IOutfitStates>({ zoom: 1, measurementType: MeasurementType.Chalk, modelType: ModelType.Women, isPurchaseShow: false, isMirrorShow: false });
@@ -48,10 +86,26 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
     const toolHeight = '18em';
     return <Den.Components.VForm handleSubmit={(data) => {
         console.log(data);
-        const tryon: Tryon = {
-            file: data.garment_file
-        };
-        props.tryon(tryon);
+        const clientId = getStorage(StorageKeys.CLIENT_ID);
+        const garmentName = `${clientId}_garment`;
+        const modelName = `${clientId}_model`;
+        buildDownloadVerbsPromise(props.modelImageUrl)
+            .then(async (response) => {
+                const modelBlob = await response.blob();
+                const modelFile = new File([modelBlob], `${modelName}.${getFileExtension(props.modelImageUrl)}`);
+                const garmentPromise = buildUploadVerbsPromise(data.garment_file, garmentName);
+                const modelPromise = buildUploadVerbsPromise(modelFile);
+                Promise.all([garmentPromise, modelPromise])
+                    .then((responses) => {
+                        console.log(responses);
+                        /*const tryon: Tryon = {
+                        };
+                        props.tryon(tryon);*/
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            });
     }}>
         <Den.Components.Y gap='3em'>
             <Den.Components.X gap='0.6em'>
