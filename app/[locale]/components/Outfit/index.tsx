@@ -32,6 +32,7 @@ export enum ModelType {
 
 export interface IOutfitProps {
     modelImageUrl: string;
+    isFitting: boolean;
     changeModelImage: (modelImageUrl: string) => void;
     tryon: (tryon: Tryon) => void;
     loadOutcome: (outcomeImageUrl: string) => void;
@@ -49,7 +50,7 @@ const getFileExtension = (filename) => {
     return filename.split('.').pop();
 };
 
-const buildUploadImageVerbsPromise = (file: File, name?: string): Promise<Response> => {
+const buildUploadImageVerbsPromise = (file: File, filename?: string): Promise<Response> => {
     const operationName = 'UploadImage';
     const query = `mutation UploadImage($input: UploadRequest!) {
                 uploadImage(input: $input) {
@@ -67,8 +68,8 @@ const buildUploadImageVerbsPromise = (file: File, name?: string): Promise<Respon
     const formData = new FormData();
     formData.append('operations', JSON.stringify({ operationName, query, variables }));
     formData.append('map', JSON.stringify({ '0': ['variables.input'] }));
-    if (name) {
-        formData.append('0', file, `${name}.${getFileExtension(file.name)}`);
+    if (filename) {
+        formData.append('0', file, filename);
     }
     else {
         formData.append('0', file);
@@ -121,26 +122,38 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
     const toolWidth = '12em';
     const toolHeight = '18em';
     return <Den.Components.VForm handleSubmit={(data) => {
-        console.log(data);
+        //console.log(data);
         const clientId = getStorage(StorageKeys.CLIENT_ID);
         const garmentName = `${clientId}_garment`;
         const modelName = `${clientId}_model`;
         const modelGarmentName = `${clientId}_model_garment`;
-        const modelGarmentBlob = canvasRef.current.toBlob((blob) => {
-            const modelGarmentFile = new File([blob], `${modelGarmentName}.png`, { type: 'image/png' });
+        canvasRef.current.toBlob((modelGarmentBlob) => {
+            const modelGarmentFileName = `${modelGarmentName}.png`;
+            const modelGarmentFile = new File([modelGarmentBlob], modelGarmentFileName, { type: 'image/png' });
             buildDownloadVerbsPromise(props.modelImageUrl)
                 .then(async (response) => {
                     const modelBlob = await response.blob();
-                    const modelFile = new File([modelBlob], `${modelName}.${getFileExtension(props.modelImageUrl)}`);
-                    const garmentPromise = buildUploadImageVerbsPromise(data.garment_file, garmentName);
+                    const modelFileName = `${modelName}.${getFileExtension(props.modelImageUrl)}`;
+                    const modelFile = new File([modelBlob], modelFileName);
+                    const garmentFileName = `${garmentName}.${getFileExtension(data.garment_file.name)}`;
+                    const garmentPromise = buildUploadImageVerbsPromise(data.garment_file, garmentFileName);
                     const modelPromise = buildUploadImageVerbsPromise(modelFile);
                     const modelGarmentPromise = buildUploadMaskVerbsPromise(modelGarmentFile);
                     Promise.all([garmentPromise, modelPromise, modelGarmentPromise])
                         .then((responses) => {
-                            console.log(responses);
-                            /*const tryon: Tryon = {
-                            };
-                            props.tryon(tryon);*/
+                            if (responses[0].status == 200 && responses[0].status == 200 && responses[0].status == 200) {
+                                const tryon: Tryon = {
+                                    clientId,
+                                    garment: garmentFileName,
+                                    model: modelFileName,
+                                    modelGarment: modelGarmentFileName,
+                                    scale: 1
+                                };
+                                props.tryon(tryon);
+                            }
+                            else {
+                                // Todo: Need implement!
+                            }
                         })
                         .catch((error) => {
                             console.error(error);
@@ -162,7 +175,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                     </Den.Components.XRight>
                     <MaskImage ref={canvasRef} imageUrl={props.modelImageUrl} zoom={state.zoom} isRevert={state.measurementType == MeasurementType.Eraser} />
                 </Den.Components.Y>
-                {!!state.isMirrorShow && <ImageChooser close={() => { setState({ ...state, isMirrorShow: false }); }} />}
+                {!!state.isMirrorShow && <ImageChooser isFitting={props.isFitting} close={() => { setState({ ...state, isMirrorShow: false }); }} />}
                 <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
                     <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('measurement')} />
                     <Den.Components.Y cross={Den.Components.YCrossType.Center}>

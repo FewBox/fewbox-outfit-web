@@ -30,7 +30,6 @@ const tryOnEpic = (action$: any) =>
     action$.pipe(
         ofType(ActionTypes.TRY_ON),
         mergeMap((action: Den.Action.IPayloadAction<Tryon>) => {
-            const clientId = getStorage(StorageKeys.CLIENT_ID);
             let operationName = 'RunQueue';
             let query = `mutation RunQueue($input: QueueRequest!) {
                 runQueue(input: $input) {
@@ -45,14 +44,14 @@ const tryOnEpic = (action$: any) =>
             }`;
             let variables = {
                 "input": {
-                    "clientId": clientId,
+                    "clientId": action.payload.clientId,
                     "workflow": "tryon",
                     "placeholders": {
-                        "scale": 0.3,
-                        "garment": "garment.png",
-                        "model": "model.png",
-                        "model_garment": "model_garment.png",
-                        "outfit": `${clientId}.png`
+                        "scale": action.payload.scale,
+                        "garment": action.payload.garment,
+                        "model": action.payload.model,
+                        "model_garment": action.payload.modelGarment,
+                        "outfit": `${action.payload.clientId}.png`
                     }
                 }
             };
@@ -66,7 +65,7 @@ const tryOnEpic = (action$: any) =>
                     map((ajaxResponse: any) => {
                         let data = Den.Network.parseGQLAjaxData(ajaxResponse, 'runQueue');
                         console.log(data);
-                        return of(loadOutcome(''));
+                        return loadOutcome('');
                     }),
                     retry(3),
                     catchError((error) => {

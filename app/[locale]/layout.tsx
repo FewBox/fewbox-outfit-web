@@ -87,7 +87,7 @@ export default async function RootLayout({
   if (!routing.locales.includes(locale as any)) {
     return notFound();
   }
-  let options = {
+  let options: Den.FewBox.IFewBoxOptions = {
     getToken: () => {
       return 'My Token';
     },
@@ -107,14 +107,19 @@ export default async function RootLayout({
     getLanguages: (lang) => {
       return;
     },
-    showErrorMessage: (message: string) => {
-      alert(message);
-    },
-    handleFetchException: (errors: any) => { },
+    handleError: () => { },
+    handleIsNotSuccessful: () => { },
+    handleNetworkError: () => { },
     isDebug: true
   };
   return (
     <html lang={locale}>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+        />
+      </head>
       <body className={outfit.className}>
         <NextIntlClientProvider messages={messages}>
           <GoogleAnalytics gaId="G-FF2PJ9650T" />

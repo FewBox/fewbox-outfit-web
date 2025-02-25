@@ -26,7 +26,8 @@
         "try-on": "Try-on",
         "measurement": "Meas.",
         "purchase": "Donate now to speed up your spotlight moment.",
-        "empty": "Please choose one garment..."
+        "upload": "Drop your garment files here or browse...",
+        "empty": "N/A"
     },
     "ShowcasePage": {
         "title": "Outfit Mirror - Live Try-On Showcase",

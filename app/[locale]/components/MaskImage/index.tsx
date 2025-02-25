@@ -88,7 +88,7 @@ const MaskImage = forwardRef<HTMLCanvasElement, IMaskImageProps>((props, ref) =>
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         const rect = canvas.getBoundingClientRect();
-        console.log(scale, rect, e.clientX, e.clientY);
+        //console.log(scale, rect, e.clientX, e.clientY);
         const x = (e.clientX - rect.left) / scale;
         const y = (e.clientY - rect.top) / scale;
         ctx.globalCompositeOperation = destinationOut;

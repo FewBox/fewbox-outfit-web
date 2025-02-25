@@ -25,6 +25,7 @@ import { useEffect } from "react";
 
 export interface IHomePage {
   modelImageUrl: string;
+  isFitting: boolean;
   initClient: () => void;
   changeModelImage: (modelImageUrl: string) => void;
   tryon: (tryon: Tryon) => void;
@@ -67,7 +68,7 @@ const HomePage = (props: IHomePage) => {
       <Den.Components.Y cross={Den.Components.YCrossType.Center} gap='3em'>
         <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} size={Den.Components.SizeType.ExtraLarge} caption={tm('slogan')} />
         <Den.Components.Y>
-          <Outfit modelImageUrl={props.modelImageUrl} changeModelImage={props.changeModelImage} tryon={props.tryon} loadOutcome={props.loadOutcome} />
+          <Outfit isFitting={props.isFitting} modelImageUrl={props.modelImageUrl} changeModelImage={props.changeModelImage} tryon={props.tryon} loadOutcome={props.loadOutcome} />
         </Den.Components.Y>
       </Den.Components.Y>
     </Den.Components.Display>
@@ -80,7 +81,8 @@ const HomePage = (props: IHomePage) => {
 }
 
 const mapStateToProps = ({ home }: Store) => ({
-  modelImageUrl: home.modelImageUrl
+  modelImageUrl: home.modelImageUrl,
+  isFitting: home.isFitting
 });
 
 const mapDispatchToProps = {

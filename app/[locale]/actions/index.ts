@@ -9,9 +9,15 @@ export const changeModelImage = (modelImageUrl: string): Den.Action.IPayloadActi
     type: ActionTypes.CHANGE_MODEL_IMAGE,
     payload: modelImageUrl
 });
-export const tryon = (tryon: Tryon): Den.Action.IPayloadAction<Tryon> =>({
+export const tryon = (tryon: Tryon): Den.Action.IPayloadAction<Tryon> => ({
     type: ActionTypes.TRY_ON,
     payload: tryon
+});
+export const startFitting = (): Den.Action.IAction => ({
+    type: ActionTypes.START_FITTING
+});
+export const completeFitting = (): Den.Action.IAction => ({
+    type: ActionTypes.COMPLETE_FITTING
 });
 export const loadOutcome = (outcomeImageUrl: string): Den.Action.IPayloadAction<string> => ({
     type: ActionTypes.LOAD_OUTCOME,
