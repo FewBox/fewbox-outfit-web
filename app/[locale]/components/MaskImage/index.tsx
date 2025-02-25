@@ -1,6 +1,6 @@
 'use client';
 import { Den } from '@fewbox/den-web';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef, RefObject } from 'react';
 import Cursor from '../Cursor';
 
 export interface IMaskImageProps {
@@ -9,8 +9,8 @@ export interface IMaskImageProps {
     isRevert?: boolean;
 }
 
-const MaskImage = (props: IMaskImageProps) => {
-    const canvasRef = useRef(null);
+const MaskImage = forwardRef<HTMLCanvasElement, IMaskImageProps>((props, ref) => {
+    const canvasRef = ref as RefObject<HTMLCanvasElement>;
     const [isDrawing, setIsDrawing] = useState<boolean>(false);
     const [scale, setScale] = useState<number>(1);
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -101,14 +101,6 @@ const MaskImage = (props: IMaskImageProps) => {
         setIsDrawing(false);
     };
 
-    const saveMaskImage = () => {
-        const canvas = canvasRef.current;
-        const link = document.createElement("a");
-        link.download = "mask.png";
-        link.href = canvas.toDataURL();
-        link.click();
-    };
-
     const clear = () => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
@@ -124,11 +116,8 @@ const MaskImage = (props: IMaskImageProps) => {
 
     return <Den.Components.Y gap='1.6em'>
         {/*<Den.Components.VLabel caption='Clear' onClick={() => { clear(); }} />*/}
-        <Den.Components.XRight gap='0.6em'>
-            <Den.Components.VLabel padding='0.2em 0.6em' borderRadius='2em' cursor='pointer' backgroundColor={Den.Components.ColorType.Primary} frontColor={Den.Components.ColorType.White} size={Den.Components.SizeType.Large} caption={'export'} onClick={() => { saveMaskImage(); }} />
-        </Den.Components.XRight>
         <canvas
-            ref={canvasRef}
+            ref={ref}
             onMouseDown={startDrawing}
             onMouseMove={draw}
             onMouseUp={stopDrawing}
@@ -140,6 +129,6 @@ const MaskImage = (props: IMaskImageProps) => {
         />
         {!!isCursorShow && <Cursor containerRef={canvasRef} zoom={props.zoom} maskSize={maskSize * scale} />}
     </Den.Components.Y>;
-};
+});
 
 export default MaskImage;

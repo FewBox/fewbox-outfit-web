@@ -1,7 +1,7 @@
 "use client";
 import { Den } from "@fewbox/den-web";
 import { Den as DenAppend } from "@fewbox/den-web-append";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import MaskImage from "../MaskImage";
 import ChalkSvg from '@/assets/svgs/chalk.svg';
@@ -17,6 +17,7 @@ import ImageChooser from "../ImageChooser";
 import { Tryon } from "../../reducers/StateTypes";
 import { getStorage } from "../../storage";
 import StorageKeys from "../../storage/StorageKeys";
+import { blob } from "stream/consumers";
 
 const enum MeasurementType {
     Chalk = 'chalk',
@@ -48,7 +49,7 @@ const getFileExtension = (filename) => {
     return filename.split('.').pop();
 };
 
-const buildUploadVerbsPromise = (file: File, name?: string): Promise<Response> => {
+const buildUploadImageVerbsPromise = (file: File, name?: string): Promise<Response> => {
     const operationName = 'UploadImage';
     const query = `mutation UploadImage($input: UploadRequest!) {
                 uploadImage(input: $input) {
@@ -75,11 +76,46 @@ const buildUploadVerbsPromise = (file: File, name?: string): Promise<Response> =
     return DenAppend.Network.verbsPostPromise('graphql', {}, formData);
 };
 
+const buildUploadMaskVerbsPromise = (file: File, name?: string): Promise<Response> => {
+    const operationName = 'UploadMask';
+    const query = `mutation UploadMask($input: UploadRequest!) {
+        uploadMask(input: $input) {
+          isSuccessful
+          payload {
+            encoding
+            filename
+            mimetype
+          }
+        }
+      }`;
+    const variables = {
+        input: null
+    };
+    const formData = new FormData();
+    formData.append('operations', JSON.stringify({ operationName, query, variables }));
+    formData.append('map', JSON.stringify({ '0': ['variables.input'] }));
+    if (name) {
+        formData.append('0', file, `${name}.${getFileExtension(file.name)}`);
+    }
+    else {
+        formData.append('0', file);
+    }
+    return DenAppend.Network.verbsPostPromise('graphql', {}, formData);
+};
+
 const buildDownloadVerbsPromise = (fileUrl: string): Promise<Response> => {
     return DenAppend.Network._verbsGetPromise(fileUrl, {});
 };
 
 const Outfit = (props: IOutfitProps): JSX.Element => {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const saveMaskImage = () => {
+        const canvas = canvasRef.current;
+        const link = document.createElement("a");
+        link.download = "mask.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    };
     const t = useTranslations('HomePage');
     const [state, setState] = useState<IOutfitStates>({ zoom: 1, measurementType: MeasurementType.Chalk, modelType: ModelType.Women, isPurchaseShow: false, isMirrorShow: false });
     const toolWidth = '12em';
@@ -89,23 +125,28 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
         const clientId = getStorage(StorageKeys.CLIENT_ID);
         const garmentName = `${clientId}_garment`;
         const modelName = `${clientId}_model`;
-        buildDownloadVerbsPromise(props.modelImageUrl)
-            .then(async (response) => {
-                const modelBlob = await response.blob();
-                const modelFile = new File([modelBlob], `${modelName}.${getFileExtension(props.modelImageUrl)}`);
-                const garmentPromise = buildUploadVerbsPromise(data.garment_file, garmentName);
-                const modelPromise = buildUploadVerbsPromise(modelFile);
-                Promise.all([garmentPromise, modelPromise])
-                    .then((responses) => {
-                        console.log(responses);
-                        /*const tryon: Tryon = {
-                        };
-                        props.tryon(tryon);*/
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            });
+        const modelGarmentName = `${clientId}_model_garment`;
+        const modelGarmentBlob = canvasRef.current.toBlob((blob) => {
+            const modelGarmentFile = new File([blob], `${modelGarmentName}.png`, { type: 'image/png' });
+            buildDownloadVerbsPromise(props.modelImageUrl)
+                .then(async (response) => {
+                    const modelBlob = await response.blob();
+                    const modelFile = new File([modelBlob], `${modelName}.${getFileExtension(props.modelImageUrl)}`);
+                    const garmentPromise = buildUploadImageVerbsPromise(data.garment_file, garmentName);
+                    const modelPromise = buildUploadImageVerbsPromise(modelFile);
+                    const modelGarmentPromise = buildUploadMaskVerbsPromise(modelGarmentFile);
+                    Promise.all([garmentPromise, modelPromise, modelGarmentPromise])
+                        .then((responses) => {
+                            console.log(responses);
+                            /*const tryon: Tryon = {
+                            };
+                            props.tryon(tryon);*/
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                });
+        });
     }}>
         <Den.Components.Y gap='3em'>
             <Den.Components.X gap='0.6em'>
@@ -115,7 +156,12 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                     <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Men }); props.changeModelImage('https://img.ltwebstatic.com/images3_pi/2024/03/20/0b/171092569796387212e2fe7c56b3d94ca52aad570f.webp'); }} frontColor={state.modelType == ModelType.Men ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><MenSvg /></Den.Components.VSvg>
                     <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Kids }); props.changeModelImage('https://img.ltwebstatic.com/images3_pi/2024/08/14/78/17236281132c880b2d4c74b3c762b052553af8e8db.webp'); }} frontColor={state.modelType == ModelType.Kids ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><KidsSvg /></Den.Components.VSvg>
                 </Den.Components.YTop>
-                <MaskImage imageUrl={props.modelImageUrl} zoom={state.zoom} isRevert={state.measurementType == MeasurementType.Eraser} />
+                <Den.Components.Y gap='0.6em'>
+                    <Den.Components.XRight gap='0.6em'>
+                        <Den.Components.VLabel padding='0.2em 0.6em' borderRadius='2em' cursor='pointer' backgroundColor={Den.Components.ColorType.Primary} frontColor={Den.Components.ColorType.White} size={Den.Components.SizeType.Large} caption={'export'} onClick={() => { saveMaskImage(); }} />
+                    </Den.Components.XRight>
+                    <MaskImage ref={canvasRef} imageUrl={props.modelImageUrl} zoom={state.zoom} isRevert={state.measurementType == MeasurementType.Eraser} />
+                </Den.Components.Y>
                 {!!state.isMirrorShow && <ImageChooser close={() => { setState({ ...state, isMirrorShow: false }); }} />}
                 <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
                     <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('measurement')} />
