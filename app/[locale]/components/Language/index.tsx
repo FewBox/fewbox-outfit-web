@@ -10,7 +10,7 @@ export interface ILanguageProps {
 }
 
 export default function Language(props: ILanguageProps) {
-    return <Den.Components.X gap='0.2em' padding='0.1em 0.2em' backgroundColor={Den.Components.ColorType.Secondary} borderRadius='6em'>
+    return <Den.Components.X gap='0.2em' padding='0.1em 0.2em' backgroundColor={Den.Components.ColorType.Dark25} borderRadius='6em'>
         <Link href={props.pathname} locale="en">
             <Den.Components.VSvg size={Den.Components.SizeType.Small} frontColor={props.locale == 'en' ? Den.Components.ColorType.Dark : Den.Components.ColorType.Placeholder}><EnglishSvg /></Den.Components.VSvg>
         </Link>

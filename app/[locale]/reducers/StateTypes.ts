@@ -7,6 +7,7 @@ export interface Home {
     modelImageUrl: string;
     outcomeImageUrl?: string;
     isFitting: boolean;
+    isEffectShow: boolean;
 }
 /** Action **/
 export interface Tryon {

@@ -1,11 +1,12 @@
 import { Den } from "@fewbox/den-web-append";
-import { ofType } from "redux-observable";
+import { StateObservable, ofType } from "redux-observable";
 import { catchError, map, mergeMap, of, retry } from "rxjs";
 import ActionTypes from "../actions/ActionTypes";
 import StorageKeys from "../storage/StorageKeys";
 import { isStorageExists, setStorage, getStorage } from "../storage";
-import { Outcome, Tryon } from "../reducers/StateTypes";
-import { loadOutcome } from "../actions";
+import { Outcome, Store, Tryon } from "../reducers/StateTypes";
+import { completeFitting, loadOutcome } from "../actions";
+import store from "../store";
 
 const generateUUID = () => {
     return 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -15,13 +16,39 @@ const generateUUID = () => {
     });
 }
 
-const initClientEpic = (action$: any) =>
+const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
     action$.pipe(
         ofType(ActionTypes.INIT_CLIENT),
         map(() => {
             if (!isStorageExists(StorageKeys.CLIENT_ID)) {
                 setStorage(StorageKeys.CLIENT_ID, generateUUID());
             }
+            const clientId = getStorage(StorageKeys.CLIENT_ID);
+            const options: Den.Network.IWebsocketOptions = {
+                query: `?clientId=${clientId}`,
+                external: 'wsEndpoint'
+            };
+            const ws = new Den.Network.WS(options);
+            ws.open(() => {
+                console.log('Open Websocket.');
+            });
+            ws.receive((e) => {
+                const message = JSON.parse(e.data);
+                console.log(message);
+                if(message.type == 'execution_error') {
+                    //console.error(message.data);
+                    store.dispatch(completeFitting());
+                }
+                else if(message.type == 'execution_todo'){
+                    store.dispatch(completeFitting());
+                }
+            });
+            ws.close(() => {
+                console.log('Close Websocket.');
+            });
+            ws.handleError((e) => {
+                console.error(e);
+            });
             return Den.Action.emptyAction();
         })
     );

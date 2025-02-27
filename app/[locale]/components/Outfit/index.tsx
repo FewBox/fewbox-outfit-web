@@ -1,7 +1,7 @@
 "use client";
 import { Den } from "@fewbox/den-web";
 import { Den as DenAppend } from "@fewbox/den-web-append";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import MaskImage from "../MaskImage";
 import ChalkSvg from '@/assets/svgs/chalk.svg';
@@ -35,6 +35,7 @@ export interface IOutfitProps {
     isFitting: boolean;
     changeModelImage: (modelImageUrl: string) => void;
     tryon: (tryon: Tryon) => void;
+    startFitting: () => void;
     loadOutcome: (outcomeImageUrl: string) => void;
 }
 
@@ -119,10 +120,13 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
     };
     const t = useTranslations('HomePage');
     const [state, setState] = useState<IOutfitStates>({ zoom: 1, measurementType: MeasurementType.Chalk, modelType: ModelType.Women, isPurchaseShow: false, isMirrorShow: false });
+    useEffect(() => {
+    }, []);
     const toolWidth = '12em';
     const toolHeight = '18em';
-    return <Den.Components.VForm handleSubmit={(data) => {
+    const handleSubmit = (data) => {
         //console.log(data);
+        props.startFitting();
         const clientId = getStorage(StorageKeys.CLIENT_ID);
         const garmentName = `${clientId}_garment`;
         const modelName = `${clientId}_model`;
@@ -160,7 +164,8 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                         });
                 });
         });
-    }}>
+    }
+    return <Den.Components.VForm handleSubmit={handleSubmit}>
         <Den.Components.Y gap='3em'>
             <Den.Components.X gap='0.6em'>
                 <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
@@ -171,7 +176,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                 </Den.Components.YTop>
                 <Den.Components.Y gap='0.6em'>
                     <Den.Components.XRight gap='0.6em'>
-                        <Den.Components.VLabel padding='0.2em 0.6em' borderRadius='2em' cursor='pointer' backgroundColor={Den.Components.ColorType.Primary} frontColor={Den.Components.ColorType.White} size={Den.Components.SizeType.Large} caption={'export'} onClick={() => { saveMaskImage(); }} />
+                        {/*<Den.Components.VLabel padding='0.2em 0.6em' borderRadius='2em' cursor='pointer' backgroundColor={Den.Components.ColorType.Primary} frontColor={Den.Components.ColorType.White} size={Den.Components.SizeType.Large} caption={'export'} onClick={() => { saveMaskImage(); }} />*/}
                     </Den.Components.XRight>
                     <MaskImage ref={canvasRef} imageUrl={props.modelImageUrl} zoom={state.zoom} isRevert={state.measurementType == MeasurementType.Eraser} />
                 </Den.Components.Y>

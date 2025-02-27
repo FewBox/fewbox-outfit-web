@@ -6,8 +6,9 @@ import { getTranslations } from 'next-intl/server';
 import Outfit from "./components/Outfit";
 import { Store, Tryon } from "./reducers/StateTypes";
 import { connect } from "react-redux";
-import { changeModelImage, initClient, loadOutcome, tryon } from "./actions";
+import { changeModelImage, completeFitting, initClient, loadOutcome, startFitting, tryon } from "./actions";
 import { useEffect } from "react";
+import Effect from "./components/Effect";
 
 /*export async function generateMetadata({
   params
@@ -26,9 +27,11 @@ import { useEffect } from "react";
 export interface IHomePage {
   modelImageUrl: string;
   isFitting: boolean;
+  isEffectShow: boolean;
   initClient: () => void;
   changeModelImage: (modelImageUrl: string) => void;
   tryon: (tryon: Tryon) => void;
+  startFitting: () => void;
   loadOutcome: (outcomeImageUrl: string) => void;
 }
 
@@ -46,6 +49,12 @@ const HomePage = (props: IHomePage) => {
           "HOST": "localhost",
           "PORT": 4000,
           "BASEPATH": null
+        },
+        wsEndpoint: {
+          PROTOCOL: 'ws',
+          HOST: 'localhost',
+          PORT: 4000,
+          BASEPATH: 'ws'
         }
       };
     },
@@ -63,12 +72,18 @@ const HomePage = (props: IHomePage) => {
 
   return <Den.Components.VBoundary margin='3em 0 0 0'>
     <DenAppend.FewBox.Boot options={options} />
+    {/* Effect */}
+    {!!props.isEffectShow && <Den.Components.Position zIndex={9999999999} category={Den.Components.PositionCategory.Window} type={Den.Components.PositionType.Center}>
+      <Den.Components.VAnimation category={Den.Components.AnimationCategory.FadeInUp}>
+        <Effect />
+      </Den.Components.VAnimation>
+    </Den.Components.Position>}
     {/* PC */}
     <Den.Components.Display category={Den.Components.DisplayCategory.Hidden} type={Den.Components.DisplayType.Down} breakpoint={Den.Components.BreakpointType.Small}>
       <Den.Components.Y cross={Den.Components.YCrossType.Center} gap='3em'>
         <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} size={Den.Components.SizeType.ExtraLarge} caption={tm('slogan')} />
         <Den.Components.Y>
-          <Outfit isFitting={props.isFitting} modelImageUrl={props.modelImageUrl} changeModelImage={props.changeModelImage} tryon={props.tryon} loadOutcome={props.loadOutcome} />
+          <Outfit isFitting={props.isFitting} modelImageUrl={props.modelImageUrl} changeModelImage={props.changeModelImage} tryon={props.tryon} startFitting={props.startFitting} loadOutcome={props.loadOutcome} />
         </Den.Components.Y>
       </Den.Components.Y>
     </Den.Components.Display>
@@ -82,13 +97,15 @@ const HomePage = (props: IHomePage) => {
 
 const mapStateToProps = ({ home }: Store) => ({
   modelImageUrl: home.modelImageUrl,
-  isFitting: home.isFitting
+  isFitting: home.isFitting,
+  isEffectShow: home.isEffectShow
 });
 
 const mapDispatchToProps = {
   initClient,
   changeModelImage,
   tryon,
+  startFitting,
   loadOutcome
 };
 

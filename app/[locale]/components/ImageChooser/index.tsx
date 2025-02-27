@@ -55,9 +55,10 @@ const ImageChooser = (props: IImageChooserProps): JSX.Element => {
             fileIcon={<Den.Components.VSvg size={Den.Components.SizeType.Large} frontColor={Den.Components.ColorType.Dark}><OutfitSvg /></Den.Components.VSvg>} emptyMessage={state.emptyMessage} />
         {/*<Den.Components.VTextBox name='garment_url' width='16em' onChange={(e) => { setState({ ...state, imageUrl: e.currentTarget.value }); }} />*/}
         <Den.Components.X gap='2em'>
-            {!!props.isFitting && <Den.Components.VBoundary cursor='not-allowed'><Den.Components.VSvg size={Den.Components.SizeType.Small}><TryOnSvg /></Den.Components.VSvg></Den.Components.VBoundary>}
+            {!!props.isFitting && <Den.Components.VBoundary cursor='not-allowed'><Den.Components.VSvg frontColor={Den.Components.ColorType.Dark25} size={Den.Components.SizeType.Small}><TryOnSvg /></Den.Components.VSvg></Den.Components.VBoundary>}
             {!props.isFitting && <Den.Components.VSubmit caption={<Den.Components.VSvg frontColor={Den.Components.ColorType.Primary} size={Den.Components.SizeType.Small}><TryOnSvg /></Den.Components.VSvg>} />}
-            <Den.Components.VSvg size={Den.Components.SizeType.Small} onClick={() => { props.close(); }} frontColor={Den.Components.ColorType.Primary}><CloseSvg /></Den.Components.VSvg>
+            {/*!!props.isFitting && <Den.Components.VSvg size={Den.Components.SizeType.Small} frontColor={Den.Components.ColorType.Primary} onClick={() => { props.close(); }}><CancelSvg /></Den.Components.VSvg>*/}
+            <Den.Components.VSvg size={Den.Components.SizeType.Small} frontColor={Den.Components.ColorType.Primary} onClick={() => { props.close(); }}><CloseSvg /></Den.Components.VSvg>
         </Den.Components.X>
     </Den.Components.Y>
 };
