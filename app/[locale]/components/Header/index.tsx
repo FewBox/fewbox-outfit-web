@@ -1,17 +1,25 @@
 
+'use client';
 import { Den } from '@fewbox/den-web';
 import LogoSvg from '@/assets/svgs/logo.svg';
 import { Link } from '@/i18n/routing';
 import Language from '../Language';
-//import Signin from '../Signin';
 import Menu from '../Menu';
 import { useTranslations } from 'next-intl';
+import Signin from '../Signin';
+import { SigninCredential, Store } from '../../reducers/StateTypes';
+import { connect } from 'react-redux';
+import { hideSignin, showSignin, signin } from '../../actions';
 
 export interface IHeaderProps {
     locale: string;
+    isUnauthorized: boolean;
+    showSignin: () => void;
+    hideSignin: () => void;
+    signin: (signinCredential: SigninCredential) => void;
 }
 
-export default function Header(props: IHeaderProps) {
+const Header = (props: IHeaderProps) => {
     const t = useTranslations('MasterPage');
     return <Den.Components.VHeader padding='2em'>
         {/* PC */}
@@ -31,7 +39,7 @@ export default function Header(props: IHeaderProps) {
                             <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} frontColor={Den.Components.ColorType.Black} caption={t('showcase')} />
                         </Link>
                         <Language locale={props.locale} pathname='/' />
-                        {/*<Signin />*/}
+                        <Signin isUnauthorized={props.isUnauthorized} show={props.showSignin} hide={props.hideSignin} signin={props.signin} />
                     </Den.Components.X>
                 </Den.Components.XBetween>
             </Den.Components.XCenter>
@@ -51,3 +59,15 @@ export default function Header(props: IHeaderProps) {
         </Den.Components.Display>
     </Den.Components.VHeader>;
 }
+
+const mapStateToProps = ({ home }: Store) => ({
+    isUnauthorized: home.isSigninShow
+});
+
+const mapDispatchToProps = {
+    showSignin,
+    hideSignin,
+    signin
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,6 +1,6 @@
 import { Den } from '@fewbox/den-web-append';
 import ActionTypes from './ActionTypes';
-import { Tryon } from '../reducers/StateTypes';
+import { MirrorReflect, SigninCredential, Tryon } from '../reducers/StateTypes';
 
 export const initClient = (): Den.Action.IAction => ({
     type: ActionTypes.INIT_CLIENT
@@ -19,10 +19,20 @@ export const startFitting = (): Den.Action.IAction => ({
 export const completeFitting = (): Den.Action.IAction => ({
     type: ActionTypes.COMPLETE_FITTING
 });
-export const showEffect = (effectUrl: string): Den.Action.IPayloadAction<string> => ({
-    type: ActionTypes.SHOW_EFFECT,
-    payload: effectUrl
+export const showMirror = (mirrorReflect: MirrorReflect): Den.Action.IPayloadAction<MirrorReflect> => ({
+    type: ActionTypes.SHOW_MIRROR,
+    payload: mirrorReflect
 });
-export const hideEffect = (): Den.Action.IAction => ({
-    type: ActionTypes.HIDE_EFFECT
+export const hideMirror = (): Den.Action.IAction => ({
+    type: ActionTypes.HIDE_MIRROR
+});
+export const showSignin = (): Den.Action.IAction => ({
+    type: ActionTypes.SHOW_SIGNIN
+});
+export const hideSignin = (): Den.Action.IAction => ({
+    type: ActionTypes.HIDE_SIGNIN
+});
+export const signin = (signinCredential: SigninCredential): Den.Action.IPayloadAction<SigninCredential> => ({
+    type: ActionTypes.SIGNIN,
+    payload: signinCredential
 });

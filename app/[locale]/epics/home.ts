@@ -4,8 +4,8 @@ import { catchError, map, mergeMap, of, retry } from "rxjs";
 import ActionTypes from "../actions/ActionTypes";
 import StorageKeys from "../storage/StorageKeys";
 import { isStorageExists, setStorage, getStorage } from "../storage";
-import { Outcome, Store, Tryon } from "../reducers/StateTypes";
-import { completeFitting, showEffect } from "../actions";
+import { Authentication, MirrorReflect, SigninCredential, Store, Tryon } from "../reducers/StateTypes";
+import { completeFitting, hideSignin, showMirror } from "../actions";
 import store from "../store";
 
 const generateUUID = () => {
@@ -38,10 +38,13 @@ const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
                 if (message.type == 'execution_error') {
                     //console.error(message.data);
                     store.dispatch(completeFitting());
+                    const mirrorReflect: MirrorReflect = {
+                        captionId: 'exception'
+                    };
+                    store.dispatch(showMirror(mirrorReflect));
                 }
                 else if (message.type == 'execution_') {
                     store.dispatch(completeFitting());
-                    store.dispatch(showEffect('/images/effect.png'));
                 }
             });
             ws.close(() => {
@@ -51,6 +54,67 @@ const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
                 console.error(e);
             });
             return Den.Action.emptyAction();
+        })
+    );
+
+const signinEpic = (action$: any) =>
+    action$.pipe(
+        ofType(ActionTypes.SIGNIN),
+        mergeMap((action: Den.Action.IPayloadAction<SigninCredential>) => {
+            let operationName = 'Signin';
+            let query = `mutation Signin($input: SigninRequest) {
+                signin(input: $input) {
+                  errorCode
+                  errorMessage
+                  isSuccessful
+                  payload {
+                    isValid
+                    token
+                  }
+                }
+              }`;
+            let variables = {
+                "input": {
+                    "username": action.payload.username,
+                    "password": action.payload.password
+                }
+            };
+            let graphql = {
+                operationName,
+                query,
+                variables
+            };
+            return new Den.Network.GQL<Den.Store.IPayloadResponse<Authentication>>(graphql, 'signin')
+                .pipe(
+                    map((ajaxResponse: any) => {
+                        let data = Den.Network.parseGQLAjaxData(ajaxResponse, 'signin');
+                        if (data.isSuccessful) {
+                            if (data.payload.isValid) {
+                                setStorage(StorageKeys.CLIENT_ID, data.payload.token);
+                                return hideSignin();
+                            }
+                            else {
+                                const mirrorReflect: MirrorReflect = {
+                                    captionId: 'exception'
+                                };
+                                return showMirror(mirrorReflect);
+                            }
+                        }
+                        else {
+                            const mirrorReflect: MirrorReflect = {
+                                captionId: 'exception'
+                            };
+                            return showMirror(mirrorReflect);
+                        }
+                    }),
+                    retry(3),
+                    catchError((error) => {
+                        console.error(error.message);
+                        return of(Den.Action.emptyAction());
+                    }),
+                    //startWith(beginLoading()),
+                    //endWith(endLoading())
+                );
         })
     );
 
@@ -88,7 +152,7 @@ const tryOnEpic = (action$: any) =>
                 query,
                 variables
             };
-            return new Den.Network.GQL<Den.Store.IPayloadResponse<Outcome>>(graphql, 'runQueue')
+            return new Den.Network.GQL<Den.Store.IPayloadResponse<MirrorReflect>>(graphql, 'runQueue')
                 .pipe(
                     map((ajaxResponse: any) => {
                         let data = Den.Network.parseGQLAjaxData(ajaxResponse, 'runQueue');
@@ -106,4 +170,4 @@ const tryOnEpic = (action$: any) =>
         })
     );
 
-export default [initClientEpic, tryOnEpic];
+export default [initClientEpic, signinEpic, tryOnEpic];

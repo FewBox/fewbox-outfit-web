@@ -4,10 +4,11 @@ export interface Store {
 }
 /** Page **/
 export interface Home {
+    isSigninShow: boolean;
     modelImageUrl: string;
     outcomeImageUrl?: string;
     isFitting: boolean;
-    effectUrl?: string;
+    mirrorReflect?: MirrorReflect;
 }
 /** Action **/
 export interface Tryon {
@@ -17,5 +18,15 @@ export interface Tryon {
     garment: string;
     modelGarment: string;
 }
-export interface Outcome {
+export interface SigninCredential {
+    username: string;
+    password: string;
+}
+export interface Authentication {
+    isValid: boolean;
+    token: string;
+}
+export interface MirrorReflect  {
+    captionId: string;
+    imageUrl?: string;
 }

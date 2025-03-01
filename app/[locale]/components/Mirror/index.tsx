@@ -1,25 +1,26 @@
 "use client";
 import { Den } from "@fewbox/den-web";
 import { useEffect, useState } from "react";
-//import { useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import DownloadSvg from '@/assets/svgs/download.svg';
 import CancelSvg from '@/assets/svgs/cancel.svg';
+import { MirrorReflect } from "../../reducers/StateTypes";
 
-export interface IEffectProps {
-    caption: string;
-    imageUrl: string;
+export interface IMirrorProps {
+    mirrorReflect?: MirrorReflect;
     hide: () => void;
 }
-export interface IEffectStates { }
+export interface IMirrorStates { }
 
 const height = 800;
 const width = 495;
 
-const Effect = (props: IEffectProps): JSX.Element => {
-    //const t = useTranslations('HomePage');
-    const [state, setState] = useState<IEffectStates>({});
+const Mirror = (props: IMirrorProps): JSX.Element => {
+    const t = useTranslations('HomePage');
+    const [state, setState] = useState<IMirrorStates>({});
     useEffect(() => {
     }, []);
+    debugger;
     return <Den.Components.VBoundary borderWidth='0.4em' borderRadius='4em' borderStyle='solid' borderColor={Den.Components.ColorType.White}>
         <Den.Components.VFrame borderRadius='4em' image='/images/mirror.png' backingBoard={{ degree: '30deg', startColor: '#c7fddb', endColor: '#ffcb49' }}>
             <Den.Components.YBetween cross={Den.Components.YCrossType.Center} borderRadius='4em' style={{ boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.2)' }} width={`${width}px`} height={`${height}px`}>
@@ -30,10 +31,10 @@ const Effect = (props: IEffectProps): JSX.Element => {
                     </Den.Components.XBetween>
                 </Den.Components.VBoundary>
                 <Den.Components.VBoundary>
-                    <Den.Components.VLabel letterSpacing='3px' size={Den.Components.SizeType.Large} weight={Den.Components.FontWeightType.Light} frontColor={Den.Components.ColorType.Error75} caption={props.caption} />
+                    <Den.Components.VLabel letterSpacing='3px' size={Den.Components.SizeType.Large} weight={Den.Components.FontWeightType.Light} frontColor={Den.Components.ColorType.Error75} caption={t(props.mirrorReflect ? props.mirrorReflect.captionId : 'exception')} />
                 </Den.Components.VBoundary>
                 <Den.Components.VBoundary>
-                    <Den.Components.VImage alt='effect' src={props.imageUrl}
+                    <Den.Components.VImage alt='effect' src={props.mirrorReflect ? props.mirrorReflect.imageUrl : '/images/effect.png'}
                         sizes={'100vw'}
                         style={{
                             width: '100%',
@@ -45,4 +46,4 @@ const Effect = (props: IEffectProps): JSX.Element => {
     </Den.Components.VBoundary>;
 };
 
-export default Effect;
+export default Mirror;

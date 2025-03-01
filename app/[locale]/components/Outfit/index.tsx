@@ -17,7 +17,6 @@ import ImageChooser from "../ImageChooser";
 import { Tryon } from "../../reducers/StateTypes";
 import { getStorage } from "../../storage";
 import StorageKeys from "../../storage/StorageKeys";
-import { blob } from "stream/consumers";
 
 const enum MeasurementType {
     Chalk = 'chalk',
@@ -36,6 +35,7 @@ export interface IOutfitProps {
     changeModelImage: (modelImageUrl: string) => void;
     tryon: (tryon: Tryon) => void;
     startFitting: () => void;
+    completeFitting: () => void;
 }
 
 export interface IOutfitStates {
@@ -155,7 +155,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                                 props.tryon(tryon);
                             }
                             else {
-                                // Todo: Need implement!
+                                props.completeFitting();
                             }
                         })
                         .catch((error) => {
