@@ -5,7 +5,7 @@ import ActionTypes from "../actions/ActionTypes";
 import StorageKeys from "../storage/StorageKeys";
 import { isStorageExists, setStorage, getStorage } from "../storage";
 import { Outcome, Store, Tryon } from "../reducers/StateTypes";
-import { completeFitting, loadOutcome } from "../actions";
+import { completeFitting, showEffect } from "../actions";
 import store from "../store";
 
 const generateUUID = () => {
@@ -35,12 +35,13 @@ const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
             ws.receive((e) => {
                 const message = JSON.parse(e.data);
                 console.log(message);
-                if(message.type == 'execution_error') {
+                if (message.type == 'execution_error') {
                     //console.error(message.data);
                     store.dispatch(completeFitting());
                 }
-                else if(message.type == 'execution_todo'){
+                else if (message.type == 'execution_') {
                     store.dispatch(completeFitting());
+                    store.dispatch(showEffect('/images/effect.png'));
                 }
             });
             ws.close(() => {
@@ -92,7 +93,7 @@ const tryOnEpic = (action$: any) =>
                     map((ajaxResponse: any) => {
                         let data = Den.Network.parseGQLAjaxData(ajaxResponse, 'runQueue');
                         console.log(data);
-                        return loadOutcome('');
+                        return Den.Action.emptyAction();
                     }),
                     retry(3),
                     catchError((error) => {

@@ -6,7 +6,7 @@ import { getTranslations } from 'next-intl/server';
 import Outfit from "./components/Outfit";
 import { Store, Tryon } from "./reducers/StateTypes";
 import { connect } from "react-redux";
-import { changeModelImage, completeFitting, initClient, loadOutcome, startFitting, tryon } from "./actions";
+import { changeModelImage, completeFitting, hideEffect, initClient, startFitting, tryon } from "./actions";
 import { useEffect } from "react";
 import Effect from "./components/Effect";
 
@@ -27,12 +27,12 @@ import Effect from "./components/Effect";
 export interface IHomePage {
   modelImageUrl: string;
   isFitting: boolean;
-  isEffectShow: boolean;
+  effectUrl: string;
   initClient: () => void;
   changeModelImage: (modelImageUrl: string) => void;
   tryon: (tryon: Tryon) => void;
   startFitting: () => void;
-  loadOutcome: (outcomeImageUrl: string) => void;
+  hideEffect: () => void;
 }
 
 const HomePage = (props: IHomePage) => {
@@ -73,9 +73,9 @@ const HomePage = (props: IHomePage) => {
   return <Den.Components.VBoundary margin='3em 0 0 0'>
     <DenAppend.FewBox.Boot options={options} />
     {/* Effect */}
-    {!!props.isEffectShow && <Den.Components.Position zIndex={9999999999} category={Den.Components.PositionCategory.Window} type={Den.Components.PositionType.Center}>
+    {!!props.effectUrl && <Den.Components.Position zIndex={9999999999} category={Den.Components.PositionCategory.Window} type={Den.Components.PositionType.Center}>
       <Den.Components.VAnimation category={Den.Components.AnimationCategory.FadeInUp}>
-        <Effect />
+        <Effect caption={props.effectUrl ? t('effect') : t('exception')} imageUrl={props.effectUrl} hide={props.hideEffect} />
       </Den.Components.VAnimation>
     </Den.Components.Position>}
     {/* PC */}
@@ -83,7 +83,7 @@ const HomePage = (props: IHomePage) => {
       <Den.Components.Y cross={Den.Components.YCrossType.Center} gap='3em'>
         <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} size={Den.Components.SizeType.ExtraLarge} caption={tm('slogan')} />
         <Den.Components.Y>
-          <Outfit isFitting={props.isFitting} modelImageUrl={props.modelImageUrl} changeModelImage={props.changeModelImage} tryon={props.tryon} startFitting={props.startFitting} loadOutcome={props.loadOutcome} />
+          <Outfit isFitting={props.isFitting} modelImageUrl={props.modelImageUrl} changeModelImage={props.changeModelImage} tryon={props.tryon} startFitting={props.startFitting} />
         </Den.Components.Y>
       </Den.Components.Y>
     </Den.Components.Display>
@@ -98,7 +98,7 @@ const HomePage = (props: IHomePage) => {
 const mapStateToProps = ({ home }: Store) => ({
   modelImageUrl: home.modelImageUrl,
   isFitting: home.isFitting,
-  isEffectShow: home.isEffectShow
+  effectUrl: home.effectUrl
 });
 
 const mapDispatchToProps = {
@@ -106,7 +106,7 @@ const mapDispatchToProps = {
   changeModelImage,
   tryon,
   startFitting,
-  loadOutcome
+  hideEffect
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

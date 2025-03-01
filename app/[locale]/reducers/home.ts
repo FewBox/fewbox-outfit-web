@@ -2,7 +2,7 @@ import { Den } from '@fewbox/den-web-append';
 import { Home } from './StateTypes';
 import ActionTypes from '../actions/ActionTypes';
 
-const homeState = { modelImageUrl: "https://img.ltwebstatic.com/images3_pi/2025/01/03/7c/1735896447c6ae06db2def0b14704e23fba94b84b4.webp", isFitting: false, isEffectShow: true };
+const homeState = { modelImageUrl: "https://img.ltwebstatic.com/images3_pi/2025/01/03/7c/1735896447c6ae06db2def0b14704e23fba94b84b4.webp", isFitting: false /*, effectUrl: '/images/effect.png'*/ };
 export default (state: Home = homeState, action: Den.Action.IPayloadAction<any>): Home => {
     switch (action.type) {
         case ActionTypes.CHANGE_MODEL_IMAGE:
@@ -11,8 +11,10 @@ export default (state: Home = homeState, action: Den.Action.IPayloadAction<any>)
             return { ...state, isFitting: true };
         case ActionTypes.COMPLETE_FITTING:
             return { ...state, isFitting: false };
-        case ActionTypes.LOAD_OUTCOME:
-            return { ...state, outcomeImageUrl: action.payload };
+        case ActionTypes.SHOW_EFFECT:
+            return { ...state, effectUrl: action.payload };
+        case ActionTypes.HIDE_EFFECT:
+            return { ...state, effectUrl: undefined };
         default:
             return state;
     }

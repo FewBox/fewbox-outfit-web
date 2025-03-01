@@ -19,7 +19,10 @@ export const startFitting = (): Den.Action.IAction => ({
 export const completeFitting = (): Den.Action.IAction => ({
     type: ActionTypes.COMPLETE_FITTING
 });
-export const loadOutcome = (outcomeImageUrl: string): Den.Action.IPayloadAction<string> => ({
-    type: ActionTypes.LOAD_OUTCOME,
-    payload: outcomeImageUrl
+export const showEffect = (effectUrl: string): Den.Action.IPayloadAction<string> => ({
+    type: ActionTypes.SHOW_EFFECT,
+    payload: effectUrl
+});
+export const hideEffect = (): Den.Action.IAction => ({
+    type: ActionTypes.HIDE_EFFECT
 });

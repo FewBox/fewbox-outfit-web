@@ -36,7 +36,6 @@ export interface IOutfitProps {
     changeModelImage: (modelImageUrl: string) => void;
     tryon: (tryon: Tryon) => void;
     startFitting: () => void;
-    loadOutcome: (outcomeImageUrl: string) => void;
 }
 
 export interface IOutfitStates {

@@ -4,7 +4,8 @@ enum ActionTypes {
     TRY_ON = 'TRY_ON',
     START_FITTING = 'START_FITTING',
     COMPLETE_FITTING = 'COMPLETE_FITTING',
-    LOAD_OUTCOME = 'LOAD_OUTCOME',
+    SHOW_EFFECT = 'SHOW_EFFECT',
+    HIDE_EFFECT = 'HIDE_EFFECT'
 }
 
 export default ActionTypes;
