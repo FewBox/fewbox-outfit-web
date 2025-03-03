@@ -36,3 +36,7 @@ export const signin = (signinCredential: SigninCredential): Den.Action.IPayloadA
     type: ActionTypes.SIGNIN,
     payload: signinCredential
 });
+export const authentication = (isValid: boolean): Den.Action.IPayloadAction<boolean> => ({
+    type: ActionTypes.AUTHENTICATION,
+    payload: isValid
+});

@@ -8,7 +8,8 @@ enum ActionTypes {
     HIDE_MIRROR = 'HIDE_MIRROR',
     SHOW_SIGNIN = 'SHOW_SIGNIN',
     HIDE_SIGNIN = 'HIDE_SIGNIN',
-    SIGNIN = 'SIGNIN'
+    SIGNIN = 'SIGNIN',
+    AUTHENTICATION = 'AUTHENTICATION'
 }
 
 export default ActionTypes;

@@ -7,6 +7,7 @@ import { SigninCredential } from "../../reducers/StateTypes";
 
 export interface ISigninProps {
     isUnauthorized: boolean;
+    isPasswordValid: boolean;
     show: () => void;
     hide: () => void;
     signin: (signinCredential: SigninCredential) => void;
@@ -21,7 +22,7 @@ export default function Signin(props: ISigninProps) {
     };
     return <Den.Components.VBoundary>
         {!!props.isUnauthorized && <Den.Components.VMask backgroundColor={Den.Components.ColorType.White}>
-            <Den.Components.VForm handleSubmit={handleSubmit} handleValidateError={() => { debugger; }}>
+            <Den.Components.VForm handleSubmit={handleSubmit} handleValidateError={(e) => { }}>
                 <Den.Components.Y gap='1em'>
                     <Den.Components.XRight>
                         <Den.Components.VSvg size={Den.Components.SizeType.Small} frontColor={Den.Components.ColorType.Placeholder} onClick={props.hide}><CloseSvg /></Den.Components.VSvg>
@@ -36,10 +37,10 @@ export default function Signin(props: ISigninProps) {
                         </Den.Components.Position>
                         <Den.Components.Y backgroundColor={Den.Components.ColorType.White} padding='4em 2em 2em 2em' borderRadius='1em' gap='1em'>
                             <Den.Components.Y gap='0.6em'>
-                                <Den.Components.VTextBox padding='0.6em 0.8em' borderStyle='solid' borderColor={Den.Components.ColorType.Placeholder} borderRadius='6em' borderWidth='1px' name='username' placeholder={t('username')} isRequired />
-                                <Den.Components.VPassword padding='0.6em 0.8em' borderStyle='solid' borderColor={Den.Components.ColorType.Placeholder} borderRadius='6em' borderWidth='1px' name='password' placeholder={t('password')} isRequired />
+                                <Den.Components.VTextBox padding='0.6em 0.8em' borderStyle='solid' borderColor={props.isPasswordValid ? Den.Components.ColorType.Placeholder : Den.Components.ColorType.Error} borderRadius='6em' borderWidth='1px' name='username' placeholder={t('username')} isRequired />
+                                <Den.Components.VPassword padding='0.6em 0.8em' borderStyle='solid' borderColor={props.isPasswordValid ? Den.Components.ColorType.Placeholder : Den.Components.ColorType.Error} borderRadius='6em' borderWidth='1px' name='password' placeholder={t('password')} isRequired />
                             </Den.Components.Y>
-                            <Den.Components.VSubmit size={Den.Components.SizeType.Small} padding='0.8em' borderRadius='6em' frontColor={Den.Components.ColorType.White} backgroundColor={Den.Components.ColorType.Black} caption={t('signin')} />
+                            <Den.Components.VSubmit isFormNoValidate size={Den.Components.SizeType.Small} padding='0.8em' borderRadius='6em' frontColor={Den.Components.ColorType.White} backgroundColor={Den.Components.ColorType.Black} caption={t('signin')} />
                         </Den.Components.Y>
                     </Den.Components.VBoundary>
                 </Den.Components.Y>

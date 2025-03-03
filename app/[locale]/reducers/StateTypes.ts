@@ -5,8 +5,8 @@ export interface Store {
 /** Page **/
 export interface Home {
     isSigninShow: boolean;
+    isPasswordValid: boolean;
     modelImageUrl: string;
-    outcomeImageUrl?: string;
     isFitting: boolean;
     mirrorReflect?: MirrorReflect;
 }

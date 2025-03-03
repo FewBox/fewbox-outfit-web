@@ -5,7 +5,7 @@ import ActionTypes from "../actions/ActionTypes";
 import StorageKeys from "../storage/StorageKeys";
 import { isStorageExists, setStorage, getStorage } from "../storage";
 import { Authentication, MirrorReflect, SigninCredential, Store, Tryon } from "../reducers/StateTypes";
-import { completeFitting, hideSignin, showMirror } from "../actions";
+import { authentication, completeFitting, hideSignin, showMirror } from "../actions";
 import store from "../store";
 
 const generateUUID = () => {
@@ -91,13 +91,11 @@ const signinEpic = (action$: any) =>
                         if (data.isSuccessful) {
                             if (data.payload.isValid) {
                                 setStorage(StorageKeys.CLIENT_ID, data.payload.token);
-                                return hideSignin();
+                                store.dispatch(hideSignin());
+                                return authentication(true);
                             }
                             else {
-                                const mirrorReflect: MirrorReflect = {
-                                    captionId: 'exception'
-                                };
-                                return showMirror(mirrorReflect);
+                                return authentication(false);
                             }
                         }
                         else {

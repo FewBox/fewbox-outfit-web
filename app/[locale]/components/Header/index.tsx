@@ -14,6 +14,7 @@ import { hideSignin, showSignin, signin } from '../../actions';
 export interface IHeaderProps {
     locale: string;
     isUnauthorized: boolean;
+    isPasswordValid: boolean;
     showSignin: () => void;
     hideSignin: () => void;
     signin: (signinCredential: SigninCredential) => void;
@@ -39,7 +40,7 @@ const Header = (props: IHeaderProps) => {
                             <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} frontColor={Den.Components.ColorType.Black} caption={t('showcase')} />
                         </Link>
                         <Language locale={props.locale} pathname='/' />
-                        <Signin isUnauthorized={props.isUnauthorized} show={props.showSignin} hide={props.hideSignin} signin={props.signin} />
+                        <Signin isUnauthorized={props.isUnauthorized} isPasswordValid={props.isPasswordValid} show={props.showSignin} hide={props.hideSignin} signin={props.signin} />
                     </Den.Components.X>
                 </Den.Components.XBetween>
             </Den.Components.XCenter>
@@ -61,7 +62,8 @@ const Header = (props: IHeaderProps) => {
 }
 
 const mapStateToProps = ({ home }: Store) => ({
-    isUnauthorized: home.isSigninShow
+    isUnauthorized: home.isSigninShow,
+    isPasswordValid: home.isPasswordValid
 });
 
 const mapDispatchToProps = {

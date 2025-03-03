@@ -2,7 +2,7 @@ import { Den } from '@fewbox/den-web-append';
 import { Home } from './StateTypes';
 import ActionTypes from '../actions/ActionTypes';
 
-const homeState = { isSigninShow: false, modelImageUrl: "https://img.ltwebstatic.com/images3_pi/2025/01/03/7c/1735896447c6ae06db2def0b14704e23fba94b84b4.webp", isFitting: false /*, effectUrl: '/images/effect.png'*/ };
+const homeState = { isSigninShow: false, isPasswordValid: true, modelImageUrl: "https://img.ltwebstatic.com/images3_pi/2025/01/03/7c/1735896447c6ae06db2def0b14704e23fba94b84b4.webp", isFitting: false /*, effectUrl: '/images/effect.png'*/ };
 export default (state: Home = homeState, action: Den.Action.IPayloadAction<any>): Home => {
     switch (action.type) {
         case ActionTypes.CHANGE_MODEL_IMAGE:
@@ -19,6 +19,9 @@ export default (state: Home = homeState, action: Den.Action.IPayloadAction<any>)
             return { ...state, isSigninShow: true };
         case ActionTypes.HIDE_SIGNIN:
             return { ...state, isSigninShow: false };
+        case ActionTypes.AUTHENTICATION: {
+            return { ...state, isPasswordValid: action.payload }
+        }
         default:
             return state;
     }

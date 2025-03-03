@@ -20,7 +20,6 @@ const Mirror = (props: IMirrorProps): JSX.Element => {
     const [state, setState] = useState<IMirrorStates>({});
     useEffect(() => {
     }, []);
-    debugger;
     return <Den.Components.VBoundary borderWidth='0.4em' borderRadius='4em' borderStyle='solid' borderColor={Den.Components.ColorType.White}>
         <Den.Components.VFrame borderRadius='4em' image='/images/mirror.png' backingBoard={{ degree: '30deg', startColor: '#c7fddb', endColor: '#ffcb49' }}>
             <Den.Components.YBetween cross={Den.Components.YCrossType.Center} borderRadius='4em' style={{ boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.2)' }} width={`${width}px`} height={`${height}px`}>
@@ -34,7 +33,7 @@ const Mirror = (props: IMirrorProps): JSX.Element => {
                     <Den.Components.VLabel letterSpacing='3px' size={Den.Components.SizeType.Large} weight={Den.Components.FontWeightType.Light} frontColor={Den.Components.ColorType.Error75} caption={t(props.mirrorReflect ? props.mirrorReflect.captionId : 'exception')} />
                 </Den.Components.VBoundary>
                 <Den.Components.VBoundary>
-                    <Den.Components.VImage alt='effect' src={props.mirrorReflect ? props.mirrorReflect.imageUrl : '/images/effect.png'}
+                    <Den.Components.VImage alt='effect' src={(props.mirrorReflect && props.mirrorReflect.imageUrl) ? props.mirrorReflect.imageUrl : '/images/effect.png'}
                         sizes={'100vw'}
                         style={{
                             width: '100%',

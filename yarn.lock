@@ -935,8 +935,8 @@
 
 "@fewbox/den-web@^0.0.84":
   version "0.0.84"
-  resolved "https://npm.pkg.github.com/download/@fewbox/den-web/0.0.84/adda112b0299dfc0e04e0210eec2cfbf72f78691#adda112b0299dfc0e04e0210eec2cfbf72f78691"
-  integrity sha512-LOHtF4ZJ0rtvv7Ms/ldBXut2K2MH6Xk3nSrJR/VX1tB2f1a0w2FOdaHidBVWRsbQkAxtj9t+fa2lbjVNoVbWvw==
+  resolved "https://npm.pkg.github.com/download/@fewbox/den-web/0.0.84/a9cc0c002995e1ca2fac11a398c4ecce68a3c7a1#a9cc0c002995e1ca2fac11a398c4ecce68a3c7a1"
+  integrity sha512-meNFwmrC1svDRo8ZYb3Et2gWErCF7mSpHpQG7kkQbaSVNA37XDsP++7TwCq8PA7cVS8c1YeyDTWiE+mckOzlPw==
 
 "@formatjs/ecma402-abstract@2.2.4":
   version "2.2.4"
