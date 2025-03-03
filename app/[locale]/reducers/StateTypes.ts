@@ -9,6 +9,7 @@ export interface Home {
     modelImageUrl: string;
     isFitting: boolean;
     mirrorReflect?: MirrorReflect;
+    websocketStatus: WebsocketStatus;
 }
 /** Action **/
 export interface Tryon {
@@ -26,7 +27,11 @@ export interface Authentication {
     isValid: boolean;
     token: string;
 }
-export interface MirrorReflect  {
+export interface MirrorReflect {
     captionId: string;
     imageUrl?: string;
+}
+export enum WebsocketStatus {
+    Open = 'open',
+    Close = 'close'
 }

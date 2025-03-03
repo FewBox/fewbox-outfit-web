@@ -44,11 +44,11 @@ const HomePage = (props: IHomePage) => {
 
   return <Den.Components.VBoundary margin='3em 0 0 0'>
     {/* Mirror */}
-    <Den.Components.Position zIndex={props.mirrorReflect ? 99999999 : -1} category={Den.Components.PositionCategory.Window} type={Den.Components.PositionType.Center}>
+    {!!props.mirrorReflect && <Den.Components.Position zIndex={props.mirrorReflect ? 99999999 : -1} category={Den.Components.PositionCategory.Window} type={Den.Components.PositionType.Center}>
       <Den.Components.VAnimation category={props.mirrorReflect ? Den.Components.AnimationCategory.FadeInUp : Den.Components.AnimationCategory.FadeOutDown}>
         <Mirror mirrorReflect={props.mirrorReflect} hide={props.hideMirror} />
       </Den.Components.VAnimation>
-    </Den.Components.Position>
+    </Den.Components.Position>}
     {/* PC */}
     <Den.Components.Display category={Den.Components.DisplayCategory.Hidden} type={Den.Components.DisplayType.Down} breakpoint={Den.Components.BreakpointType.Small}>
       <Den.Components.Y cross={Den.Components.YCrossType.Center} gap='3em'>

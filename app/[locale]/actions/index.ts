@@ -1,6 +1,6 @@
 import { Den } from '@fewbox/den-web-append';
 import ActionTypes from './ActionTypes';
-import { MirrorReflect, SigninCredential, Tryon } from '../reducers/StateTypes';
+import { MirrorReflect, SigninCredential, Tryon, WebsocketStatus } from '../reducers/StateTypes';
 
 export const initClient = (): Den.Action.IAction => ({
     type: ActionTypes.INIT_CLIENT
@@ -39,4 +39,8 @@ export const signin = (signinCredential: SigninCredential): Den.Action.IPayloadA
 export const authentication = (isValid: boolean): Den.Action.IPayloadAction<boolean> => ({
     type: ActionTypes.AUTHENTICATION,
     payload: isValid
+});
+export const setWebsocketStatus = (websocketStatus: WebsocketStatus): Den.Action.IPayloadAction<WebsocketStatus> => ({
+    type: ActionTypes.SET_WEBSOCKET_STATUS,
+    payload: websocketStatus
 });

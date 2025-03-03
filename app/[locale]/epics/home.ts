@@ -4,8 +4,8 @@ import { catchError, map, mergeMap, of, retry } from "rxjs";
 import ActionTypes from "../actions/ActionTypes";
 import StorageKeys from "../storage/StorageKeys";
 import { isStorageExists, setStorage, getStorage } from "../storage";
-import { Authentication, MirrorReflect, SigninCredential, Store, Tryon } from "../reducers/StateTypes";
-import { authentication, completeFitting, hideSignin, showMirror } from "../actions";
+import { Authentication, MirrorReflect, SigninCredential, Store, Tryon, WebsocketStatus } from "../reducers/StateTypes";
+import { authentication, completeFitting, hideSignin, setWebsocketStatus, showMirror } from "../actions";
 import store from "../store";
 
 const generateUUID = () => {
@@ -31,6 +31,7 @@ const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
             const ws = new Den.Network.WS(options);
             ws.open(() => {
                 console.log('Open Websocket.');
+                store.dispatch(setWebsocketStatus(WebsocketStatus.Open));
             });
             ws.receive((e) => {
                 const message = JSON.parse(e.data);
@@ -49,6 +50,7 @@ const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
             });
             ws.close(() => {
                 console.log('Close Websocket.');
+                store.dispatch(setWebsocketStatus(WebsocketStatus.Close));
             });
             ws.handleError((e) => {
                 //console.error(e);
@@ -116,7 +118,7 @@ const signinEpic = (action$: any) =>
         })
     );
 
-const tryOnEpic = (action$: any) =>
+const tryOnEpic = (action$: any, store$: StateObservable<Store>) =>
     action$.pipe(
         ofType(ActionTypes.TRY_ON),
         mergeMap((action: Den.Action.IPayloadAction<Tryon>) => {
@@ -155,7 +157,12 @@ const tryOnEpic = (action$: any) =>
                     map((ajaxResponse: any) => {
                         let data = Den.Network.parseGQLAjaxData(ajaxResponse, 'runQueue');
                         console.log(data);
-                        return Den.Action.emptyAction();
+                        if (store$.value.home.websocketStatus == WebsocketStatus.Close) {
+                            return completeFitting();
+                        }
+                        else {
+                            return Den.Action.emptyAction();
+                        }
                     }),
                     retry(3),
                     catchError((error) => {

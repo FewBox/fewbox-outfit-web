@@ -77,6 +77,34 @@ const buildUploadImageVerbsPromise = (file: File, filename?: string): Promise<Re
     return DenAppend.Network.verbsPostPromise('graphql', {}, formData);
 };
 
+const buildUploadOnlineImageVerbsPromise = (url: string, name: string): Promise<Response> => {
+    const operationName = 'UploadOnlineImage';
+    const query = `mutation UploadOnlineImage($input: UploadOnlineRequest!) {
+        uploadOnlineImage(input: $input) {
+          errorCode
+          errorMessage
+          isSuccessful
+          payload {
+            name
+            subfolder
+            type
+          }
+        }
+      }`;
+    const variables = {
+        input: {
+            url,
+            name
+        }
+    };
+    const graphql = {
+        operationName,
+        query,
+        variables
+    };
+    return DenAppend.Network.verbsPostPromise('graphql', { 'content-type': 'application/json' }, JSON.stringify(graphql));
+};
+
 const buildUploadMaskVerbsPromise = (file: File, name?: string): Promise<Response> => {
     const operationName = 'UploadMask';
     const query = `mutation UploadMask($input: UploadRequest!) {
@@ -104,10 +132,6 @@ const buildUploadMaskVerbsPromise = (file: File, name?: string): Promise<Respons
     return DenAppend.Network.verbsPostPromise('graphql', {}, formData);
 };
 
-const buildDownloadVerbsPromise = (fileUrl: string): Promise<Response> => {
-    return DenAppend.Network._verbsGetPromise(fileUrl, {});
-};
-
 const Outfit = (props: IOutfitProps): JSX.Element => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const saveMaskImage = () => {
@@ -124,8 +148,58 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
     const toolWidth = '12em';
     const toolHeight = '18em';
     const handleSubmit = (data) => {
+        if (data.garment_file && (data.model_file || data.model_url)) {
+            canvasRef.current.toBlob((modelGarmentBlob) => {
+                const clientId = getStorage(StorageKeys.CLIENT_ID);
+                // Garment
+                const garmentName = `${clientId}_garment`;
+                const garmentFileName = `${garmentName}.${getFileExtension(data.garment_file.name)}`;
+                const garmentPromise = buildUploadImageVerbsPromise(data.garment_file, garmentFileName);
+                // Model Garment
+                const modelGarmentName = `${clientId}_model_garment`;
+                const modelGarmentFileName = `${modelGarmentName}.png`;
+                const modelGarmentFile = new File([modelGarmentBlob], modelGarmentFileName, { type: 'image/png' });
+                const modelGarmentPromise = buildUploadMaskVerbsPromise(modelGarmentFile);
+                // Model
+                var modelPromise: Promise<Response>;
+                const modelName = `${clientId}_model`;
+                var modelFileName: string;
+                if (data.model_file) {
+                    modelFileName = `${modelName}.${getFileExtension(data.model_file.name)}`;
+                    modelPromise = buildUploadImageVerbsPromise(data.model_file, modelFileName);
+                }
+                else {
+                    modelFileName = `${modelName}.${getFileExtension(data.model_url)}`;
+                    modelPromise = buildUploadOnlineImageVerbsPromise(data.model_url, modelFileName);
+                }
+                Promise.all([garmentPromise, modelPromise, modelGarmentPromise])
+                    .then((responses) => {
+                        if (responses[0].status == 200 && responses[0].status == 200 && responses[0].status == 200) {
+                            const tryon: Tryon = {
+                                clientId,
+                                garment: garmentFileName,
+                                model: modelFileName,
+                                modelGarment: modelGarmentFileName,
+                                scale: 1
+                            };
+                            props.tryon(tryon);
+                        }
+                        else {
+                            props.completeFitting();
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            });
+        }
+        else {
+            // Todo:
+        }
+        //&&canvasRef.current
         //console.log(data);
-        props.startFitting();
+        return;
+        /*props.startFitting();
         const clientId = getStorage(StorageKeys.CLIENT_ID);
         const garmentName = `${clientId}_garment`;
         const modelName = `${clientId}_model`;
@@ -161,8 +235,11 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                         .catch((error) => {
                             console.error(error);
                         });
+                })
+                .catch(()=>{
+                    props.completeFitting();
                 });
-        });
+        });*/
     }
     return <Den.Components.VForm handleSubmit={handleSubmit}>
         <Den.Components.Y gap='3em'>

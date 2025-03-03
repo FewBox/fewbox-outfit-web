@@ -116,6 +116,7 @@ const MaskImage = forwardRef<HTMLCanvasElement, IMaskImageProps>((props, ref) =>
 
     return <Den.Components.Y gap='1.6em'>
         {/*<Den.Components.VLabel caption='Clear' onClick={() => { clear(); }} />*/}
+        <Den.Components.VHidden name='model_url' value={props.imageUrl} />
         <canvas
             ref={ref}
             onMouseDown={startDrawing}
