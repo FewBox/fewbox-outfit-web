@@ -2,7 +2,6 @@ import { Den } from '@fewbox/den-web';
 import { Suspense } from 'react';
 import Loading from '../../loading';
 import { useTranslations } from 'next-intl';
-
 export interface IMainProps {
     children: React.ReactNode;
 }

@@ -51,7 +51,7 @@ const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
                 console.log('Close Websocket.');
             });
             ws.handleError((e) => {
-                console.error(e);
+                //console.error(e);
             });
             return Den.Action.emptyAction();
         })
@@ -90,7 +90,7 @@ const signinEpic = (action$: any) =>
                         let data = Den.Network.parseGQLAjaxData(ajaxResponse, 'signin');
                         if (data.isSuccessful) {
                             if (data.payload.isValid) {
-                                setStorage(StorageKeys.CLIENT_ID, data.payload.token);
+                                setStorage(StorageKeys.TOKEN, data.payload.token);
                                 store.dispatch(hideSignin());
                                 return authentication(true);
                             }

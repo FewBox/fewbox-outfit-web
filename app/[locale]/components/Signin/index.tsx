@@ -23,7 +23,7 @@ export default function Signin(props: ISigninProps) {
     return <Den.Components.VBoundary>
         {!!props.isUnauthorized && <Den.Components.VMask backgroundColor={Den.Components.ColorType.White}>
             <Den.Components.VForm handleSubmit={handleSubmit} handleValidateError={(e) => { }}>
-                <Den.Components.Y gap='1em'>
+                <Den.Components.Y>
                     <Den.Components.XRight>
                         <Den.Components.VSvg size={Den.Components.SizeType.Small} frontColor={Den.Components.ColorType.Placeholder} onClick={props.hide}><CloseSvg /></Den.Components.VSvg>
                     </Den.Components.XRight>

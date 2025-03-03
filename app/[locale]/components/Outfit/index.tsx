@@ -57,7 +57,7 @@ const buildUploadImageVerbsPromise = (file: File, filename?: string): Promise<Re
                   isSuccessful
                   payload {
                     mimetype
-                    filename
+                    name
                     encoding
                   }
                 }
@@ -84,7 +84,7 @@ const buildUploadMaskVerbsPromise = (file: File, name?: string): Promise<Respons
           isSuccessful
           payload {
             encoding
-            filename
+            name
             mimetype
           }
         }

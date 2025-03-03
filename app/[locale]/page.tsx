@@ -1,6 +1,5 @@
 'use client';
 import { Den } from "@fewbox/den-web";
-import { Den as DenAppend } from "@fewbox/den-web-append";
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import Outfit from "./components/Outfit";
@@ -39,40 +38,11 @@ export interface IHomePage {
 const HomePage = (props: IHomePage) => {
   const t = useTranslations('HomePage');
   const tm = useTranslations('MasterPage');
-  const options: DenAppend.FewBox.IFewBoxOptions = {
-    getToken: () => {
-      return null;
-    },
-    getAppSettings: () => {
-      return {
-        "endpoint": {
-          "PROTOCOL": "http",
-          "HOST": "localhost",
-          "PORT": 4000,
-          "BASEPATH": null
-        },
-        wsEndpoint: {
-          PROTOCOL: 'ws',
-          HOST: 'localhost',
-          PORT: 4000,
-          BASEPATH: 'ws'
-        }
-      };
-    },
-    getLanguages: () => {
-      return;
-    },
-    handleIsNotSuccessful: () => { },
-    handleError: () => { },
-    handleNetworkError: () => { },
-    isDebug: false
-  };
   useEffect(() => {
     props.initClient();
   }, []);
 
   return <Den.Components.VBoundary margin='3em 0 0 0'>
-    <DenAppend.FewBox.Boot options={options} />
     {/* Mirror */}
     <Den.Components.Position zIndex={props.mirrorReflect ? 99999999 : -1} category={Den.Components.PositionCategory.Window} type={Den.Components.PositionType.Center}>
       <Den.Components.VAnimation category={props.mirrorReflect ? Den.Components.AnimationCategory.FadeInUp : Den.Components.AnimationCategory.FadeOutDown}>

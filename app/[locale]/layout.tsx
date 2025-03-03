@@ -11,9 +11,8 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
-import { Den } from "@fewbox/den-web-append";
 import StoreProvider from "./components/StoreProvider";
-
+import Boot from "./components/Boot";
 
 /*const roboto = Roboto({
   weight: '400',
@@ -87,31 +86,6 @@ export default async function RootLayout({
   if (!routing.locales.includes(locale as any)) {
     return notFound();
   }
-  let options: Den.FewBox.IFewBoxOptions = {
-    getToken: () => {
-      return 'My Token';
-    },
-    getAppSettings: () => {
-      return {
-        endpoint: {
-          PROTOCOL: 'http',
-          HOST: 'localhost',
-          PORT: 4000,
-          BASEPATH: null
-        }
-      };
-    },
-    getHeaders: () => ({
-      'x-test': 'fewbox'
-    }),
-    getLanguages: (lang) => {
-      return;
-    },
-    handleError: () => { },
-    handleIsNotSuccessful: () => { },
-    handleNetworkError: () => { },
-    isDebug: true
-  };
   return (
     <html lang={locale}>
       <head>
@@ -121,9 +95,9 @@ export default async function RootLayout({
         />
       </head>
       <body className={outfit.className}>
+        <Boot />
         <NextIntlClientProvider messages={messages}>
           <GoogleAnalytics gaId="G-FF2PJ9650T" />
-          <Den.FewBox.Boot options={options} />
           <StoreProvider>
             <Header locale={locale} />
             <Main>
