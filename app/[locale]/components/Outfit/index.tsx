@@ -182,9 +182,9 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                     modelPromise = buildUploadImageVerbsPromise(data.model_file, modelFileName);
                 }
                 else {
-                    debugger;
-                    modelFileName = `${modelName}.${getFileExtension(data.model_url)}`;
-                    modelPromise = buildUploadOnlineImageVerbsPromise(data.model_url, modelFileName);
+                    const model_url = data.model_url.startsWith('/') ? `${window.location.origin}${data.model_url}` : data.model_url;
+                    modelFileName = `${modelName}.${getFileExtension(model_url)}`;
+                    modelPromise = buildUploadOnlineImageVerbsPromise(model_url, modelFileName);
                 }
                 Promise.all([garmentPromise, modelGarmentPromise, modelPromise])
                     .then(async (responses) => {
@@ -197,8 +197,9 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                                 garment: garment.payload.name,
                                 model: model.payload.name,
                                 modelGarment: modelGarment.payload.name,
-                                scale: 0.2
+                                scale: 1
                             };
+                            //console.log(tryon);
                             props.tryon(tryon);
                         }
                         else {

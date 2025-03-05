@@ -39,18 +39,18 @@ const Mirror = (props: IMirrorProps): JSX.Element => {
                     </Den.Components.XCenter>
                 </Den.Components.Y>
                 <Den.Components.VBoundary margin='1em'>
-                    <Den.Components.VImage alt='effect' src={(props.mirrorReflect && props.mirrorReflect.imageUrl) ? props.mirrorReflect.imageUrl : '/images/effect.png'}
+                    <Den.Components.VImage alt='effect' src={(props.mirrorReflect && props.mirrorReflect.imageUrl) ? `${props.mirrorReflect.imageUrl}&timestamp=${Date.now()}` : '/images/effect.png'}
                         sizes={'100vw'}
                         style={{
                             width: `${width - 40}px`,
                             height: '100%',
                         }} width={2048} height={2048} />
                 </Den.Components.VBoundary>
+                {!!(props.mirrorReflect && props.mirrorReflect.imageUrl) && <Den.Components.XCenter padding='0 2em 2em 2em'>
+                    <Den.Components.VSvg padding='0.3em' category={Den.Components.SvgCategory.Circle} frontColor={Den.Components.ColorType.White} backgroundColor={Den.Components.ColorType.Black} onClick={downloadImage}><DownloadSvg /></Den.Components.VSvg>
+                </Den.Components.XCenter>}
             </Den.Components.YBetween>
         </Den.Components.VFrame>
-        {!!(props.mirrorReflect && props.mirrorReflect.imageUrl) && <Den.Components.XCenter>
-            <Den.Components.VSvg padding='0.3em' category={Den.Components.SvgCategory.Circle} frontColor={Den.Components.ColorType.White} backgroundColor={Den.Components.ColorType.Black} onClick={downloadImage}><DownloadSvg /></Den.Components.VSvg>
-        </Den.Components.XCenter>}
     </Den.Components.Y>;
 };
 
