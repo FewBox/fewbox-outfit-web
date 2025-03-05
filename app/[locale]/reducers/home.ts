@@ -2,7 +2,10 @@ import { Den } from '@fewbox/den-web-append';
 import { Home, WebsocketStatus } from './StateTypes';
 import ActionTypes from '../actions/ActionTypes';
 
-const homeState = { isSigninShow: false, isPasswordValid: true, websocketStatus: WebsocketStatus.Close, modelImageUrl: "https://img.ltwebstatic.com/images3_pi/2025/01/03/7c/1735896447c6ae06db2def0b14704e23fba94b84b4.webp", isFitting: false /*, effectUrl: '/images/effect.png'*/ };
+const homeState = {
+    isSigninShow: false, isPasswordValid: true, websocketStatus: WebsocketStatus.Close, modelImageUrl: "/images/women.png", isFitting: false,
+    //mirrorReflect: { captionId: 'bingo', imageUrl: 'http://localhost:4000/images?type=output&filename=c9b2214a-95ff-5b3c-570f-0bd345eb97f3.png' }
+};
 export default (state: Home = homeState, action: Den.Action.IPayloadAction<any>): Home => {
     switch (action.type) {
         case ActionTypes.CHANGE_MODEL_IMAGE:

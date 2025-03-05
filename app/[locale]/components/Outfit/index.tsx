@@ -13,10 +13,11 @@ import GarmentSvg from '@/assets/svgs/garment.svg';
 import SelfSvg from '@/assets/svgs/self.svg';
 import DonateSvg from '@/assets/svgs/donate.svg';
 import './index.scss';
-import ImageChooser from "../ImageChooser";
-import { Tryon } from "../../reducers/StateTypes";
+import GarmentImageChooser from "../GarmentImageChooser";
+import { MirrorReflect, Tryon } from "../../reducers/StateTypes";
 import { getStorage } from "../../storage";
 import StorageKeys from "../../storage/StorageKeys";
+import ModelImageChooser from "../ModelImageChooser";
 
 const enum MeasurementType {
     Chalk = 'chalk',
@@ -26,7 +27,8 @@ const enum MeasurementType {
 export enum ModelType {
     Women,
     Men,
-    Kids
+    Kids,
+    Self
 }
 
 export interface IOutfitProps {
@@ -36,6 +38,8 @@ export interface IOutfitProps {
     tryon: (tryon: Tryon) => void;
     startFitting: () => void;
     completeFitting: () => void;
+    showSignin: () => void;
+    showMirror: (mirrorReflect: MirrorReflect) => void;
 }
 
 export interface IOutfitStates {
@@ -132,6 +136,14 @@ const buildUploadMaskVerbsPromise = (file: File, name?: string): Promise<Respons
     return DenAppend.Network.verbsPostPromise('graphql', {}, formData);
 };
 
+const parseGQLUploadData = async (response: Response, filed: string) => {
+    const responseJson = await response.json();
+    const responseObject = {
+        response: responseJson
+    };
+    return DenAppend.Network.parseGQLAjaxData(responseObject, filed);
+};
+
 const Outfit = (props: IOutfitProps): JSX.Element => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const saveMaskImage = () => {
@@ -149,6 +161,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
     const toolHeight = '18em';
     const handleSubmit = (data) => {
         if (data.garment_file && (data.model_file || data.model_url)) {
+            props.startFitting();
             canvasRef.current.toBlob((modelGarmentBlob) => {
                 const clientId = getStorage(StorageKeys.CLIENT_ID);
                 // Garment
@@ -169,22 +182,27 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                     modelPromise = buildUploadImageVerbsPromise(data.model_file, modelFileName);
                 }
                 else {
+                    debugger;
                     modelFileName = `${modelName}.${getFileExtension(data.model_url)}`;
                     modelPromise = buildUploadOnlineImageVerbsPromise(data.model_url, modelFileName);
                 }
-                Promise.all([garmentPromise, modelPromise, modelGarmentPromise])
-                    .then((responses) => {
+                Promise.all([garmentPromise, modelGarmentPromise, modelPromise])
+                    .then(async (responses) => {
                         if (responses[0].status == 200 && responses[0].status == 200 && responses[0].status == 200) {
+                            const garment = await parseGQLUploadData(responses[0], 'uploadImage');
+                            const modelGarment = await parseGQLUploadData(responses[1], 'uploadMask');
+                            const model = await parseGQLUploadData(responses[2], data.model_file ? 'uploadImage' : 'uploadOnlineImage');
                             const tryon: Tryon = {
                                 clientId,
-                                garment: garmentFileName,
-                                model: modelFileName,
-                                modelGarment: modelGarmentFileName,
-                                scale: 1
+                                garment: garment.payload.name,
+                                model: model.payload.name,
+                                modelGarment: modelGarment.payload.name,
+                                scale: 0.2
                             };
                             props.tryon(tryon);
                         }
                         else {
+                            props.showSignin();
                             props.completeFitting();
                         }
                     })
@@ -194,69 +212,31 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
             });
         }
         else {
-            // Todo:
+            const mirrorReflect: MirrorReflect = {
+                captionId: 'exception'
+            };
+            props.showMirror(mirrorReflect);
         }
-        //&&canvasRef.current
-        //console.log(data);
         return;
-        /*props.startFitting();
-        const clientId = getStorage(StorageKeys.CLIENT_ID);
-        const garmentName = `${clientId}_garment`;
-        const modelName = `${clientId}_model`;
-        const modelGarmentName = `${clientId}_model_garment`;
-        canvasRef.current.toBlob((modelGarmentBlob) => {
-            const modelGarmentFileName = `${modelGarmentName}.png`;
-            const modelGarmentFile = new File([modelGarmentBlob], modelGarmentFileName, { type: 'image/png' });
-            buildDownloadVerbsPromise(props.modelImageUrl)
-                .then(async (response) => {
-                    const modelBlob = await response.blob();
-                    const modelFileName = `${modelName}.${getFileExtension(props.modelImageUrl)}`;
-                    const modelFile = new File([modelBlob], modelFileName);
-                    const garmentFileName = `${garmentName}.${getFileExtension(data.garment_file.name)}`;
-                    const garmentPromise = buildUploadImageVerbsPromise(data.garment_file, garmentFileName);
-                    const modelPromise = buildUploadImageVerbsPromise(modelFile);
-                    const modelGarmentPromise = buildUploadMaskVerbsPromise(modelGarmentFile);
-                    Promise.all([garmentPromise, modelPromise, modelGarmentPromise])
-                        .then((responses) => {
-                            if (responses[0].status == 200 && responses[0].status == 200 && responses[0].status == 200) {
-                                const tryon: Tryon = {
-                                    clientId,
-                                    garment: garmentFileName,
-                                    model: modelFileName,
-                                    modelGarment: modelGarmentFileName,
-                                    scale: 1
-                                };
-                                props.tryon(tryon);
-                            }
-                            else {
-                                props.completeFitting();
-                            }
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                })
-                .catch(()=>{
-                    props.completeFitting();
-                });
-        });*/
     }
     return <Den.Components.VForm handleSubmit={handleSubmit}>
         <Den.Components.Y gap='3em'>
             <Den.Components.X gap='0.6em'>
                 <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
                     <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('model')} />
-                    <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Women }); props.changeModelImage('https://img.ltwebstatic.com/images3_pi/2025/01/03/7c/1735896447c6ae06db2def0b14704e23fba94b84b4.webp'); }} frontColor={state.modelType == ModelType.Women ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><WomenSvg /></Den.Components.VSvg>
-                    <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Men }); props.changeModelImage('https://img.ltwebstatic.com/images3_pi/2024/03/20/0b/171092569796387212e2fe7c56b3d94ca52aad570f.webp'); }} frontColor={state.modelType == ModelType.Men ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><MenSvg /></Den.Components.VSvg>
-                    <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Kids }); props.changeModelImage('https://img.ltwebstatic.com/images3_pi/2024/08/14/78/17236281132c880b2d4c74b3c762b052553af8e8db.webp'); }} frontColor={state.modelType == ModelType.Kids ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><KidsSvg /></Den.Components.VSvg>
+                    <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Women }); props.changeModelImage('/images/women.png'); }} frontColor={state.modelType == ModelType.Women ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><WomenSvg /></Den.Components.VSvg>
+                    <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Men }); props.changeModelImage('/images/men.png'); }} frontColor={state.modelType == ModelType.Men ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><MenSvg /></Den.Components.VSvg>
+                    <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Kids }); props.changeModelImage('/images/kids.png'); }} frontColor={state.modelType == ModelType.Kids ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><KidsSvg /></Den.Components.VSvg>
+                    <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Self }); props.changeModelImage('/images/self.png'); }} frontColor={state.modelType == ModelType.Self ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><SelfSvg /></Den.Components.VSvg>
                 </Den.Components.YTop>
                 <Den.Components.Y gap='0.6em'>
                     <Den.Components.XRight gap='0.6em'>
                         {/*<Den.Components.VLabel padding='0.2em 0.6em' borderRadius='2em' cursor='pointer' backgroundColor={Den.Components.ColorType.Primary} frontColor={Den.Components.ColorType.White} size={Den.Components.SizeType.Large} caption={'export'} onClick={() => { saveMaskImage(); }} />*/}
                     </Den.Components.XRight>
                     <MaskImage ref={canvasRef} imageUrl={props.modelImageUrl} zoom={state.zoom} isRevert={state.measurementType == MeasurementType.Eraser} />
+                    {!!(state.modelType == ModelType.Self) && <ModelImageChooser close={() => { }} />}
                 </Den.Components.Y>
-                {!!state.isMirrorShow && <ImageChooser isFitting={props.isFitting} close={() => { setState({ ...state, isMirrorShow: false }); }} />}
+                {!!state.isMirrorShow && <GarmentImageChooser isFitting={props.isFitting} close={() => { setState({ ...state, isMirrorShow: false }); }} />}
                 <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
                     <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('measurement')} />
                     <Den.Components.Y cross={Den.Components.YCrossType.Center}>
@@ -264,8 +244,8 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                             <Den.Components.VSvg frontColor={state.measurementType == MeasurementType.Chalk ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25} onClick={() => { setState({ ...state, measurementType: MeasurementType.Chalk }); }}><ChalkSvg /></Den.Components.VSvg>
                             <Den.Components.VSvg frontColor={state.measurementType == MeasurementType.Eraser ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25} onClick={() => { setState({ ...state, measurementType: MeasurementType.Eraser }); }}><EraserSvg /></Den.Components.VSvg>
                         </Den.Components.X>
-                        <Den.Components.VRange className='tape' isValueShow backgroundColor={Den.Components.ColorType.Transparent} min={1} max={4} onChange={(e) => { setState({ ...state, zoom: e.target.value }) }} value={1}
-                            controlBackgroundColor={Den.Components.ColorType.Placeholder} controlBorderColor={Den.Components.ColorType.Black} valueSize={Den.Components.SizeType.Small} />
+                        {!!(state.measurementType == MeasurementType.Chalk) && <Den.Components.VRange className='tape' isValueShow backgroundColor={Den.Components.ColorType.Transparent} min={1} max={4} onChange={(e) => { setState({ ...state, zoom: e.target.value }) }} value={1}
+                            controlBackgroundColor={Den.Components.ColorType.Placeholder} controlBorderColor={Den.Components.ColorType.Black} valueSize={Den.Components.SizeType.Small} />}
                     </Den.Components.Y>
                 </Den.Components.YTop>
             </Den.Components.X>
@@ -279,8 +259,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                     <Den.Components.Dock category={Den.Components.DockCategory.Left} renderOverlay={() => {
                         if (state.isPurchaseShow) {
                             return <Den.Components.X style={{ top: 0 }} gap='1em'>
-                                <Den.Components.X className='tooltip' zIndex={9999999} width='16em' padding='1em' gap='0.6em' borderRadius='0.2em' backgroundColor={Den.Components.ColorType.White}>
-                                    <Den.Components.VSvg size={Den.Components.SizeType.Large}><DonateSvg /></Den.Components.VSvg>
+                                <Den.Components.X className='tooltip' zIndex={9999999} width='16em' padding='1em' gap='0.6em' borderRadius='1em' backgroundColor={Den.Components.ColorType.White}>
                                     <Den.Components.VLabel frontColor={Den.Components.ColorType.Dark} caption={t('purchase')} />
                                 </Den.Components.X>
                                 <Den.Components.VLabel className='arraw' backgroundColor={Den.Components.ColorType.White} category={Den.Components.LabelCategory.I} caption='' />
@@ -291,7 +270,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                         }
                     }}>
                         <Den.Components.VHyperlink category={Den.Components.HyperlinkCategory.NewWindow} to='https://www.paypal.com/paypalme/fewbox/2'>
-                            <Den.Components.VSvg frontColor={Den.Components.ColorType.Primary} onClick={() => { }} onMouseEnter={() => { setState({ ...state, isPurchaseShow: true }); }} onMouseLeave={() => { setState({ ...state, isPurchaseShow: false }); }}><SelfSvg /></Den.Components.VSvg>
+                            <Den.Components.VSvg size={Den.Components.SizeType.Large} frontColor={Den.Components.ColorType.Primary} onClick={() => { }} onMouseEnter={() => { setState({ ...state, isPurchaseShow: true }); }} onMouseLeave={() => { setState({ ...state, isPurchaseShow: false }); }}><DonateSvg /></Den.Components.VSvg>
                         </Den.Components.VHyperlink>
                     </Den.Components.Dock>
                 </Den.Components.VBoundary>

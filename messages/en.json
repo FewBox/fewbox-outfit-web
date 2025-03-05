@@ -25,11 +25,13 @@
         "garment": "Garment",
         "try-on": "Try-on",
         "measurement": "Meas.",
-        "purchase": "Donate now to speed up your spotlight moment.",
-        "upload": "Drop your garment files here or browse...",
+        "purchase": "Donate us now to speed up your spotlight moment.",
+        "upload-garment": "Drop your garment image here or browse...",
+        "upload-model": "Drop your model image here or browse...",
         "empty": "N/A",
         "exception": "Exception",
-        "effect": "Effect"
+        "effect": "Effect",
+        "bingo": "Bingo"
     },
     "ShowcasePage": {
         "title": "Outfit Mirror - Live Try-On Showcase",

@@ -930,8 +930,8 @@
 
 "@fewbox/den-web-append@^0.0.2":
   version "0.0.2"
-  resolved "https://npm.pkg.github.com/download/@fewbox/den-web-append/0.0.2/88ef798b3878864c25e95d1cd31d89158a599e49#88ef798b3878864c25e95d1cd31d89158a599e49"
-  integrity sha512-je17RUiYApKewGSxXbKamo/6MIEPyMil+ifMcvueH3eq4OpJDJ+8ulcpXdh6ZAw93SPNNoKwXec6UKmQqUD5bg==
+  resolved "https://npm.pkg.github.com/download/@fewbox/den-web-append/0.0.2/3d9a9a7dc6785fef700da387e62f2e2f27546d84#3d9a9a7dc6785fef700da387e62f2e2f27546d84"
+  integrity sha512-a4q3HkZECj4yqy/asF8jdtTMaLwAD7TFjyh5YNUD/mbKSCa2pxBdv5l3b2/5xbL9NvNeOYK/ZT5SsUhHkZQBFQ==
 
 "@fewbox/den-web@^0.0.84":
   version "0.0.84"

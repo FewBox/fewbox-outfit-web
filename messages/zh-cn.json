@@ -20,11 +20,13 @@
         "garment": "衣物",
         "try-on": "试穿",
         "measurement": "尺寸",
-        "purchase": "立即捐赠，加速您在聚光灯下的时刻。",
-        "upload": "将服装文件拖到这里，或点击浏览...",
+        "purchase": "立即捐赠我们，加速您在聚光灯下的时刻。",
+        "upload-garment": "将服装图片拖到这里，或点击浏览...",
+        "upload-model": "将模特图片拖到这里，或点击浏览...",
         "empty": "空",
         "exception": "异常",
-        "effect": "效果"
+        "effect": "效果",
+        "bingo": "棒极了"
     },
     "ShowcasePage": {
         "title": "Outfit Mirror - 在线试穿演示",

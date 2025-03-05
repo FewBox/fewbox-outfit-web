@@ -22,6 +22,12 @@ const Boot = () => {
                     HOST: 'localhost',
                     PORT: 4000,
                     BASEPATH: 'ws'
+                },
+                "assetEndpoint": {
+                    "PROTOCOL": "http",
+                    "HOST": "localhost",
+                    "PORT": 4000,
+                    "BASEPATH": 'images'
                 }
             };
         },

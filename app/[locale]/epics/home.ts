@@ -44,8 +44,13 @@ const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
                     };
                     store.dispatch(showMirror(mirrorReflect));
                 }
-                else if (message.type == 'execution_') {
+                else if (message.type == 'execution_success') {
                     store.dispatch(completeFitting());
+                    const mirrorReflect: MirrorReflect = {
+                        captionId: 'bingo',
+                        imageUrl: `${Den.Network.buildExternalUrl('assetEndpoint')}?type=output&filename=${clientId}.png`
+                    };
+                    store.dispatch(showMirror(mirrorReflect));
                 }
             });
             ws.close(() => {
