@@ -197,7 +197,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                                 garment: garment.payload.name,
                                 model: model.payload.name,
                                 modelGarment: modelGarment.payload.name,
-                                scale: 1
+                                scale: 0.6
                             };
                             //console.log(tryon);
                             props.tryon(tryon);
@@ -223,22 +223,22 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
     return <Den.Components.VForm handleSubmit={handleSubmit}>
         <Den.Components.Y gap='3em'>
             <Den.Components.X gap='0.6em'>
-                <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
+                {!state.isMirrorShow && <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
                     <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('model')} />
                     <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Women }); props.changeModelImage('/images/women.png'); }} frontColor={state.modelType == ModelType.Women ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><WomenSvg /></Den.Components.VSvg>
                     <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Men }); props.changeModelImage('/images/men.png'); }} frontColor={state.modelType == ModelType.Men ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><MenSvg /></Den.Components.VSvg>
                     <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Kids }); props.changeModelImage('/images/kids.png'); }} frontColor={state.modelType == ModelType.Kids ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><KidsSvg /></Den.Components.VSvg>
                     <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Self }); props.changeModelImage('/images/self.png'); }} frontColor={state.modelType == ModelType.Self ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><SelfSvg /></Den.Components.VSvg>
-                </Den.Components.YTop>
+                </Den.Components.YTop>}
                 <Den.Components.Y gap='0.6em'>
                     <Den.Components.XRight gap='0.6em'>
                         {/*<Den.Components.VLabel padding='0.2em 0.6em' borderRadius='2em' cursor='pointer' backgroundColor={Den.Components.ColorType.Primary} frontColor={Den.Components.ColorType.White} size={Den.Components.SizeType.Large} caption={'export'} onClick={() => { saveMaskImage(); }} />*/}
                     </Den.Components.XRight>
                     <MaskImage ref={canvasRef} imageUrl={props.modelImageUrl} zoom={state.zoom} isRevert={state.measurementType == MeasurementType.Eraser} />
-                    {!!(state.modelType == ModelType.Self) && <ModelImageChooser close={() => { }} />}
+                    {!!(state.modelType == ModelType.Self) && <ModelImageChooser changeModelImage={(base64String) => { props.changeModelImage(base64String); }} />}
                 </Den.Components.Y>
                 {!!state.isMirrorShow && <GarmentImageChooser isFitting={props.isFitting} close={() => { setState({ ...state, isMirrorShow: false }); }} />}
-                <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
+                {!state.isMirrorShow && <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
                     <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('measurement')} />
                     <Den.Components.Y cross={Den.Components.YCrossType.Center}>
                         <Den.Components.X gap='1em'>
@@ -248,7 +248,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                         {!!(state.measurementType == MeasurementType.Chalk) && <Den.Components.VRange className='tape' isValueShow backgroundColor={Den.Components.ColorType.Transparent} min={1} max={4} onChange={(e) => { setState({ ...state, zoom: e.target.value }) }} value={1}
                             controlBackgroundColor={Den.Components.ColorType.Placeholder} controlBorderColor={Den.Components.ColorType.Black} valueSize={Den.Components.SizeType.Small} />}
                     </Den.Components.Y>
-                </Den.Components.YTop>
+                </Den.Components.YTop>}
             </Den.Components.X>
             <Den.Components.XBetween padding='0 0 3em 0'>
                 <Den.Components.VBoundary></Den.Components.VBoundary>

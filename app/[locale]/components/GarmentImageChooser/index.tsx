@@ -26,20 +26,9 @@ const truncateFilename = (filename, front, back) => {
 const GarmentImageChooser = (props: IGarmentImageChooserProps): JSX.Element => {
     const t = useTranslations('HomePage');
     const [state, setState] = useState<IGarmentImageChooserStates>({ imageUrl: '', emptyMessage: '' });
-    const garmentShow = <Den.Components.VImage width={256} height={256} src={state.imageUrl.startsWith('data:image') ? state.imageUrl : Garment}
-        style={{
-            width: '16em',
-            height: 'auto',
-            borderRadius: '1em',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
-        }} alt='garment' />;
     return <Den.Components.Y gap='1em' cross={Den.Components.YCrossType.Center}>
-        {!!props.isFitting && <Den.Components.VAnimation category={Den.Components.AnimationCategory.Flip} repeat={Den.Components.AnimationRepeat.Infinite} speed={Den.Components.AnimationSpeed.Slower}>
-            {garmentShow}
-        </Den.Components.VAnimation>}
-        {!props.isFitting && garmentShow}
         <Den.Components.X gap='0.2em'>
-            <Den.Components.VFile name='garment_file' width='10em' loadingSize={Den.Components.SizeType.Large} loadingColor={Den.Components.ColorType.Success} caption={<Den.Components.VLabel category={Den.Components.LabelCategory.Div} size={Den.Components.SizeType.Small}
+            <Den.Components.VFile name='garment_file' width='16em' loadingSize={Den.Components.SizeType.Large} loadingColor={Den.Components.ColorType.Success} caption={<Den.Components.VLabel category={Den.Components.LabelCategory.Div} size={Den.Components.SizeType.Small}
                 alignType={Den.Components.LabelAlignType.Center} caption={t('upload-garment')} />}
                 autoUpload={(file: File, complete) => {
                     if (file) {
@@ -53,7 +42,11 @@ const GarmentImageChooser = (props: IGarmentImageChooserProps): JSX.Element => {
                     }
                 }}
                 padding='1em' category={Den.Components.FileCategory.Vertical} borderRadius='0.6em' borderColor={Den.Components.ColorType.Dark} borderStyle='dashed' borderWidth='1px'
-                fileIcon={<Den.Components.VSvg size={Den.Components.SizeType.Large} frontColor={Den.Components.ColorType.Dark}><OutfitSvg /></Den.Components.VSvg>} emptyMessage={state.emptyMessage} />
+                fileIcon={<Den.Components.VImage width={256} height={256} src={state.imageUrl.startsWith('data:image') ? state.imageUrl : Garment}
+                    style={{
+                        width: '16em',
+                        height: 'auto',
+                    }} alt='garment' />} emptyMessage={state.emptyMessage} />
             {/*<Den.Components.VTextBox name='garment_url' width='16em' onChange={(e) => { setState({ ...state, imageUrl: e.currentTarget.value }); }} />*/}
             <Den.Components.Y gap='2em'>
                 {!!props.isFitting && <Den.Components.VBoundary cursor='not-allowed'><Den.Components.VSvg frontColor={Den.Components.ColorType.Dark25} size={Den.Components.SizeType.Small}><TryOnSvg /></Den.Components.VSvg></Den.Components.VBoundary>}

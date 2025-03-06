@@ -46,8 +46,8 @@ const Mirror = (props: IMirrorProps): JSX.Element => {
                             height: '100%',
                         }} width={2048} height={2048} />
                 </Den.Components.VBoundary>
-                {!!(props.mirrorReflect && props.mirrorReflect.imageUrl) && <Den.Components.XCenter padding='0 2em 2em 2em'>
-                    <Den.Components.VSvg padding='0.3em' category={Den.Components.SvgCategory.Circle} frontColor={Den.Components.ColorType.White} backgroundColor={Den.Components.ColorType.Black} onClick={downloadImage}><DownloadSvg /></Den.Components.VSvg>
+                {!!(props.mirrorReflect && props.mirrorReflect.imageUrl) && <Den.Components.XCenter padding='0 2em 1.6em 2em'>
+                    <Den.Components.VSvg size={Den.Components.SizeType.Small} padding='0.3em' category={Den.Components.SvgCategory.Circle} frontColor={Den.Components.ColorType.White} backgroundColor={Den.Components.ColorType.Black} onClick={downloadImage}><DownloadSvg /></Den.Components.VSvg>
                 </Den.Components.XCenter>}
             </Den.Components.YBetween>
         </Den.Components.VFrame>
