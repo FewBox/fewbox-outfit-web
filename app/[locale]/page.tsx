@@ -48,7 +48,7 @@ const HomePage = (props: IHomePage) => {
   useEffect(() => {
     props.initClient();
   }, []);
-  return <Den.Components.VBoundary margin='3em 0 0 0'>
+  return <Den.Components.VBoundary margin='2em 0 0 0'>
     {/* Mirror */}
     {!!props.mirrorReflect && <Den.Components.Position zIndex={props.mirrorReflect ? 99999999 : -1} category={Den.Components.PositionCategory.Window} type={Den.Components.PositionType.Center}>
       <Den.Components.VAnimation category={Den.Components.AnimationCategory.FadeInUp}>
@@ -57,7 +57,7 @@ const HomePage = (props: IHomePage) => {
     </Den.Components.Position>}
     {/* PC */}
     <Den.Components.Display category={Den.Components.DisplayCategory.Hidden} type={Den.Components.DisplayType.Down} breakpoint={Den.Components.BreakpointType.Small}>
-      <Den.Components.Y cross={Den.Components.YCrossType.Center} gap='3em'>
+      <Den.Components.Y cross={Den.Components.YCrossType.Center} gap='1em'>
         <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} size={Den.Components.SizeType.ExtraLarge} caption={tm('slogan')} />
         <Den.Components.Y>
           <Outfit websocketStatus={props.websocketStatus} fittingProgress={props.fittingProgress} isFitting={props.isFitting} modelImageUrl={props.modelImageUrl} reconnectWebsocket={props.reconnectWebsocket} changeModelImage={props.changeModelImage} tryon={props.tryon} startFitting={props.startFitting} completeFitting={props.completeFitting} showSignin={props.showSignin} showMirror={props.showMirror} showMirrorHistory={props.showMirrorHistory} showFittingProcess={props.showFittingProcess} />

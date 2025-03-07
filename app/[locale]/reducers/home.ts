@@ -3,9 +3,9 @@ import { Home, WebsocketStatus } from './StateTypes';
 import ActionTypes from '../actions/ActionTypes';
 
 const homeState = {
-    isSigninShow: false, isPasswordValid: true, websocketStatus: WebsocketStatus.Close, modelImageUrl: "/images/women.png", isFitting: false, fittingProgress: { totalStep: 30, currentStep: 0 },
+    isSigninShow: false, isPasswordValid: true, websocketStatus: WebsocketStatus.Close, modelImageUrl: "/images/women.png", isFitting: false,
     //mirrorReflect: { captionId: 'bingo', imageUrl: 'http://localhost:4000/images?type=output&filename=c9b2214a-95ff-5b3c-570f-0bd345eb97f3.png' }
-    websocketReconnectTimes: 0
+    fittingProgress: { totalStep: 30, currentStep: 0 }, websocketReconnectTimes: 0
 };
 export default (state: Home = homeState, action: Den.Action.IPayloadAction<any>): Home => {
     switch (action.type) {

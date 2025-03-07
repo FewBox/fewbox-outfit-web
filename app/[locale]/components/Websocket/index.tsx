@@ -10,10 +10,8 @@ export interface IWebsocketProps {
     reconnectWebsocket: () => void;
 }
 
-const Diameter = '0.4em';
-
 const Websocket = (props: IWebsocketProps) => {
-    return <Den.Components.VBoundary padding='0.2em'>
+    return <Den.Components.Y padding='0.2em'>
         {!!(props.status == WebsocketStatus.Close) && <Den.Components.XCenter gap='1em'>
             <Den.Components.VSvg size={Den.Components.SizeType.ExtraSmall} frontColor={Den.Components.ColorType.Error}><OfflineLeftSvg /></Den.Components.VSvg>
             <Den.Components.VAnimation category={Den.Components.AnimationCategory.ShakeX} repeat={Den.Components.AnimationRepeat.Infinite} speed={Den.Components.AnimationSpeed.Slower}>
@@ -21,7 +19,7 @@ const Websocket = (props: IWebsocketProps) => {
             </Den.Components.VAnimation>
         </Den.Components.XCenter>}
         {!!(props.status == WebsocketStatus.Stop) && <Den.Components.VSvg size={Den.Components.SizeType.Small} frontColor={Den.Components.ColorType.Error} onClick={props.reconnectWebsocket}><ReconnectSvg /></Den.Components.VSvg>}
-    </Den.Components.VBoundary>;
+    </Den.Components.Y>;
 }
 
 export default Websocket;

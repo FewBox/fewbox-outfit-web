@@ -89,6 +89,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <head>
+        <title>FewBox</title>
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
