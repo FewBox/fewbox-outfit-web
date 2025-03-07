@@ -1,4 +1,3 @@
-
 import { Den } from '@fewbox/den-web';
 
 export interface IProgressBarProps {
@@ -16,7 +15,7 @@ const ProgressBar = (props: IProgressBarProps) => {
     return <Den.Components.XLeft gap='0.2em'>
         {steps.map((step, stepIndex) => {
             if (step == props.currentStep && props.currentStep != props.totalStep) {
-                return <Den.Components.VAnimation key={`step${stepIndex}`} category={Den.Components.AnimationCategory.Flip} repeat={Den.Components.AnimationRepeat.Infinite} speed={Den.Components.AnimationSpeed.Slower}>
+                return <Den.Components.VAnimation key={`step${stepIndex}`} category={Den.Components.AnimationCategory.Flash} repeat={Den.Components.AnimationRepeat.Infinite} speed={Den.Components.AnimationSpeed.Slower}>
                     <Den.Components.VEllipse width={Diameter} height={Diameter} backgroundColor={Den.Components.ColorType.Success} />
                 </Den.Components.VAnimation>;
             }

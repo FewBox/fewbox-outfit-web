@@ -10,6 +10,7 @@ export interface Home {
     isFitting: boolean;
     mirrorReflect?: MirrorReflect;
     websocketStatus: WebsocketStatus;
+    websocketReconnectTimes: number;
     fittingProgress: FittingProgress;
 }
 /** Action **/
@@ -38,5 +39,6 @@ export interface MirrorReflect {
 }
 export enum WebsocketStatus {
     Open = 'open',
-    Close = 'close'
+    Close = 'close',
+    Stop = 'stop'
 }

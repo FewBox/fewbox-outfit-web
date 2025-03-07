@@ -7,13 +7,16 @@ import CloseSvg from '@/assets/svgs/close.svg';
 import HistorySvg from '@/assets/svgs/histroy.svg';
 import { Garment } from "@/assets/images/garment";
 import ProgressBar from "../ProgressBar";
-import { FittingProgress } from "../../reducers/StateTypes";
+import { FittingProgress, WebsocketStatus } from "../../reducers/StateTypes";
+import Websocket from "../Websocket";
 
 export interface IGarmentImageChooserProps {
     close: () => void;
     showMirrorHistory: () => void;
+    reconnectWebsocket: () => void;
     isFitting: boolean;
     fittingProgress: FittingProgress;
+    websocketStatus: WebsocketStatus;
 }
 export interface IGarmentImageChooserStates {
     imageUrl: string;
@@ -55,7 +58,7 @@ const GarmentImageChooser = (props: IGarmentImageChooserProps): JSX.Element => {
             <Den.Components.Y gap='2em'>
                 <Den.Components.VSvg frontColor={Den.Components.ColorType.Primary} size={Den.Components.SizeType.Small} onClick={() => { props.showMirrorHistory(); }}><HistorySvg /></Den.Components.VSvg>
                 {!!props.isFitting && <Den.Components.VBoundary cursor='not-allowed'><Den.Components.VSvg frontColor={Den.Components.ColorType.Dark25} size={Den.Components.SizeType.Small}><TryOnSvg /></Den.Components.VSvg></Den.Components.VBoundary>}
-                {!props.isFitting && <Den.Components.VSubmit caption={<Den.Components.VSvg frontColor={Den.Components.ColorType.Primary} size={Den.Components.SizeType.Small}><TryOnSvg /></Den.Components.VSvg>} />}
+                {!props.isFitting && ((props.websocketStatus == WebsocketStatus.Close || props.websocketStatus == WebsocketStatus.Stop) ? <Websocket status={props.websocketStatus} reconnectWebsocket={props.reconnectWebsocket} /> : <Den.Components.VSubmit caption={<Den.Components.VSvg frontColor={Den.Components.ColorType.Primary} size={Den.Components.SizeType.Small}><TryOnSvg /></Den.Components.VSvg>} />)}
                 {/*!!props.isFitting && <Den.Components.VSvg size={Den.Components.SizeType.Small} frontColor={Den.Components.ColorType.Primary} onClick={() => { props.close(); }}><CancelSvg /></Den.Components.VSvg>*/}
                 <Den.Components.VSvg size={Den.Components.SizeType.Small} frontColor={Den.Components.ColorType.Primary} onClick={() => { props.close(); }}><CloseSvg /></Den.Components.VSvg>
             </Den.Components.Y>

@@ -1,11 +1,11 @@
 import { Den } from "@fewbox/den-web-append";
 import { StateObservable, ofType } from "redux-observable";
-import { catchError, map, mergeMap, of, retry } from "rxjs";
+import { catchError, delay, map, mergeMap, of, retry } from "rxjs";
 import ActionTypes from "../actions/ActionTypes";
 import StorageKeys from "../storage/StorageKeys";
 import { isStorageExists, setStorage, getStorage } from "../storage";
 import { Authentication, FittingProgress, MirrorReflect, SigninCredential, Store, Tryon, WebsocketStatus } from "../reducers/StateTypes";
-import { authentication, completeFitting, hideSignin, setWebsocketStatus, showFittingProcess, showMirror } from "../actions";
+import { authentication, completeFitting, hideSignin, reconnectWebsocket, setWebsocketStatus, showFittingProcess, showMirror } from "../actions";
 import store from "../store";
 
 const generateUUID = () => {
@@ -16,6 +16,67 @@ const generateUUID = () => {
     });
 }
 
+const ReconnectLimitTimes = 3;
+
+const initWebsocket = (reconnectTimes: number) => {
+    const clientId = getStorage(StorageKeys.CLIENT_ID);
+    const options: Den.Network.IWebsocketOptions = {
+        query: `?clientId=${clientId}`,
+        external: 'wsEndpoint'
+    };
+    const ws = new Den.Network.WS(options);
+    ws.open(() => {
+        console.log('Open Websocket.');
+        store.dispatch(setWebsocketStatus(WebsocketStatus.Open));
+    });
+    ws.receive((e) => {
+        const message = JSON.parse(e.data);
+        console.log(message);
+        if (message.type == 'execution_error') {
+            //console.error(message.data);
+            store.dispatch(completeFitting());
+            const mirrorReflect: MirrorReflect = {
+                captionId: 'exception'
+            };
+            store.dispatch(showMirror(mirrorReflect));
+        }
+        else if (message.type == 'execution_success') {
+            const fittingProcess: FittingProgress = {
+                totalStep: 30,
+                currentStep: 30
+            };
+            store.dispatch(showFittingProcess(fittingProcess));
+            store.dispatch(completeFitting());
+            const mirrorReflect: MirrorReflect = {
+                captionId: 'bingo',
+                imageUrl: `${Den.Network.buildExternalUrl('assetEndpoint')}?type=output&filename=${clientId}.png`
+            };
+            store.dispatch(showMirror(mirrorReflect));
+        }
+        else if (message.type == 'progress') {
+            const fittingProcess: FittingProgress = {
+                totalStep: message.data.max,
+                currentStep: message.data.value
+            };
+            store.dispatch(showFittingProcess(fittingProcess));
+        }
+    });
+    ws.close(() => {
+        console.log('Close Websocket.');
+        if (reconnectTimes < ReconnectLimitTimes) {
+            store.dispatch(setWebsocketStatus(WebsocketStatus.Close));
+            store.dispatch(reconnectWebsocket());
+        }
+        else {
+            store.dispatch(setWebsocketStatus(WebsocketStatus.Stop));
+            console.log('Stop Reconnect.');
+        }
+    });
+    ws.handleError((e) => {
+        //console.error(e);
+    });
+};
+
 const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
     action$.pipe(
         ofType(ActionTypes.INIT_CLIENT),
@@ -23,55 +84,17 @@ const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
             if (!isStorageExists(StorageKeys.CLIENT_ID)) {
                 setStorage(StorageKeys.CLIENT_ID, generateUUID());
             }
-            const clientId = getStorage(StorageKeys.CLIENT_ID);
-            const options: Den.Network.IWebsocketOptions = {
-                query: `?clientId=${clientId}`,
-                external: 'wsEndpoint'
-            };
-            const ws = new Den.Network.WS(options);
-            ws.open(() => {
-                console.log('Open Websocket.');
-                store.dispatch(setWebsocketStatus(WebsocketStatus.Open));
-            });
-            ws.receive((e) => {
-                const message = JSON.parse(e.data);
-                console.log(message);
-                if (message.type == 'execution_error') {
-                    //console.error(message.data);
-                    store.dispatch(completeFitting());
-                    const mirrorReflect: MirrorReflect = {
-                        captionId: 'exception'
-                    };
-                    store.dispatch(showMirror(mirrorReflect));
-                }
-                else if (message.type == 'execution_success') {
-                    const fittingProcess: FittingProgress = {
-                        totalStep: 30,
-                        currentStep: 30
-                    };
-                    store.dispatch(showFittingProcess(fittingProcess));
-                    store.dispatch(completeFitting());
-                    const mirrorReflect: MirrorReflect = {
-                        captionId: 'bingo',
-                        imageUrl: `${Den.Network.buildExternalUrl('assetEndpoint')}?type=output&filename=${clientId}.png`
-                    };
-                    store.dispatch(showMirror(mirrorReflect));
-                }
-                else if (message.type == 'progress') {
-                    const fittingProcess: FittingProgress = {
-                        totalStep: message.data.max,
-                        currentStep: message.data.value
-                    };
-                    store.dispatch(showFittingProcess(fittingProcess));
-                }
-            });
-            ws.close(() => {
-                console.log('Close Websocket.');
-                store.dispatch(setWebsocketStatus(WebsocketStatus.Close));
-            });
-            ws.handleError((e) => {
-                //console.error(e);
-            });
+            initWebsocket(store$.value.home.websocketReconnectTimes);
+            return Den.Action.emptyAction();
+        })
+    );
+
+const reconnectWebsocketEpic = (action$: any, store$: StateObservable<Store>) =>
+    action$.pipe(
+        ofType(ActionTypes.RECONNECT_WEBSOCKET),
+        delay(3000),
+        map(() => {
+            initWebsocket(store$.value.home.websocketReconnectTimes);
             return Den.Action.emptyAction();
         })
     );
@@ -173,7 +196,7 @@ const tryOnEpic = (action$: any, store$: StateObservable<Store>) =>
                 .pipe(
                     map((ajaxResponse: any) => {
                         let data = Den.Network.parseGQLAjaxData(ajaxResponse, 'runQueue');
-                        console.log(data);
+                        //console.log(data);
                         if (store$.value.home.websocketStatus == WebsocketStatus.Close) {
                             return completeFitting();
                         }
@@ -205,4 +228,4 @@ const showMirrorHistoryEpic = (action$: any, store$: StateObservable<Store>) =>
         })
     );
 
-export default [initClientEpic, signinEpic, tryOnEpic, showMirrorHistoryEpic];
+export default [initClientEpic, reconnectWebsocketEpic, signinEpic, tryOnEpic, showMirrorHistoryEpic];

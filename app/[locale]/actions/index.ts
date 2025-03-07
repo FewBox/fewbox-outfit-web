@@ -5,6 +5,9 @@ import { FittingProgress, MirrorReflect, SigninCredential, Tryon, WebsocketStatu
 export const initClient = (): Den.Action.IAction => ({
     type: ActionTypes.INIT_CLIENT
 });
+export const reconnectWebsocket = (): Den.Action.IAction => ({
+    type: ActionTypes.RECONNECT_WEBSOCKET
+});
 export const changeModelImage = (modelImageUrl: string): Den.Action.IPayloadAction<string> => ({
     type: ActionTypes.CHANGE_MODEL_IMAGE,
     payload: modelImageUrl

@@ -14,7 +14,7 @@ import SelfSvg from '@/assets/svgs/self.svg';
 import DonateSvg from '@/assets/svgs/donate.svg';
 import './index.scss';
 import GarmentImageChooser from "../GarmentImageChooser";
-import { FittingProgress, MirrorReflect, Tryon } from "../../reducers/StateTypes";
+import { FittingProgress, MirrorReflect, Tryon, WebsocketStatus } from "../../reducers/StateTypes";
 import { getStorage } from "../../storage";
 import StorageKeys from "../../storage/StorageKeys";
 import ModelImageChooser from "../ModelImageChooser";
@@ -35,6 +35,8 @@ export interface IOutfitProps {
     modelImageUrl: string;
     isFitting: boolean;
     fittingProgress: FittingProgress;
+    websocketStatus: WebsocketStatus;
+    reconnectWebsocket: () => void;
     changeModelImage: (modelImageUrl: string) => void;
     tryon: (tryon: Tryon) => void;
     startFitting: () => void;
@@ -42,6 +44,7 @@ export interface IOutfitProps {
     showSignin: () => void;
     showMirror: (mirrorReflect: MirrorReflect) => void;
     showMirrorHistory: () => void;
+    showFittingProcess: (fittingProgress: FittingProgress) => void;
 }
 
 export interface IOutfitStates {
@@ -164,6 +167,11 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
     const handleSubmit = (data) => {
         if (data.garment_file && (data.model_file || data.model_url)) {
             props.startFitting();
+            const fittingProcess: FittingProgress = {
+                totalStep: 30,
+                currentStep: 1
+            };
+            props.showFittingProcess(fittingProcess)
             canvasRef.current.toBlob((modelGarmentBlob) => {
                 const clientId = getStorage(StorageKeys.CLIENT_ID);
                 // Garment
@@ -239,7 +247,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                     <MaskImage ref={canvasRef} imageUrl={props.modelImageUrl} zoom={state.zoom} isRevert={state.measurementType == MeasurementType.Eraser} />
                     {!!(state.modelType == ModelType.Self) && <ModelImageChooser changeModelImage={(base64String) => { props.changeModelImage(base64String); }} />}
                 </Den.Components.Y>
-                {!!state.isGarmentShow && <GarmentImageChooser fittingProgress={props.fittingProgress} isFitting={props.isFitting} close={() => { setState({ ...state, isGarmentShow: false }); }} showMirrorHistory={props.showMirrorHistory} />}
+                {!!state.isGarmentShow && <GarmentImageChooser websocketStatus={props.websocketStatus} fittingProgress={props.fittingProgress} isFitting={props.isFitting} close={() => { setState({ ...state, isGarmentShow: false }); }} showMirrorHistory={props.showMirrorHistory} reconnectWebsocket={props.reconnectWebsocket} />}
                 {!state.isGarmentShow && <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
                     <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('measurement')} />
                     <Den.Components.Y cross={Den.Components.YCrossType.Center}>

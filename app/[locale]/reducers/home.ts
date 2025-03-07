@@ -5,9 +5,12 @@ import ActionTypes from '../actions/ActionTypes';
 const homeState = {
     isSigninShow: false, isPasswordValid: true, websocketStatus: WebsocketStatus.Close, modelImageUrl: "/images/women.png", isFitting: false, fittingProgress: { totalStep: 30, currentStep: 0 },
     //mirrorReflect: { captionId: 'bingo', imageUrl: 'http://localhost:4000/images?type=output&filename=c9b2214a-95ff-5b3c-570f-0bd345eb97f3.png' }
+    websocketReconnectTimes: 0
 };
 export default (state: Home = homeState, action: Den.Action.IPayloadAction<any>): Home => {
     switch (action.type) {
+        case ActionTypes.RECONNECT_WEBSOCKET:
+            return { ...state, websocketReconnectTimes: state.websocketReconnectTimes + 1 };
         case ActionTypes.CHANGE_MODEL_IMAGE:
             return { ...state, modelImageUrl: action.payload };
         case ActionTypes.START_FITTING:
@@ -23,9 +26,14 @@ export default (state: Home = homeState, action: Den.Action.IPayloadAction<any>)
         case ActionTypes.HIDE_SIGNIN:
             return { ...state, isSigninShow: false };
         case ActionTypes.AUTHENTICATION:
-            return { ...state, isPasswordValid: action.payload }
+            return { ...state, isPasswordValid: action.payload };
         case ActionTypes.SET_WEBSOCKET_STATUS:
-            return { ...state, websocketStatus: action.payload }
+            if (action.payload == WebsocketStatus.Open) {
+                return { ...state, websocketStatus: action.payload, websocketReconnectTimes: 0 };
+            }
+            else {
+                return { ...state, websocketStatus: action.payload };
+            }
         case ActionTypes.SHOW_FITTING_PROGRESS:
             return { ...state, fittingProgress: action.payload };
         default:

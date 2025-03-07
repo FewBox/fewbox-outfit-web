@@ -2,6 +2,7 @@
 import { Den } from "@fewbox/den-web";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import ModelSvg from '@/assets/svgs/model.svg';
 
 export interface IModelImageChooserProps {
     changeModelImage: (base64String: string) => void;
@@ -36,7 +37,7 @@ const ModelImageChooser = (props: IModelImageChooserProps): JSX.Element => {
                 }
             }}
             padding='1em 3em' category={Den.Components.FileCategory.Vertical} borderRadius='0.6em' borderColor={Den.Components.ColorType.Dark} borderStyle='dashed' borderWidth='1px'
-            fileIcon={<></>} emptyMessage={state.emptyMessage} />
+            fileIcon={<Den.Components.VSvg><ModelSvg /></Den.Components.VSvg>} emptyMessage={state.emptyMessage} />
     </Den.Components.Y>
 };
 
