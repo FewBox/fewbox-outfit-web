@@ -3,9 +3,9 @@ import { Den } from "@fewbox/den-web";
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import Outfit from "./components/Outfit";
-import { MirrorReflect, Store, Tryon } from "./reducers/StateTypes";
+import { FittingProgress, MirrorReflect, Store, Tryon } from "./reducers/StateTypes";
 import { connect } from "react-redux";
-import { changeModelImage, completeFitting, hideMirror, initClient, showMirror, showSignin, startFitting, tryon } from "./actions";
+import { changeModelImage, completeFitting, hideMirror, initClient, showMirror, showMirrorHistory, showSignin, startFitting, tryon } from "./actions";
 import { useEffect } from "react";
 import Mirror from "./components/Mirror";
 
@@ -27,12 +27,14 @@ export interface IHomePage {
   modelImageUrl: string;
   isFitting: boolean;
   mirrorReflect: MirrorReflect;
+  fittingProgress: FittingProgress;
   initClient: () => void;
   changeModelImage: (modelImageUrl: string) => void;
   tryon: (tryon: Tryon) => void;
   startFitting: () => void;
   completeFitting: () => void;
   showMirror: (mirrorReflect: MirrorReflect) => void;
+  showMirrorHistory: () => void;
   hideMirror: () => void;
   showSignin: () => void;
 }
@@ -43,7 +45,6 @@ const HomePage = (props: IHomePage) => {
   useEffect(() => {
     props.initClient();
   }, []);
-
   return <Den.Components.VBoundary margin='3em 0 0 0'>
     {/* Mirror */}
     {!!props.mirrorReflect && <Den.Components.Position zIndex={props.mirrorReflect ? 99999999 : -1} category={Den.Components.PositionCategory.Window} type={Den.Components.PositionType.Center}>
@@ -56,7 +57,7 @@ const HomePage = (props: IHomePage) => {
       <Den.Components.Y cross={Den.Components.YCrossType.Center} gap='3em'>
         <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} size={Den.Components.SizeType.ExtraLarge} caption={tm('slogan')} />
         <Den.Components.Y>
-          <Outfit isFitting={props.isFitting} modelImageUrl={props.modelImageUrl} changeModelImage={props.changeModelImage} tryon={props.tryon} startFitting={props.startFitting} completeFitting={props.completeFitting} showSignin={props.showSignin} showMirror={props.showMirror} />
+          <Outfit fittingProgress={props.fittingProgress} isFitting={props.isFitting} modelImageUrl={props.modelImageUrl} changeModelImage={props.changeModelImage} tryon={props.tryon} startFitting={props.startFitting} completeFitting={props.completeFitting} showSignin={props.showSignin} showMirror={props.showMirror} showMirrorHistory={props.showMirrorHistory} />
         </Den.Components.Y>
       </Den.Components.Y>
     </Den.Components.Display>
@@ -71,7 +72,8 @@ const HomePage = (props: IHomePage) => {
 const mapStateToProps = ({ home }: Store) => ({
   modelImageUrl: home.modelImageUrl,
   isFitting: home.isFitting,
-  mirrorReflect: home.mirrorReflect
+  mirrorReflect: home.mirrorReflect,
+  fittingProgress: home.fittingProgress
 });
 
 const mapDispatchToProps = {
@@ -81,6 +83,7 @@ const mapDispatchToProps = {
   startFitting,
   completeFitting,
   showMirror,
+  showMirrorHistory,
   hideMirror,
   showSignin
 };

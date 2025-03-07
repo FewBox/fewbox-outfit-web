@@ -2,14 +2,18 @@
 import { Den } from "@fewbox/den-web";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import OutfitSvg from '@/assets/svgs/outfit.svg';
 import TryOnSvg from '@/assets/svgs/tryon.svg';
 import CloseSvg from '@/assets/svgs/close.svg';
+import HistorySvg from '@/assets/svgs/histroy.svg';
 import { Garment } from "@/assets/images/garment";
+import ProgressBar from "../ProgressBar";
+import { FittingProgress } from "../../reducers/StateTypes";
 
 export interface IGarmentImageChooserProps {
     close: () => void;
+    showMirrorHistory: () => void;
     isFitting: boolean;
+    fittingProgress: FittingProgress;
 }
 export interface IGarmentImageChooserStates {
     imageUrl: string;
@@ -26,7 +30,7 @@ const truncateFilename = (filename, front, back) => {
 const GarmentImageChooser = (props: IGarmentImageChooserProps): JSX.Element => {
     const t = useTranslations('HomePage');
     const [state, setState] = useState<IGarmentImageChooserStates>({ imageUrl: '', emptyMessage: '' });
-    return <Den.Components.Y gap='1em' cross={Den.Components.YCrossType.Center}>
+    return <Den.Components.Y gap='1em'>
         <Den.Components.X gap='0.2em'>
             <Den.Components.VFile name='garment_file' width='16em' loadingSize={Den.Components.SizeType.Large} loadingColor={Den.Components.ColorType.Success} caption={<Den.Components.VLabel category={Den.Components.LabelCategory.Div} size={Den.Components.SizeType.Small}
                 alignType={Den.Components.LabelAlignType.Center} caption={t('upload-garment')} />}
@@ -49,12 +53,14 @@ const GarmentImageChooser = (props: IGarmentImageChooserProps): JSX.Element => {
                     }} alt='garment' />} emptyMessage={state.emptyMessage} />
             {/*<Den.Components.VTextBox name='garment_url' width='16em' onChange={(e) => { setState({ ...state, imageUrl: e.currentTarget.value }); }} />*/}
             <Den.Components.Y gap='2em'>
+                <Den.Components.VSvg frontColor={Den.Components.ColorType.Primary} size={Den.Components.SizeType.Small} onClick={() => { props.showMirrorHistory(); }}><HistorySvg /></Den.Components.VSvg>
                 {!!props.isFitting && <Den.Components.VBoundary cursor='not-allowed'><Den.Components.VSvg frontColor={Den.Components.ColorType.Dark25} size={Den.Components.SizeType.Small}><TryOnSvg /></Den.Components.VSvg></Den.Components.VBoundary>}
                 {!props.isFitting && <Den.Components.VSubmit caption={<Den.Components.VSvg frontColor={Den.Components.ColorType.Primary} size={Den.Components.SizeType.Small}><TryOnSvg /></Den.Components.VSvg>} />}
                 {/*!!props.isFitting && <Den.Components.VSvg size={Den.Components.SizeType.Small} frontColor={Den.Components.ColorType.Primary} onClick={() => { props.close(); }}><CancelSvg /></Den.Components.VSvg>*/}
                 <Den.Components.VSvg size={Den.Components.SizeType.Small} frontColor={Den.Components.ColorType.Primary} onClick={() => { props.close(); }}><CloseSvg /></Den.Components.VSvg>
             </Den.Components.Y>
         </Den.Components.X>
+        <ProgressBar totalStep={props.fittingProgress.totalStep} currentStep={props.fittingProgress.currentStep} />
     </Den.Components.Y>
 };
 

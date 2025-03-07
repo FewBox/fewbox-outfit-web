@@ -14,7 +14,7 @@ import SelfSvg from '@/assets/svgs/self.svg';
 import DonateSvg from '@/assets/svgs/donate.svg';
 import './index.scss';
 import GarmentImageChooser from "../GarmentImageChooser";
-import { MirrorReflect, Tryon } from "../../reducers/StateTypes";
+import { FittingProgress, MirrorReflect, Tryon } from "../../reducers/StateTypes";
 import { getStorage } from "../../storage";
 import StorageKeys from "../../storage/StorageKeys";
 import ModelImageChooser from "../ModelImageChooser";
@@ -34,12 +34,14 @@ export enum ModelType {
 export interface IOutfitProps {
     modelImageUrl: string;
     isFitting: boolean;
+    fittingProgress: FittingProgress;
     changeModelImage: (modelImageUrl: string) => void;
     tryon: (tryon: Tryon) => void;
     startFitting: () => void;
     completeFitting: () => void;
     showSignin: () => void;
     showMirror: (mirrorReflect: MirrorReflect) => void;
+    showMirrorHistory: () => void;
 }
 
 export interface IOutfitStates {
@@ -47,7 +49,7 @@ export interface IOutfitStates {
     measurementType: MeasurementType;
     modelType: ModelType;
     isPurchaseShow: boolean;
-    isMirrorShow: boolean;
+    isGarmentShow: boolean;
 }
 
 const getFileExtension = (filename) => {
@@ -154,7 +156,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
         link.click();
     };
     const t = useTranslations('HomePage');
-    const [state, setState] = useState<IOutfitStates>({ zoom: 1, measurementType: MeasurementType.Chalk, modelType: ModelType.Women, isPurchaseShow: false, isMirrorShow: false });
+    const [state, setState] = useState<IOutfitStates>({ zoom: 1, measurementType: MeasurementType.Chalk, modelType: ModelType.Women, isPurchaseShow: false, isGarmentShow: false });
     useEffect(() => {
     }, []);
     const toolWidth = '12em';
@@ -197,7 +199,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                                 garment: garment.payload.name,
                                 model: model.payload.name,
                                 modelGarment: modelGarment.payload.name,
-                                scale: 0.6
+                                scale: 1
                             };
                             //console.log(tryon);
                             props.tryon(tryon);
@@ -223,7 +225,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
     return <Den.Components.VForm handleSubmit={handleSubmit}>
         <Den.Components.Y gap='3em'>
             <Den.Components.X gap='0.6em'>
-                {!state.isMirrorShow && <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
+                {!state.isGarmentShow && <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
                     <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('model')} />
                     <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Women }); props.changeModelImage('/images/women.png'); }} frontColor={state.modelType == ModelType.Women ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><WomenSvg /></Den.Components.VSvg>
                     <Den.Components.VSvg onClick={() => { setState({ ...state, modelType: ModelType.Men }); props.changeModelImage('/images/men.png'); }} frontColor={state.modelType == ModelType.Men ? Den.Components.ColorType.Primary : Den.Components.ColorType.Dark25}><MenSvg /></Den.Components.VSvg>
@@ -237,8 +239,8 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                     <MaskImage ref={canvasRef} imageUrl={props.modelImageUrl} zoom={state.zoom} isRevert={state.measurementType == MeasurementType.Eraser} />
                     {!!(state.modelType == ModelType.Self) && <ModelImageChooser changeModelImage={(base64String) => { props.changeModelImage(base64String); }} />}
                 </Den.Components.Y>
-                {!!state.isMirrorShow && <GarmentImageChooser isFitting={props.isFitting} close={() => { setState({ ...state, isMirrorShow: false }); }} />}
-                {!state.isMirrorShow && <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
+                {!!state.isGarmentShow && <GarmentImageChooser fittingProgress={props.fittingProgress} isFitting={props.isFitting} close={() => { setState({ ...state, isGarmentShow: false }); }} showMirrorHistory={props.showMirrorHistory} />}
+                {!state.isGarmentShow && <Den.Components.YTop width={toolWidth} height={toolHeight} gap='1em' cross={Den.Components.YCrossType.Center}>
                     <Den.Components.VLabel size={Den.Components.SizeType.Normal} weight={Den.Components.FontWeightType.Thin} frontColor={Den.Components.ColorType.Black} caption={t('measurement')} />
                     <Den.Components.Y cross={Den.Components.YCrossType.Center}>
                         <Den.Components.X gap='1em'>
@@ -252,10 +254,10 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
             </Den.Components.X>
             <Den.Components.XBetween padding='0 0 3em 0'>
                 <Den.Components.VBoundary></Den.Components.VBoundary>
-                <Den.Components.XCenter onClick={() => { setState({ ...state, isMirrorShow: true }); }} padding='0.6em 3em' gap='0.2em' borderRadius='6em' backgroundColor={Den.Components.ColorType.Primary}>
+                {!state.isGarmentShow && <Den.Components.XCenter onClick={() => { setState({ ...state, isGarmentShow: true }); }} padding='0.6em 3em' gap='0.2em' borderRadius='6em' backgroundColor={Den.Components.ColorType.Primary}>
                     <Den.Components.VSvg><GarmentSvg /></Den.Components.VSvg>
                     <Den.Components.VLabel caption={t('garment')} />
-                </Den.Components.XCenter>
+                </Den.Components.XCenter>}
                 <Den.Components.VBoundary>
                     <Den.Components.Dock category={Den.Components.DockCategory.Left} renderOverlay={() => {
                         if (state.isPurchaseShow) {

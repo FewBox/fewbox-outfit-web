@@ -3,7 +3,7 @@ import { Home, WebsocketStatus } from './StateTypes';
 import ActionTypes from '../actions/ActionTypes';
 
 const homeState = {
-    isSigninShow: false, isPasswordValid: true, websocketStatus: WebsocketStatus.Close, modelImageUrl: "/images/women.png", isFitting: false,
+    isSigninShow: false, isPasswordValid: true, websocketStatus: WebsocketStatus.Close, modelImageUrl: "/images/women.png", isFitting: false, fittingProgress: { totalStep: 30, currentStep: 0 },
     //mirrorReflect: { captionId: 'bingo', imageUrl: 'http://localhost:4000/images?type=output&filename=c9b2214a-95ff-5b3c-570f-0bd345eb97f3.png' }
 };
 export default (state: Home = homeState, action: Den.Action.IPayloadAction<any>): Home => {
@@ -26,6 +26,8 @@ export default (state: Home = homeState, action: Den.Action.IPayloadAction<any>)
             return { ...state, isPasswordValid: action.payload }
         case ActionTypes.SET_WEBSOCKET_STATUS:
             return { ...state, websocketStatus: action.payload }
+        case ActionTypes.SHOW_FITTING_PROGRESS:
+            return { ...state, fittingProgress: action.payload };
         default:
             return state;
     }

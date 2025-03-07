@@ -1,6 +1,6 @@
 import { Den } from '@fewbox/den-web-append';
 import ActionTypes from './ActionTypes';
-import { MirrorReflect, SigninCredential, Tryon, WebsocketStatus } from '../reducers/StateTypes';
+import { FittingProgress, MirrorReflect, SigninCredential, Tryon, WebsocketStatus } from '../reducers/StateTypes';
 
 export const initClient = (): Den.Action.IAction => ({
     type: ActionTypes.INIT_CLIENT
@@ -19,9 +19,16 @@ export const startFitting = (): Den.Action.IAction => ({
 export const completeFitting = (): Den.Action.IAction => ({
     type: ActionTypes.COMPLETE_FITTING
 });
+export const showFittingProcess = (fittingProgress: FittingProgress): Den.Action.IPayloadAction<FittingProgress> => ({
+    type: ActionTypes.SHOW_FITTING_PROGRESS,
+    payload: fittingProgress
+});
 export const showMirror = (mirrorReflect: MirrorReflect): Den.Action.IPayloadAction<MirrorReflect> => ({
     type: ActionTypes.SHOW_MIRROR,
     payload: mirrorReflect
+});
+export const showMirrorHistory = (): Den.Action.IAction => ({
+    type: ActionTypes.SHOW_MIRROR_HISTORY
 });
 export const hideMirror = (): Den.Action.IAction => ({
     type: ActionTypes.HIDE_MIRROR

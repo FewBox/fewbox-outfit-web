@@ -10,6 +10,7 @@ export interface Home {
     isFitting: boolean;
     mirrorReflect?: MirrorReflect;
     websocketStatus: WebsocketStatus;
+    fittingProgress: FittingProgress;
 }
 /** Action **/
 export interface Tryon {
@@ -18,6 +19,10 @@ export interface Tryon {
     model: string;
     garment: string;
     modelGarment: string;
+}
+export interface FittingProgress {
+    totalStep: number;
+    currentStep: number;
 }
 export interface SigninCredential {
     username: string;

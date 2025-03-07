@@ -4,8 +4,8 @@ import { catchError, map, mergeMap, of, retry } from "rxjs";
 import ActionTypes from "../actions/ActionTypes";
 import StorageKeys from "../storage/StorageKeys";
 import { isStorageExists, setStorage, getStorage } from "../storage";
-import { Authentication, MirrorReflect, SigninCredential, Store, Tryon, WebsocketStatus } from "../reducers/StateTypes";
-import { authentication, completeFitting, hideSignin, setWebsocketStatus, showMirror } from "../actions";
+import { Authentication, FittingProgress, MirrorReflect, SigninCredential, Store, Tryon, WebsocketStatus } from "../reducers/StateTypes";
+import { authentication, completeFitting, hideSignin, setWebsocketStatus, showFittingProcess, showMirror } from "../actions";
 import store from "../store";
 
 const generateUUID = () => {
@@ -45,12 +45,24 @@ const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
                     store.dispatch(showMirror(mirrorReflect));
                 }
                 else if (message.type == 'execution_success') {
+                    const fittingProcess: FittingProgress = {
+                        totalStep: 30,
+                        currentStep: 30
+                    };
+                    store.dispatch(showFittingProcess(fittingProcess));
                     store.dispatch(completeFitting());
                     const mirrorReflect: MirrorReflect = {
                         captionId: 'bingo',
                         imageUrl: `${Den.Network.buildExternalUrl('assetEndpoint')}?type=output&filename=${clientId}.png`
                     };
                     store.dispatch(showMirror(mirrorReflect));
+                }
+                else if (message.type == 'progress') {
+                    const fittingProcess: FittingProgress = {
+                        totalStep: message.data.max,
+                        currentStep: message.data.value
+                    };
+                    store.dispatch(showFittingProcess(fittingProcess));
                 }
             });
             ws.close(() => {
@@ -180,4 +192,17 @@ const tryOnEpic = (action$: any, store$: StateObservable<Store>) =>
         })
     );
 
-export default [initClientEpic, signinEpic, tryOnEpic];
+const showMirrorHistoryEpic = (action$: any, store$: StateObservable<Store>) =>
+    action$.pipe(
+        ofType(ActionTypes.SHOW_MIRROR_HISTORY),
+        map((action: Den.Action.IAction) => {
+            const clientId = getStorage(StorageKeys.CLIENT_ID);
+            const mirrorReflect: MirrorReflect = {
+                captionId: 'bingo',
+                imageUrl: `${Den.Network.buildExternalUrl('assetEndpoint')}?type=output&filename=${clientId}.png`
+            };
+            return showMirror(mirrorReflect);
+        })
+    );
+
+export default [initClientEpic, signinEpic, tryOnEpic, showMirrorHistoryEpic];
