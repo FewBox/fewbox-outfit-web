@@ -25,13 +25,6 @@ const ClientShowcasePage = (props: IClientShowcasePage) => {
             <CompareImage index={state.currentShowcase} />
         </Den.Components.Y>
         <Den.Components.XCenter gap='0.6em'>
-            <Den.Components.VImage width={512} height={512}
-                style={{
-                    width: '6em',
-                    height: 'auto',
-                    borderRadius: '0.2em',
-                    margin: '0 6em 0 0'
-                }} src={`/images/dress.png`} alt='dress' />
             {showcases.map((showcase) => {
                 return <Den.Components.VBoundary key={`showcase${showcase}`} onClick={() => { setState({ ...state, currentShowcase: showcase }); }}>
                     <Den.Components.VImage width={512} height={512}
