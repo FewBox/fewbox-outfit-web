@@ -5,6 +5,7 @@ import { getStorage } from '../../storage';
 import StorageKeys from '../../storage/StorageKeys';
 
 const Boot = () => {
+
     const options: Den.FewBox.IFewBoxOptions = {
         getToken: () => {
             return getStorage(StorageKeys.TOKEN);

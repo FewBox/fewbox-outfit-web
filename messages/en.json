@@ -10,7 +10,7 @@
         "signin": "Signin",
         "username": "Username",
         "password": "Password",
-        "copyright": "©2024 FewBox rights reserved.",
+        "copyright": "©2025 Powered by FewBox.",
         "showcase": "Showcase"
     },
     "NotFoundPage": {
@@ -18,7 +18,7 @@
         "description": "The page is missing!"
     },
     "HomePage": {
-        "title": "Outfit Mirror - Live Try-On with AI",
+        "title": "FewBox Outfit Mirror - Live Try-On with AI",
         "description": "To see how clothes look on model in realtime.",
         "keywords": "outfit, try-on, comfyui, ai",
         "model": "Model",
@@ -34,9 +34,11 @@
         "bingo": "Bingo"
     },
     "ShowcasePage": {
-        "title": "Outfit Mirror - Live Try-On Showcase",
+        "title": "FewBox Outfit Mirror - Live Try-On Showcase",
         "description": "To see how clothes look on model.",
         "keywords": "outfit, try-on, showcase",
-        "showcase": "Showcase"
+        "showcase": "Showcase",
+        "before": "Before Trying On",
+        "after": "After Trying On"
     }
 }
