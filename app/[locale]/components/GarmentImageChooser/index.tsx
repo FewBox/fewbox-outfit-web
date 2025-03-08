@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import TryOnSvg from '@/assets/svgs/tryon.svg';
 import CloseSvg from '@/assets/svgs/close.svg';
 import HistorySvg from '@/assets/svgs/histroy.svg';
+import LowQualitySvg from '@/assets/svgs/low-quality.svg';
+import HighQualitySvg from '@/assets/svgs/high-quality.svg';
 import { Garment } from "@/assets/images/garment";
 import ProgressBar from "../ProgressBar";
 import { FittingProgress, WebsocketStatus } from "../../reducers/StateTypes";
@@ -21,6 +23,7 @@ export interface IGarmentImageChooserProps {
 export interface IGarmentImageChooserStates {
     imageUrl: string;
     emptyMessage: string;
+    quality: QualityType;
 }
 
 const truncateFilename = (filename, front, back) => {
@@ -30,10 +33,28 @@ const truncateFilename = (filename, front, back) => {
     return `${filename.substring(0, front)}...${filename.substring(filename.length - back)}`;
 }
 
+export enum QualityType {
+    High = 'high',
+    Low = 'low'
+}
+
+const HighScale = 1;
+const LowScale = 0.6;
 const GarmentImageChooser = (props: IGarmentImageChooserProps): JSX.Element => {
     const t = useTranslations('HomePage');
-    const [state, setState] = useState<IGarmentImageChooserStates>({ imageUrl: '', emptyMessage: '' });
+    const [state, setState] = useState<IGarmentImageChooserStates>({ imageUrl: '', emptyMessage: '', quality: QualityType.Low });
     return <Den.Components.Y gap='1em'>
+        <Den.Components.VHidden name='scale' valueHook={(state.quality == QualityType.High ? HighScale : LowScale).toString()} />
+        <Den.Components.XCenter gap='1em'>
+            <Den.Components.X onClick={() => { setState({ ...state, quality: QualityType.Low }); }}>
+                <Den.Components.VSvg frontColor={state.quality == QualityType.Low ? Den.Components.ColorType.Black : Den.Components.ColorType.Placeholder}><LowQualitySvg /></Den.Components.VSvg>
+                <Den.Components.VLabel frontColor={state.quality == QualityType.Low ? Den.Components.ColorType.Black : Den.Components.ColorType.Placeholder} caption={t('low')} />
+            </Den.Components.X>
+            <Den.Components.X onClick={() => { setState({ ...state, quality: QualityType.High }); }}>
+                <Den.Components.VSvg frontColor={state.quality == QualityType.High ? Den.Components.ColorType.Black : Den.Components.ColorType.Placeholder}><HighQualitySvg /></Den.Components.VSvg>
+                <Den.Components.VLabel frontColor={state.quality == QualityType.High ? Den.Components.ColorType.Black : Den.Components.ColorType.Placeholder} caption={t('high')} />
+            </Den.Components.X>
+        </Den.Components.XCenter>
         <Den.Components.X gap='0.2em'>
             <Den.Components.VFile name='garment_file' width='16em' loadingSize={Den.Components.SizeType.Large} loadingColor={Den.Components.ColorType.Success} caption={<Den.Components.VLabel category={Den.Components.LabelCategory.Div} size={Den.Components.SizeType.Small}
                 alignType={Den.Components.LabelAlignType.Center} caption={t('upload-garment')} />}

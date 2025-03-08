@@ -31,7 +31,9 @@
         "empty": "N/A",
         "exception": "Exception",
         "effect": "Effect",
-        "bingo": "Bingo"
+        "bingo": "Bingo",
+        "low": "Low",
+        "high": "High"
     },
     "ShowcasePage": {
         "title": "FewBox Outfit Mirror - Live Try-On Showcase",

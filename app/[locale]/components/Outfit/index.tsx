@@ -207,7 +207,7 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                                 garment: garment.payload.name,
                                 model: model.payload.name,
                                 modelGarment: modelGarment.payload.name,
-                                scale: 1
+                                scale: data.scale
                             };
                             //console.log(tryon);
                             props.tryon(tryon);

@@ -1,4 +1,9 @@
 {
+    "Error": {
+        "title": "错误",
+        "description": "内部错误。",
+        "retry": "重试"
+    },
     "MasterPage": {
         "brand": "穿搭镜",
         "slogan": "潮流穿搭，一镜尽显。",
@@ -26,7 +31,9 @@
         "empty": "空",
         "exception": "异常",
         "effect": "效果",
-        "bingo": "棒极了"
+        "bingo": "棒极了",
+        "low": "低质",
+        "high": "高质"
     },
     "ShowcasePage": {
         "title": "FewBox Outfit Mirror - 在线试穿演示",
