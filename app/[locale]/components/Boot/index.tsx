@@ -14,34 +14,48 @@ const Boot = () => {
             console.log(process.env.NODE_ENV);
             debugger;
             if (process.env.NODE_ENV === 'production') {
-                return {
+                /*return {
                     "endpoint": {
-                        "PROTOCOL": "http",
-                        "HOST": "ai-gateway.fewbox.com",
-                        "PORT": 4000,
-                        "BASEPATH": null
+                        PROTOCOL: "https",
+                        HOST: "ai-gateway.fewbox.com",
+                        BASEPATH: null
                     },
                     "wsEndpoint": {
-                        PROTOCOL: 'ws',
+                        PROTOCOL: 'wss',
                         HOST: 'ai-gateway.fewbox.com',
-                        PORT: 4000,
                         BASEPATH: 'ws'
                     },
                     "assetEndpoint": {
-                        "PROTOCOL": "http",
-                        "HOST": "ai-gateway.fewbox.com",
-                        "PORT": 4000,
-                        "BASEPATH": 'images'
+                        PROTOCOL: "https",
+                        HOST: "ai-gateway.fewbox.com",
+                        BASEPATH: 'images'
+                    }
+                };*/
+                return {
+                    "endpoint": {
+                        PROTOCOL: "https",
+                        HOST: "gateway.yingoukj.com",
+                        BASEPATH: null
+                    },
+                    "wsEndpoint": {
+                        PROTOCOL: 'wss',
+                        HOST: 'gateway.yingoukj.com',
+                        BASEPATH: 'ws'
+                    },
+                    "assetEndpoint": {
+                        PROTOCOL: "https",
+                        HOST: "gateway.yingoukj.com",
+                        BASEPATH: 'images'
                     }
                 };
             }
             else {
                 return {
                     "endpoint": {
-                        "PROTOCOL": "http",
-                        "HOST": "localhost",
-                        "PORT": 4000,
-                        "BASEPATH": null
+                        PROTOCOL: "http",
+                        HOST: "localhost",
+                        PORT: 4000,
+                        BASEPATH: null
                     },
                     "wsEndpoint": {
                         PROTOCOL: 'ws',
@@ -50,10 +64,10 @@ const Boot = () => {
                         BASEPATH: 'ws'
                     },
                     "assetEndpoint": {
-                        "PROTOCOL": "http",
-                        "HOST": "localhost",
-                        "PORT": 4000,
-                        "BASEPATH": 'images'
+                        PROTOCOL: "http",
+                        HOST: "localhost",
+                        PORT: 4000,
+                        BASEPATH: 'images'
                     }
                 };
             }
