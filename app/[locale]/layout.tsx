@@ -13,6 +13,7 @@ import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
 import StoreProvider from "./components/StoreProvider";
 import Boot from "./components/Boot";
+import { Locale } from '@/i18n/routing';
 
 /*const roboto = Roboto({
   weight: '400',
@@ -83,7 +84,7 @@ export default async function RootLayout({
   // side is the easiest way to get started
   const messages = await getMessages();
   const { locale } = await params;
-  if (!routing.locales.includes(locale as any)) {
+  if (!routing.locales.includes(locale as Locale)) {
     return notFound();
   }
   return (

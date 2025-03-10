@@ -1,6 +1,5 @@
 'use client';
 import { Den } from "@fewbox/den-web";
-import { useState } from "react";
 import CloseSvg from '@/assets/svgs/close.svg';
 import { useTranslations } from "next-intl";
 import { SigninCredential } from "../../reducers/StateTypes";
@@ -12,17 +11,17 @@ export interface ISigninProps {
     hide: () => void;
     signin: (signinCredential: SigninCredential) => void;
 }
-export interface ISigninStates { }
+//export interface ISigninStates { }
 
 export default function Signin(props: ISigninProps) {
     const t = useTranslations('MasterPage');
-    const [state, setState] = useState<ISigninStates>({});
-    const handleSubmit = (data: any) => {
+    //const [state, setState] = useState<ISigninStates>({});
+    const handleSubmit = (data: SigninCredential) => {
         props.signin(data);
     };
     return <Den.Components.VBoundary>
         {!!props.isUnauthorized && <Den.Components.VMask backgroundColor={Den.Components.ColorType.White}>
-            <Den.Components.VForm handleSubmit={handleSubmit} handleValidateError={(e) => { }}>
+            <Den.Components.VForm handleSubmit={handleSubmit} handleValidateError={(e) => { console.error(e); }}>
                 <Den.Components.Y>
                     <Den.Components.XRight>
                         <Den.Components.VSvg size={Den.Components.SizeType.Small} frontColor={Den.Components.ColorType.Placeholder} onClick={props.hide}><CloseSvg /></Den.Components.VSvg>

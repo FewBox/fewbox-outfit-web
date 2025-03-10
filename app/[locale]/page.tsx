@@ -15,10 +15,9 @@ export async function generateMetadata({
   };
 }
 
-export interface IHomePage {
-}
+//export interface IHomePage { }
 
-const HomePage = (props: IHomePage) => {
+const HomePage = (/*props: IHomePage*/) => {
   return <ClientHomePage />;
 }
 

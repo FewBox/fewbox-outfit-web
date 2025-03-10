@@ -22,8 +22,7 @@ export interface IPaypalProps extends Den.Components.IBaseProps {
     buttonOptions?: PayPalButtonsComponentOptions;
 }
 
-export interface IPaypalStates extends Den.Components.IBaseStates {
-}
+//export interface IPaypalStates extends Den.Components.IBaseStates {}
 
 const Paypal = (props: IPaypalProps) => {
     const _base = Den.Components.Base(props);

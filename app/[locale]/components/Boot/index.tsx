@@ -11,26 +11,52 @@ const Boot = () => {
             return getStorage(StorageKeys.TOKEN);
         },
         getAppSettings: () => {
-            return {
-                "endpoint": {
-                    "PROTOCOL": "http",
-                    "HOST": "localhost",
-                    "PORT": 4000,
-                    "BASEPATH": null
-                },
-                "wsEndpoint": {
-                    PROTOCOL: 'ws',
-                    HOST: 'localhost',
-                    PORT: 4000,
-                    BASEPATH: 'ws'
-                },
-                "assetEndpoint": {
-                    "PROTOCOL": "http",
-                    "HOST": "localhost",
-                    "PORT": 4000,
-                    "BASEPATH": 'images'
-                }
-            };
+            console.log(process.env.NODE_ENV);
+            debugger;
+            if (process.env.NODE_ENV === 'production') {
+                return {
+                    "endpoint": {
+                        "PROTOCOL": "http",
+                        "HOST": "ai-gateway.fewbox.com",
+                        "PORT": 4000,
+                        "BASEPATH": null
+                    },
+                    "wsEndpoint": {
+                        PROTOCOL: 'ws',
+                        HOST: 'ai-gateway.fewbox.com',
+                        PORT: 4000,
+                        BASEPATH: 'ws'
+                    },
+                    "assetEndpoint": {
+                        "PROTOCOL": "http",
+                        "HOST": "ai-gateway.fewbox.com",
+                        "PORT": 4000,
+                        "BASEPATH": 'images'
+                    }
+                };
+            }
+            else {
+                return {
+                    "endpoint": {
+                        "PROTOCOL": "http",
+                        "HOST": "localhost",
+                        "PORT": 4000,
+                        "BASEPATH": null
+                    },
+                    "wsEndpoint": {
+                        PROTOCOL: 'ws',
+                        HOST: 'localhost',
+                        PORT: 4000,
+                        BASEPATH: 'ws'
+                    },
+                    "assetEndpoint": {
+                        "PROTOCOL": "http",
+                        "HOST": "localhost",
+                        "PORT": 4000,
+                        "BASEPATH": 'images'
+                    }
+                };
+            }
         },
         getLanguages: () => {
             return;

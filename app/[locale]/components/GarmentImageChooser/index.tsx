@@ -1,6 +1,6 @@
 "use client";
 import { Den } from "@fewbox/den-web";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import TryOnSvg from '@/assets/svgs/tryon.svg';
 import CloseSvg from '@/assets/svgs/close.svg';

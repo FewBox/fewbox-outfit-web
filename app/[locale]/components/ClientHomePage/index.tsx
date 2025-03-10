@@ -28,7 +28,7 @@ export interface IClientHomePage {
 }
 
 const ClientHomePage = (props: IClientHomePage) => {
-    const t = useTranslations('HomePage');
+    //const t = useTranslations('HomePage');
     const tm = useTranslations('MasterPage');
     useEffect(() => {
         props.initClient();

@@ -58,10 +58,6 @@ const MaskImage = forwardRef<HTMLCanvasElement, IMaskImageProps>((props, ref) =>
             img = image;
             clear();
         }
-        const ratio = img.width / img.height;
-        /*const drawHeight = canvasHeight;
-        const drawWidth = canvasHeight * ratio;
-        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, drawWidth, drawHeight);*/
         ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width, img.height);
     };
 
@@ -131,5 +127,7 @@ const MaskImage = forwardRef<HTMLCanvasElement, IMaskImageProps>((props, ref) =>
         {!!isCursorShow && <Cursor containerRef={canvasRef} zoom={props.zoom} maskSize={maskSize * scale} />}
     </Den.Components.Y>;
 });
+
+MaskImage.displayName = 'MaskImage';
 
 export default MaskImage;

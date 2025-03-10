@@ -1,7 +1,7 @@
 import StorageKeys from "./StorageKeys";
 
 export const getStorage = (key: StorageKeys): string => {
-    let item = window.localStorage.getItem(key);
+    const item = window.localStorage.getItem(key);
     return item ? item : '';
 };
 export const setStorage = (key: StorageKeys, value: string): void => {

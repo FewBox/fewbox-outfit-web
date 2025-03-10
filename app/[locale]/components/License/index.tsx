@@ -5,10 +5,9 @@ import Paypal from '../Paypal';
 import FeatureSvg from '@/assets/svgs/feature.svg';
 import { useTranslations } from 'next-intl';
 
-export interface ILicenseProps extends Den.Components.IBaseProps {
-}
+//export interface ILicenseProps extends Den.Components.IBaseProps { }
 
-const License = (props: ILicenseProps) => {
+const License = (/*props: ILicenseProps*/) => {
     const t = useTranslations('PricingPage');
     return <>
         <Paypal

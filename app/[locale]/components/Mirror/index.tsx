@@ -1,6 +1,6 @@
 "use client";
 import { Den } from "@fewbox/den-web";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import DownloadSvg from '@/assets/svgs/download.svg';
 import CloseSvg from '@/assets/svgs/close.svg';
@@ -10,7 +10,7 @@ export interface IMirrorProps {
     mirrorReflect?: MirrorReflect;
     hide: () => void;
 }
-export interface IMirrorStates { }
+//export interface IMirrorStates { }
 
 const height = 800;
 const width = 495;
@@ -24,7 +24,7 @@ const Mirror = (props: IMirrorProps): JSX.Element => {
         link.click();
     };
     const t = useTranslations('HomePage');
-    const [state, setState] = useState<IMirrorStates>({});
+    //const [state, setState] = useState<IMirrorStates>({});
     useEffect(() => {
     }, []);
     return <Den.Components.Y gap='1em'>

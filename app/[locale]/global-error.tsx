@@ -4,7 +4,7 @@ import {useTranslations} from 'next-intl';
  
 export default function Error({error, reset}) {
   const t = useTranslations('Error');
- 
+  console.error(error);
   return (
     <div>
       <h1>{t('title')}</h1>

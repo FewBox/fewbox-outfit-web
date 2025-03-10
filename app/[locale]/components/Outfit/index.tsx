@@ -151,13 +151,13 @@ const parseGQLUploadData = async (response: Response, filed: string) => {
 
 const Outfit = (props: IOutfitProps): JSX.Element => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const saveMaskImage = () => {
+    /*const saveMaskImage = () => {
         const canvas = canvasRef.current;
         const link = document.createElement("a");
         link.download = "mask.png";
         link.href = canvas.toDataURL();
         link.click();
-    };
+    };*/
     const t = useTranslations('HomePage');
     const [state, setState] = useState<IOutfitStates>({ zoom: 1, measurementType: MeasurementType.Chalk, modelType: ModelType.Women, isPurchaseShow: false, isGarmentShow: false });
     useEffect(() => {
@@ -184,9 +184,9 @@ const Outfit = (props: IOutfitProps): JSX.Element => {
                 const modelGarmentFile = new File([modelGarmentBlob], modelGarmentFileName, { type: 'image/png' });
                 const modelGarmentPromise = buildUploadMaskVerbsPromise(modelGarmentFile);
                 // Model
-                var modelPromise: Promise<Response>;
+                let modelPromise: Promise<Response>;
                 const modelName = `${clientId}_model`;
-                var modelFileName: string;
+                let modelFileName: string;
                 if (data.model_file) {
                     modelFileName = `${modelName}.${getFileExtension(data.model_file.name)}`;
                     modelPromise = buildUploadImageVerbsPromise(data.model_file, modelFileName);

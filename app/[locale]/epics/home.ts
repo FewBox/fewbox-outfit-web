@@ -1,12 +1,13 @@
 import { Den } from "@fewbox/den-web-append";
 import { StateObservable, ofType } from "redux-observable";
-import { catchError, delay, map, mergeMap, of, retry } from "rxjs";
+import { catchError, delay, map, mergeMap, Observable, of, retry } from "rxjs";
 import ActionTypes from "../actions/ActionTypes";
 import StorageKeys from "../storage/StorageKeys";
 import { isStorageExists, setStorage, getStorage } from "../storage";
 import { Authentication, FittingProgress, MirrorReflect, SigninCredential, Store, Tryon, WebsocketStatus } from "../reducers/StateTypes";
 import { authentication, completeFitting, hideSignin, reconnectWebsocket, setWebsocketStatus, showFittingProcess, showMirror } from "../actions";
 import store from "../store";
+import { Action } from "redux";
 
 const generateUUID = () => {
     return 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -73,11 +74,11 @@ const initWebsocket = (reconnectTimes: number) => {
         }
     });
     ws.handleError((e) => {
-        //console.error(e);
+        console.error(e);
     });
 };
 
-const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
+const initClientEpic = (action$: Observable<Action>, store$: StateObservable<Store>) =>
     action$.pipe(
         ofType(ActionTypes.INIT_CLIENT),
         map(() => {
@@ -89,7 +90,7 @@ const initClientEpic = (action$: any, store$: StateObservable<Store>) =>
         })
     );
 
-const reconnectWebsocketEpic = (action$: any, store$: StateObservable<Store>) =>
+const reconnectWebsocketEpic = (action$: Observable<Action>, store$: StateObservable<Store>) =>
     action$.pipe(
         ofType(ActionTypes.RECONNECT_WEBSOCKET),
         delay(3000),
@@ -99,12 +100,12 @@ const reconnectWebsocketEpic = (action$: any, store$: StateObservable<Store>) =>
         })
     );
 
-const signinEpic = (action$: any) =>
+const signinEpic = (action$: Observable<Action>) =>
     action$.pipe(
         ofType(ActionTypes.SIGNIN),
         mergeMap((action: Den.Action.IPayloadAction<SigninCredential>) => {
-            let operationName = 'Signin';
-            let query = `mutation Signin($input: SigninRequest) {
+            const operationName = 'Signin';
+            const query = `mutation Signin($input: SigninRequest) {
                 signin(input: $input) {
                   errorCode
                   errorMessage
@@ -115,21 +116,21 @@ const signinEpic = (action$: any) =>
                   }
                 }
               }`;
-            let variables = {
+            const variables = {
                 "input": {
                     "username": action.payload.username,
                     "password": action.payload.password
                 }
             };
-            let graphql = {
+            const graphql = {
                 operationName,
                 query,
                 variables
             };
             return new Den.Network.GQL<Den.Store.IPayloadResponse<Authentication>>(graphql, 'signin')
                 .pipe(
-                    map((ajaxResponse: any) => {
-                        let data = Den.Network.parseGQLAjaxData(ajaxResponse, 'signin');
+                    map((ajaxResponse: unknown) => {
+                        const data = Den.Network.parseGQLAjaxData(ajaxResponse, 'signin');
                         if (data.isSuccessful) {
                             if (data.payload.isValid) {
                                 setStorage(StorageKeys.TOKEN, data.payload.token);
@@ -158,12 +159,12 @@ const signinEpic = (action$: any) =>
         })
     );
 
-const tryOnEpic = (action$: any, store$: StateObservable<Store>) =>
+const tryOnEpic = (action$: Observable<Action>, store$: StateObservable<Store>) =>
     action$.pipe(
         ofType(ActionTypes.TRY_ON),
         mergeMap((action: Den.Action.IPayloadAction<Tryon>) => {
-            let operationName = 'RunQueue';
-            let query = `mutation RunQueue($input: QueueRequest!) {
+            const operationName = 'RunQueue';
+            const query = `mutation RunQueue($input: QueueRequest!) {
                 runQueue(input: $input) {
                   isSuccessful
                   errorCode
@@ -174,7 +175,7 @@ const tryOnEpic = (action$: any, store$: StateObservable<Store>) =>
                   }
                 }
             }`;
-            let variables = {
+            const variables = {
                 "input": {
                     "clientId": action.payload.clientId,
                     "workflow": "tryon",
@@ -187,16 +188,16 @@ const tryOnEpic = (action$: any, store$: StateObservable<Store>) =>
                     }
                 }
             };
-            let graphql = {
+            const graphql = {
                 operationName,
                 query,
                 variables
             };
             return new Den.Network.GQL<Den.Store.IPayloadResponse<MirrorReflect>>(graphql, 'runQueue')
                 .pipe(
-                    map((ajaxResponse: any) => {
-                        let data = Den.Network.parseGQLAjaxData(ajaxResponse, 'runQueue');
-                        //console.log(data);
+                    map((ajaxResponse: unknown) => {
+                        const data = Den.Network.parseGQLAjaxData(ajaxResponse, 'runQueue');
+                        console.log(data);
                         if (store$.value.home.websocketStatus == WebsocketStatus.Close) {
                             return completeFitting();
                         }
@@ -215,10 +216,10 @@ const tryOnEpic = (action$: any, store$: StateObservable<Store>) =>
         })
     );
 
-const showMirrorHistoryEpic = (action$: any, store$: StateObservable<Store>) =>
+const showMirrorHistoryEpic = (action$: Observable<Action>, /*store$: StateObservable<Store>*/) =>
     action$.pipe(
         ofType(ActionTypes.SHOW_MIRROR_HISTORY),
-        map((action: Den.Action.IAction) => {
+        map((/*action: Den.Action.IAction*/) => {
             const clientId = getStorage(StorageKeys.CLIENT_ID);
             const mirrorReflect: MirrorReflect = {
                 captionId: 'bingo',
@@ -228,4 +229,6 @@ const showMirrorHistoryEpic = (action$: any, store$: StateObservable<Store>) =>
         })
     );
 
-export default [initClientEpic, reconnectWebsocketEpic, signinEpic, tryOnEpic, showMirrorHistoryEpic];
+const HomeEpic = [initClientEpic, reconnectWebsocketEpic, signinEpic, tryOnEpic, showMirrorHistoryEpic];
+
+export default HomeEpic;

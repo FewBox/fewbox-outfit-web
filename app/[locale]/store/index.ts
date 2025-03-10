@@ -2,9 +2,10 @@ import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from '../reducers/root';
 import rootEpic from '../epics/root';
 import { createEpicMiddleware } from 'redux-observable';
+import { Store } from '../reducers/StateTypes';
 
 
-const epicMiddleware = createEpicMiddleware();
+const epicMiddleware = createEpicMiddleware<unknown, unknown, Store, unknown>();
 
 const store = configureStore({
     reducer: rootReducer,

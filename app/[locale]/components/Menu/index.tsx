@@ -5,12 +5,12 @@ import { useState } from "react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 
-export interface IMenuProps { }
+//export interface IMenuProps { }
 export interface IMenuStates {
     isSelected: boolean;
 }
 
-const Menu = (props: IMenuProps): JSX.Element => {
+const Menu = (/*props: IMenuProps*/): JSX.Element => {
     const t = useTranslations('MasterPage');
     const [state, setState] = useState<IMenuStates>({ isSelected: false });
     return <Den.Components.Dock category={Den.Components.DockCategory.LeftInnerBottom} renderOverlay={() => {
