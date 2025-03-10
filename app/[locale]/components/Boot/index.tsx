@@ -12,7 +12,6 @@ const Boot = () => {
         },
         getAppSettings: () => {
             console.log(process.env.NODE_ENV);
-            debugger;
             if (process.env.NODE_ENV === 'production') {
                 /*return {
                     "endpoint": {
@@ -34,17 +33,17 @@ const Boot = () => {
                 return {
                     "endpoint": {
                         PROTOCOL: "https",
-                        HOST: "gateway.yingoukj.com",
+                        HOST: "gateway.yingoukj.cn",
                         BASEPATH: null
                     },
                     "wsEndpoint": {
                         PROTOCOL: 'wss',
-                        HOST: 'gateway.yingoukj.com',
+                        HOST: 'gateway.yingoukj.cn',
                         BASEPATH: 'ws'
                     },
                     "assetEndpoint": {
                         PROTOCOL: "https",
-                        HOST: "gateway.yingoukj.com",
+                        HOST: "gateway.yingoukj.cn",
                         BASEPATH: 'images'
                     }
                 };
