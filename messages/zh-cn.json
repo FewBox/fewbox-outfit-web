@@ -41,7 +41,11 @@
         "help-step2-option": "涂抹",
         "help-step2-target": "区域",
         "help-step3-option": "试穿",
-        "help-step3-target": "衣物"
+        "help-step3-target": "衣物",
+        "subject": "下载谷歌浏览器扩展",
+        "download": "下载扩展 - 从Shein或者其他网站挑选衣服",
+        "upgrade": "更新",
+        "or": "或"
     },
     "ShowcasePage": {
         "title": "FewBox穿搭镜 - 在线试穿演示",
@@ -56,6 +60,8 @@
         "description": "购买或者雇佣我们。",
         "keywords": "套装, 试穿, 购买",
         "purchase": "购买",
+        "hire": "雇佣",
+        "purchase-description": "在人工智能技术飞速发展的当下，我们专注于为您提供基于 ComfyUI 的优质服务。无论是精心打造的整套 AI 工作流方案，还是根据您的独特需求进行的 ComfyUI 自定义节点定制化服务，我们都以专业的能力和创新的精神，助力您的项目高效推进，实现智能化转型。",
         "subject": "穿搭镜购买"
     }
 }

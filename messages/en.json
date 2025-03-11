@@ -41,7 +41,11 @@
         "help-step2-option": "Brush",
         "help-step2-target": "Area",
         "help-step3-option": "Try-on",
-        "help-step3-target": "Garment"
+        "help-step3-target": "Garment",
+        "subject": "Download Chrome Extension",
+        "download": "Download Extension - Pick garment from Shein or other site",
+        "upgrade": "Upgrade",
+        "or": "Or"
     },
     "ShowcasePage": {
         "title": "FewBox Outfit Mirror - Live Try-On Showcase",
@@ -56,6 +60,7 @@
         "description": "Purchase or hire us.",
         "keywords": "outfit, try-on, purchase",
         "purchase": "Purchase",
+        "purchase-description": "In the rapidly evolving field of AI technology, we are dedicated to offering you top - notch services based on ComfyUI. Be it a comprehensive AI workflow solution or customized node development for ComfyUI to meet your unique needs, we leverage our expertise and innovative mindset to boost your project's efficiency and facilitate your intelligent transformation.",
         "subject": "Outfit Mirror Purchase"
     }
 }
