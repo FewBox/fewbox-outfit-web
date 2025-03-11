@@ -4,8 +4,8 @@ import { catchError, delay, map, mergeMap, Observable, of, retry } from "rxjs";
 import ActionTypes from "../actions/ActionTypes";
 import StorageKeys from "../storage/StorageKeys";
 import { isStorageExists, setStorage, getStorage } from "../storage";
-import { Authentication, FittingProgress, MirrorReflect, SigninCredential, Store, Tryon, WebsocketStatus } from "../reducers/StateTypes";
-import { authentication, completeFitting, hideSignin, reconnectWebsocket, setWebsocketStatus, showFittingProcess, showMirror } from "../actions";
+import { Authentication, FittingProgress, HelpStatus, MirrorReflect, SigninCredential, Store, Tryon, WebsocketStatus } from "../reducers/StateTypes";
+import { authentication, completeFitting, hideSignin, reconnectWebsocket, setHelpStatus, setWebsocketStatus, showFittingProcess, showMirror } from "../actions";
 import store from "../store";
 import { Action } from "redux";
 
@@ -84,6 +84,9 @@ const initClientEpic = (action$: Observable<Action>, store$: StateObservable<Sto
         map(() => {
             if (!isStorageExists(StorageKeys.CLIENT_ID)) {
                 setStorage(StorageKeys.CLIENT_ID, generateUUID());
+            }
+            if (!isStorageExists(StorageKeys.HELP_STATUS) || (getStorage(StorageKeys.HELP_STATUS) == HelpStatus.Visible)) {
+                store.dispatch(setHelpStatus(HelpStatus.Visible));
             }
             initWebsocket(store$.value.home.websocketReconnectTimes);
             return Den.Action.emptyAction();
@@ -229,6 +232,24 @@ const showMirrorHistoryEpic = (action$: Observable<Action>, /*store$: StateObser
         })
     );
 
-const HomeEpic = [initClientEpic, reconnectWebsocketEpic, signinEpic, tryOnEpic, showMirrorHistoryEpic];
+const showHelpEpic = (action$: Observable<Action>, store$: StateObservable<Store>) =>
+    action$.pipe(
+        ofType(ActionTypes.SHOW_HELP),
+        map(() => {
+            setStorage(StorageKeys.HELP_STATUS, HelpStatus.Visible);
+            return setHelpStatus(HelpStatus.Visible);
+        })
+    );
+
+const hideHelpEpic = (action$: Observable<Action>, store$: StateObservable<Store>) =>
+    action$.pipe(
+        ofType(ActionTypes.HIDE_HELP),
+        map(() => {
+            setStorage(StorageKeys.HELP_STATUS, HelpStatus.Hidden);
+            return setHelpStatus(HelpStatus.Hidden);
+        })
+    );
+
+const HomeEpic = [initClientEpic, reconnectWebsocketEpic, signinEpic, tryOnEpic, showMirrorHistoryEpic, showHelpEpic, hideHelpEpic];
 
 export default HomeEpic;

@@ -1,11 +1,11 @@
 import { Den } from '@fewbox/den-web-append';
-import { FittingProgress, Home, MirrorReflect, WebsocketStatus } from './StateTypes';
+import { FittingProgress, HelpStatus, Home, MirrorReflect, WebsocketStatus } from './StateTypes';
 import ActionTypes from '../actions/ActionTypes';
 
 const homeState = {
     isSigninShow: false, isPasswordValid: true, websocketStatus: WebsocketStatus.Close, modelImageUrl: "/images/women.png", isFitting: false,
     //mirrorReflect: { captionId: 'bingo', imageUrl: 'http://localhost:4000/images?type=output&filename=c9b2214a-95ff-5b3c-570f-0bd345eb97f3.png' }
-    fittingProgress: { totalStep: 30, currentStep: 0 }, websocketReconnectTimes: 0
+    fittingProgress: { totalStep: 30, currentStep: 0 }, websocketReconnectTimes: 0, helpStatus: HelpStatus.Hidden
 };
 
 const HomeReducer = (state: Home = homeState, action: Den.Action.IPayloadAction<unknown>): Home => {
@@ -37,6 +37,8 @@ const HomeReducer = (state: Home = homeState, action: Den.Action.IPayloadAction<
             }
         case ActionTypes.SHOW_FITTING_PROGRESS:
             return { ...state, fittingProgress: action.payload as FittingProgress };
+        case ActionTypes.SET_HELP_STATUS:
+            return {...state, helpStatus: action.payload as HelpStatus};
         default:
             return state;
     }

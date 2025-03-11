@@ -7,6 +7,7 @@ export interface IMaskImageProps {
     imageUrl: string;
     zoom: number;
     isRevert?: boolean;
+    scaleHeight?: number;
 }
 
 const MaskImage = forwardRef<HTMLCanvasElement, IMaskImageProps>((props, ref) => {
@@ -16,7 +17,7 @@ const MaskImage = forwardRef<HTMLCanvasElement, IMaskImageProps>((props, ref) =>
     const [image, setImage] = useState<HTMLImageElement | null>(null);
     const [isCursorShow, setCursorStatus] = useState<boolean>(false);
     // const canvasHeight = 760; // Change to original image.
-    const canvasScaleHeight = 800;
+    const canvasScaleHeight = props.scaleHeight ? props.scaleHeight : 800;
     const maskSize = 60;
     const maskColor = 'rgba(255, 255, 255, 1)';
     const destinationOut = 'destination-out';
@@ -106,6 +107,7 @@ const MaskImage = forwardRef<HTMLCanvasElement, IMaskImageProps>((props, ref) =>
     const showCursor = () => {
         setCursorStatus(true);
     };
+
     const hideCursor = () => {
         setCursorStatus(false);
     };

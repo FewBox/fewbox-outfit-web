@@ -11,7 +11,9 @@
         "username": "Username",
         "password": "Password",
         "copyright": "©2025 Powered by FewBox.",
-        "showcase": "Showcase"
+        "home": "Home",
+        "showcase": "Showcase",
+        "purchase": "Purchase"
     },
     "NotFoundPage": {
         "title": "Outfit Mirror - Not Found",
@@ -33,7 +35,13 @@
         "effect": "Effect",
         "bingo": "Bingo",
         "low": "Low",
-        "high": "High"
+        "high": "High",
+        "help-step1-option": "Click",
+        "help-step1-target": "Model",
+        "help-step2-option": "Brush",
+        "help-step2-target": "Area",
+        "help-step3-option": "Try-on",
+        "help-step3-target": "Garment"
     },
     "ShowcasePage": {
         "title": "FewBox Outfit Mirror - Live Try-On Showcase",
@@ -42,5 +50,12 @@
         "showcase": "Showcase",
         "before": "Before Trying On",
         "after": "After Trying On"
+    },
+    "PurchasePage": {
+        "title": "FewBox Outfit Mirror - Live Try-On Purchase",
+        "description": "Purchase or hire us.",
+        "keywords": "outfit, try-on, purchase",
+        "purchase": "Purchase",
+        "subject": "Outfit Mirror Purchase"
     }
 }

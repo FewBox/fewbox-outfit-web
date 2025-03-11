@@ -2,6 +2,7 @@
 'use client';
 import { Den } from '@fewbox/den-web';
 import LogoSvg from '@/assets/svgs/logo.svg';
+import HelpSvg from '@/assets/svgs/help.svg';
 import { Link } from '@/i18n/routing';
 import Language from '../Language';
 import Menu from '../Menu';
@@ -9,7 +10,7 @@ import { useTranslations } from 'next-intl';
 import Signin from '../Signin';
 import { SigninCredential, Store } from '../../reducers/StateTypes';
 import { connect } from 'react-redux';
-import { hideSignin, showSignin, signin } from '../../actions';
+import { hideSignin, showHelp, showSignin, signin } from '../../actions';
 
 export interface IHeaderProps {
     locale: string;
@@ -18,6 +19,7 @@ export interface IHeaderProps {
     showSignin: () => void;
     hideSignin: () => void;
     signin: (signinCredential: SigninCredential) => void;
+    showHelp: () => void;
 }
 
 const Header = (props: IHeaderProps) => {
@@ -35,11 +37,15 @@ const Header = (props: IHeaderProps) => {
                             </Den.Components.Display>
                         </Den.Components.X>
                     </Link>
-                    <Den.Components.X gap='1.6em'>
+                    <Den.Components.X gap='1em'>
                         <Link href='/showcase'>
                             <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} frontColor={Den.Components.ColorType.Black} caption={t('showcase')} />
                         </Link>
+                        <Link href='/purchase'>
+                            <Den.Components.VLabel weight={Den.Components.FontWeightType.Light} frontColor={Den.Components.ColorType.Black} caption={t('purchase')} />
+                        </Link>
                         <Language locale={props.locale} pathname='/' />
+                        <Den.Components.VSvg onClick={props.showHelp}><HelpSvg /></Den.Components.VSvg>
                         <Signin isUnauthorized={props.isUnauthorized} isPasswordValid={props.isPasswordValid} show={props.showSignin} hide={props.hideSignin} signin={props.signin} />
                     </Den.Components.X>
                 </Den.Components.XBetween>
@@ -49,9 +55,13 @@ const Header = (props: IHeaderProps) => {
         <Den.Components.Display category={Den.Components.DisplayCategory.Hidden} type={Den.Components.DisplayType.Up} breakpoint={Den.Components.BreakpointType.Small}>
             <Den.Components.XBetween overflow='visible'>
                 <Menu />
-                <Language locale={props.locale} pathname='/' />
+                <Den.Components.X>
+                    <Language locale={props.locale} pathname='/' />
+                    <Den.Components.VSvg onClick={props.showHelp}><HelpSvg /></Den.Components.VSvg>
+                    <Signin isUnauthorized={props.isUnauthorized} isPasswordValid={props.isPasswordValid} show={props.showSignin} hide={props.hideSignin} signin={props.signin} />
+                </Den.Components.X>
             </Den.Components.XBetween>
-            <Den.Components.Y cross={Den.Components.YCrossType.Center} gap='0.6em'>
+            <Den.Components.Y margin='2em 0 0 0' cross={Den.Components.YCrossType.Center} gap='0.6em'>
                 <Link href='/'>
                     <Den.Components.VSvg category={Den.Components.SvgCategory.Circle} size={Den.Components.SizeType.Large} padding='0.4em' backgroundColor='logo' frontColor={Den.Components.ColorType.White}><LogoSvg /></Den.Components.VSvg>
                 </Link>
@@ -69,7 +79,8 @@ const mapStateToProps = ({ home }: Store) => ({
 const mapDispatchToProps = {
     showSignin,
     hideSignin,
-    signin
+    signin,
+    showHelp
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -15,13 +15,7 @@ export async function generateMetadata({
     };
 }
 
-//export interface IShowcasePage { }
-
-export interface IShowcaseStates {
-    index: number;
-}
-
-const ShowcasePage = (/*props: IShowcasePage*/) => {
+const ShowcasePage = () => {
     return <ClientShowcasePage totalShowcase={3} />;
 }
 

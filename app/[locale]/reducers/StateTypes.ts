@@ -10,6 +10,7 @@ export interface Home {
     isFitting: boolean;
     mirrorReflect?: MirrorReflect;
     websocketStatus: WebsocketStatus;
+    helpStatus: HelpStatus;
     websocketReconnectTimes: number;
     fittingProgress: FittingProgress;
 }
@@ -41,4 +42,8 @@ export enum WebsocketStatus {
     Open = 'open',
     Close = 'close',
     Stop = 'stop'
+}
+export enum HelpStatus {
+    Hidden = 'hidden',
+    Visible = 'visible'
 }

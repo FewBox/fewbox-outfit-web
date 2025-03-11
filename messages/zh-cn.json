@@ -11,7 +11,9 @@
         "username": "用户名",
         "password": "密码",
         "copyright": "©2024 FewBox提供技术",
-        "showcase": "展示台"
+        "home": "首页",
+        "showcase": "展示台",
+        "purchase": "购买"
     },
     "NotFoundPage": {
         "title": "Outfit Mirror - 未找到",
@@ -33,14 +35,27 @@
         "effect": "效果",
         "bingo": "棒极了",
         "low": "低质",
-        "high": "高质"
+        "high": "高质",
+        "help-step1-option": "点击",
+        "help-step1-target": "模特",
+        "help-step2-option": "涂抹",
+        "help-step2-target": "区域",
+        "help-step3-option": "试穿",
+        "help-step3-target": "衣物"
     },
     "ShowcasePage": {
-        "title": "FewBox Outfit Mirror - 在线试穿演示",
+        "title": "FewBox穿搭镜 - 在线试穿演示",
         "description": "看到模特穿着衣服的样子。",
         "keywords": "套装, 试穿, 演示",
         "showcase": "展示台",
         "before": "试穿前",
         "after": "试穿后"
+    },
+    "PurchasePage": {
+        "title": "FewBox穿搭镜 - 在线试穿购买",
+        "description": "购买或者雇佣我们。",
+        "keywords": "套装, 试穿, 购买",
+        "purchase": "购买",
+        "subject": "穿搭镜购买"
     }
 }

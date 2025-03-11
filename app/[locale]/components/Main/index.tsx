@@ -9,7 +9,7 @@ export interface IMainProps {
 export default function Main(props: IMainProps) {
     //const t = useTranslations('MasterPage');
     return <Den.Components.VMain>
-        <Den.Components.VBoundary>
+        <Den.Components.VBoundary margin='2em 0 0 0'>
             <Suspense fallback={<Loading />}>
                 {props.children}
             </Suspense>

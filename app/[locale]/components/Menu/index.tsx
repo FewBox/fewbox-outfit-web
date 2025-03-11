@@ -16,14 +16,14 @@ const Menu = (/*props: IMenuProps*/): JSX.Element => {
     return <Den.Components.Dock category={Den.Components.DockCategory.LeftInnerBottom} renderOverlay={() => {
         if (state.isSelected) {
             return <Den.Components.Y padding='1em 2em' gap='0.6em' backgroundColor={Den.Components.ColorType.White} borderRadius='1em'>
-                <Link href="/document">
-                    <Den.Components.VLabel category={Den.Components.LabelCategory.Div} caption={t('document')} onClick={() => { setState({ isSelected: false }) }} />
+                <Link href="/">
+                    <Den.Components.VLabel category={Den.Components.LabelCategory.Div} caption={t('home')} onClick={() => { setState({ isSelected: false }) }} />
                 </Link>
-                <Link href="/pricing">
-                    <Den.Components.VLabel category={Den.Components.LabelCategory.Div} caption={t('pricing')} onClick={() => { setState({ isSelected: false }) }} />
+                <Link href="/showcase">
+                    <Den.Components.VLabel category={Den.Components.LabelCategory.Div} caption={t('showcase')} onClick={() => { setState({ isSelected: false }) }} />
                 </Link>
-                <Link href="/about">
-                    <Den.Components.VLabel category={Den.Components.LabelCategory.Div} caption={t('about')} onClick={() => { setState({ isSelected: false }) }} />
+                <Link href="/purchase">
+                    <Den.Components.VLabel category={Den.Components.LabelCategory.Div} caption={t('purchase')} onClick={() => { setState({ isSelected: false }) }} />
                 </Link>
             </Den.Components.Y>;
         }
