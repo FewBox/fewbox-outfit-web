@@ -45,17 +45,17 @@ const ClientHomePage = (props: IClientHomePage) => {
     const steps = [
         {
             optionCaption: t('help-step1-option'),
-            optionIcons: [<WomenSvg />, <MenSvg />, <KidsSvg />, <SelfSvg />],
+            optionIcons: [<WomenSvg key='help-step1-option1' />, <MenSvg key='help-step1-option2' />, <KidsSvg key='help-step1-option3' />, <SelfSvg key='help-step1-option4' />],
             targetCaption: t('help-step1-target')
         },
         {
             optionCaption: t('help-step2-option'),
-            optionIcons: [<ChalkSvg />],
+            optionIcons: [<ChalkSvg key='help-step2-option1' />],
             targetCaption: t('help-step2-target')
         },
         {
             optionCaption: t('help-step3-option'),
-            optionIcons: [<TryOnSvg />],
+            optionIcons: [<TryOnSvg key='help-step3-option1' />],
             targetCaption: t('help-step3-target')
         }
     ];

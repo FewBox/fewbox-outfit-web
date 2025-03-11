@@ -232,7 +232,7 @@ const showMirrorHistoryEpic = (action$: Observable<Action>, /*store$: StateObser
         })
     );
 
-const showHelpEpic = (action$: Observable<Action>, store$: StateObservable<Store>) =>
+const showHelpEpic = (action$: Observable<Action>, /*store$: StateObservable<Store>*/) =>
     action$.pipe(
         ofType(ActionTypes.SHOW_HELP),
         map(() => {
@@ -241,7 +241,7 @@ const showHelpEpic = (action$: Observable<Action>, store$: StateObservable<Store
         })
     );
 
-const hideHelpEpic = (action$: Observable<Action>, store$: StateObservable<Store>) =>
+const hideHelpEpic = (action$: Observable<Action>, /*store$: StateObservable<Store>*/) =>
     action$.pipe(
         ofType(ActionTypes.HIDE_HELP),
         map(() => {
