@@ -56,8 +56,8 @@ const GarmentImageChooser = (props: IGarmentImageChooserProps): JSX.Element => {
                     <Den.Components.VSvg size={Den.Components.SizeType.ExtraLarge}><Garment3Svg /></Den.Components.VSvg>
                 </Den.Components.X>
                 <Den.Components.X gap='0.2em'>
-                    <Den.Components.VSvg><ChromeSvg /></Den.Components.VSvg>
-                    <Den.Components.VText alignType={Den.Components.TextAlignType.Center} width='12em' frontColor={Den.Components.ColorType.White} content={t(captionId)} />
+                    <Den.Components.VSvg borderRadius='6em' backgroundColor={Den.Components.ColorType.White}><ChromeSvg /></Den.Components.VSvg>
+                    <Den.Components.VText letterSpacing='0.6px' alignType={Den.Components.TextAlignType.Center} size={Den.Components.SizeType.Small} width='16em' frontColor={Den.Components.ColorType.White} content={t(captionId)} />
                 </Den.Components.X>
             </Den.Components.Y>
         </Den.Components.VHyperlink>
